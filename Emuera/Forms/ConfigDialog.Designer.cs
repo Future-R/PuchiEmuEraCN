@@ -1226,7 +1226,7 @@
             this.checkBox29.Name = "checkBox29";
             this.checkBox29.Size = new System.Drawing.Size(188, 17);
             this.checkBox29.TabIndex = 83;
-            this.checkBox29.Text = "キャラクタ変数の引数を補完しない";
+            this.checkBox29.Text = "Don\'t autocomplete arguments in character variables";
             this.checkBox29.UseVisualStyleBackColor = true;
             // 
             // checkBox26

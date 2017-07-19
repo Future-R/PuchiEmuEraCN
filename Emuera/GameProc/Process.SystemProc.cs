@@ -702,7 +702,7 @@ namespace MinorShift.Emuera.GameProc
 						//console.Print("お金が足りません。");
 						//console.NewLine();
 						console.deleteLine(1);
-						console.PrintTemporaryLine("お金が足りません。");
+						console.PrintTemporaryLine("Not enough money.");
 					}
 				}
 				else
@@ -710,7 +710,7 @@ namespace MinorShift.Emuera.GameProc
 					//console.Print("売っていません。");
 					//console.NewLine();
 					console.deleteLine(1);
-					console.PrintTemporaryLine("売っていません。");
+					console.PrintTemporaryLine("Cannot be sold.");
 				}
 				//購入に失敗した場合、endCallEventShop()に戻す。
 				//endCallEventShop();
