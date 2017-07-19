@@ -120,6 +120,9 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>149, 17</value>
   </metadata>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>149, 17</value>
+  </metadata>
   <data name="checkBoxCBNewLinesOnly.ToolTip" xml:space="preserve">
     <value>Classic mode only sends lines to the clipboard that weren't previously
 sent there. If disabled, it instead uses the "Lines to send to Clipboard"
@@ -145,6 +148,12 @@ at all. Note scrolling bypasses this and might still cause no-update issues.</va
     <value>How long the program waits in milliSeconds between each clipboard update.
 Shorter times might cause errors where the clipboard simply doesn't update
 at all. Note scrolling bypasses this and might still cause no-update issues.</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>※Many things work differently between Emuera and eramaker,
+As well as between older and newer Emuera versions,
+These options should solve compatibility problems.
+Please don't change anything if there's no issues.</value>
   </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
