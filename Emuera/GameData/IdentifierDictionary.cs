@@ -187,20 +187,20 @@ namespace MinorShift.Emuera
 		{
 			if (labelName.Length == 0)
 			{
-				errMes = "ラベル名がありません";
+				errMes = "Label name is missing";
 				warnLevel = 2;
 				return;
 			}
 			//1.721 記号をサポートしない方向に変更
 			if (labelName.IndexOfAny(badSymbolAsIdentifier) >= 0)
 			{
-				errMes = "ラベル名" + labelName + "に\"_\"以外の記号が含まれています";
+				errMes = "Label name " + labelName + " has symbols other than \"_\" included";
 				warnLevel = 1;
 				return;
 			}
 			if (char.IsDigit(labelName[0]) && (labelName[0].ToString()).Length == LangManager.GetStrlenLang(labelName[0].ToString()))
 			{
-                errMes = "ラベル名" + labelName + "が半角数字から始まっています";
+                errMes = "Label name " + labelName + " begins with a half-width digit";
 				warnLevel = 0;
 				return;
 			}
@@ -216,12 +216,12 @@ namespace MinorShift.Emuera
 					case DefinedNameType.Reserved:
 						if (Config.AllowFunctionOverloading)
 						{
-							errMes = "関数名" + labelName + "はEmueraの予約語と衝突しています。Emuera専用構文の構文解析に支障をきたす恐れがあります";
+							errMes = "Function name " + labelName + " conflicts with Emuera\'s reserved word.\n" + "There is a risk of interfering with Emuera exclusive syntax parsing";
 							warnLevel = 1;
 						}
 						else
 						{
-							errMes = "関数名" + labelName + "はEmueraの予約語です";
+							errMes = "Function name " + labelName + " is a reserved word for Emuera";
 							warnLevel = 2;
 						}
 						break;
@@ -589,7 +589,7 @@ namespace MinorShift.Emuera
 					}
 					//1.721 #FUNCTIONが定義されていない関数は組み込み関数を上書きしない方向に。 PANCTION.ERBのRANDとか。
 					if (!methodDic.ContainsKey(codeStr))
-						throw new CodeEE("#FUNCTIONが定義されていない関数(" + func.Position.Filename + ":" + func.Position.LineNo + "行目)を式中で呼び出そうとしました");
+						throw new CodeEE("Function for which #FUNCTION was not declared (" + func.Position.Filename + " at line :" + func.Position.LineNo + ") has been attempted to be called inside of an expression");
 				}
 			}
 			if (userDefinedOnly)
@@ -611,37 +611,37 @@ namespace MinorShift.Emuera
 			if(Config.ICFunction || Config.ICVariable) //片方だけなのは互換性用オプションなのでレアケースのはず。対応しない。
 				idStr = idStr.ToUpper();
 			if (disableList.Contains(idStr))
-				throw new CodeEE("\"" + str + "\"は#DISABLEが宣言されています");
+				throw new CodeEE("\"" + str + "\" is declaring #DISABLE");
 			if (!isFunc && privateDimList.Contains(idStr))
-				throw new CodeEE("変数\"" + str + "\"はこの関数中では定義されていません");
+				throw new CodeEE("Variable \"" + str + "\" is not defined in this function");
 			if (nameDic.ContainsKey(idStr))
 			{
 				DefinedNameType type = nameDic[idStr];
 				switch (type)
 				{
 					case DefinedNameType.Reserved:
-						throw new CodeEE("Emueraの予約語\"" + str + "\"が不正な使われ方をしています");
+						throw new CodeEE("Emuera\'s reserved word \"" + str + "\" is being used in an illegal way");
 					case DefinedNameType.SystemVariable:
 					case DefinedNameType.UserGlobalVariable:
 						if (isFunc)
-							throw new CodeEE("変数名\"" + str + "\"が関数のように使われています");
+							throw new CodeEE("Variable name \"" + str + "\" is used like a function");
 						break;
 					case DefinedNameType.SystemMethod:
 					case DefinedNameType.UserRefMethod:
 						if (!isFunc)
-							throw new CodeEE("関数名\"" + str + "\"が変数のように使われています");
+							throw new CodeEE("Function name \"" + str + "\" is used like a variable");
 						break;
 					case DefinedNameType.UserMacro:
-						throw new CodeEE("予期しないマクロ名\"" + str + "\"です");
+						throw new CodeEE("Unexpected macro name: \"" + str + "\"");
 					case DefinedNameType.SystemInstrument:
 						if (isFunc)
-							throw new CodeEE("命令名\"" + str + "\"が関数のように使われています");
+							throw new CodeEE("Instruction name \"" + str + "\" is used like a function");
 						else
-							throw new CodeEE("命令名\"" + str + "\"が変数のように使われています");
+							throw new CodeEE("Instruction name \"" + str + "\" is used like a variable");
 			
 				}
 			}
-			throw new CodeEE("\"" + idStr + "\"は解釈できない識別子です");
+			throw new CodeEE("\"" + idStr + "\" cannot be interpreted");
 		}
 		#endregion
 

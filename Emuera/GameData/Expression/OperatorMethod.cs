@@ -224,9 +224,9 @@ namespace MinorShift.Emuera.GameData.Expression
 				argumentTypeArray = new Type[] { typeof(string), typeof(string) };
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
-				return arguments[0].GetStrValue(exm) + arguments[1].GetStrValue(exm);
+				return arguments[0].GetStrValue(exm, tryTranslate) + arguments[1].GetStrValue(exm, tryTranslate); // JVN: Would be a great idea to attempt to translate both sides instead of just one here
 			}
 		}
 
@@ -265,18 +265,18 @@ namespace MinorShift.Emuera.GameData.Expression
 				CanRestructure = true;
 				ReturnType = typeof(string);
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				Int64 value = 0;
 				string str = null;
 				if (arguments[0].GetOperandType() == typeof(Int64))
 				{
 					value = arguments[0].GetIntValue(exm);
-					str = arguments[1].GetStrValue(exm);
+					str = arguments[1].GetStrValue(exm, tryTranslate);
 				}
 				else
 				{
-					str = arguments[0].GetStrValue(exm);
+					str = arguments[0].GetStrValue(exm, tryTranslate);
 					value = arguments[1].GetIntValue(exm);
 				}
 				if (value < 0)
@@ -814,7 +814,7 @@ namespace MinorShift.Emuera.GameData.Expression
 				ReturnType = typeof(string);
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				return (arguments[0].GetIntValue(exm) != 0) ? arguments[1].GetStrValue(exm) : arguments[2].GetStrValue(exm);
 			}

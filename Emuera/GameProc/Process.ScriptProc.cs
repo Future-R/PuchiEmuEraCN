@@ -15,7 +15,7 @@ namespace MinorShift.Emuera.GameProc
 {
 	internal sealed partial class Process
 	{
-		private void runScriptProc()
+		private void runScriptProc(bool translate = false)
 		{
 			while (true)
 			{
@@ -54,7 +54,7 @@ namespace MinorShift.Emuera.GameProc
 						continue;
 					}
 					if (func.Function.Instruction != null)
-						func.Function.Instruction.DoInstruction(exm, func, state);
+						func.Function.Instruction.DoInstruction(exm, func, state, translate);
 					else if (func.Function.IsFlowContorol())
 						doFlowControlFunction(func);
 					else
@@ -143,8 +143,9 @@ namespace MinorShift.Emuera.GameProc
 					{
 						if (skipPrint)
 							break;
+						//Bartoum : This is where printplain print from so we always translate
 						term = ((ExpressionArgument)func.Argument).Term;
-						exm.Console.PrintPlain(term.GetStrValue(exm));
+						exm.Console.PrintPlain(term.GetStrValue(exm, true));
 					}
 					break;
 				case FunctionCode.DRAWLINE://画面の左端から右端まで----と線を引く。
@@ -193,6 +194,8 @@ namespace MinorShift.Emuera.GameProc
 							string printStr = vEvaluator.GetCharacterParamString(target, i);
 							if (printStr != null)
 							{
+								//Need a function for each PRINT_ 
+								//Bartoum
 								exm.Console.PrintC(printStr, true);
 								count++;
 								if ((Config.PrintCPerLine > 0) && (count % Config.PrintCPerLine == 0))
@@ -226,16 +229,15 @@ namespace MinorShift.Emuera.GameProc
 									printStr = "";
 								Int64 price = vEvaluator.ITEMPRICE[i];
                                 // 1.52a改変部分　（単位の差し替えおよび前置、後置に対応）
-                                //182101 PCDRP-Update:SHOPだけ文字数が違い過ぎるので個別対応↓------
-                                string printStrPud1 = "";
+                                printStr = Translation.translate(printStr, "Item", true);
                                 if (Config.MoneyFirst)
-                                    printStrPud1 = string.Format("[{2}] {0}({3}{1})", printStr, price, i, Config.MoneyLabel);
-                                else
-                                    printStrPud1 = string.Format("[{2}] {0}({1}{3})", printStr, price, i, Config.MoneyLabel);
+									exm.Console.PrintC(string.Format("[{2}] {0}({3}{1})", printStr, price, i, Config.MoneyLabel), false);
+								else
+									exm.Console.PrintC(string.Format("[{2}] {0}({1}{3})", printStr, price, i, Config.MoneyLabel), false);
 
-                                printStrPud1 = printStrPud1.PadRight(Config.PrintCShopLength - (Encoding.GetEncoding("Shift_JIS").GetByteCount(printStrPud1) - printStrPud1.Length));
+                                printStr= printStr.PadRight(Config.PrintCShopLength - (Encoding.GetEncoding("Shift_JIS").GetByteCount(printStr) - printStr.Length));
                                 //182101 PCDRP-Update:SHOPだけ文字数が違い過ぎるので個別対応↑------
-                                exm.Console.PrintC(printStrPud1, false);
+                                exm.Console.PrintC(printStr, false);
 								count++;
 								if ((Config.PrintCPerLine > 0) && (count % Config.PrintCPerLine == 0))
 									exm.Console.PrintFlush(false);
@@ -320,7 +322,7 @@ namespace MinorShift.Emuera.GameProc
                     break;
 
 
-                case FunctionCode.VARSIZE:
+				case FunctionCode.VARSIZE:
 					{
 						SpVarsizeArgument versizeArg = (SpVarsizeArgument)func.Argument;
 						VariableToken varID = versizeArg.VariableID;
@@ -531,6 +533,7 @@ namespace MinorShift.Emuera.GameProc
 						iValue = ((ExpressionArgument)func.Argument).Term.GetIntValue(exm);
 					exm.Console.SetRedraw(iValue);
 					break;
+
                 //182101 PCDRP-Update:フォント縁取り機能
                 case FunctionCode.FONTEDGE:
                     if (func.Argument.IsConst)
@@ -547,7 +550,7 @@ namespace MinorShift.Emuera.GameProc
                     break;
                 //182101 PCDRP-Update:フォント縁取り機能
 
-                case FunctionCode.RESET_STAIN:
+				case FunctionCode.RESET_STAIN:
 					{
 						if (func.Argument.IsConst)
 							iValue = func.Argument.ConstInt;

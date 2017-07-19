@@ -59,7 +59,7 @@ namespace MinorShift.Emuera.GameProc.Function
         FONTEDGE,       //182101 PCDRP-Update:フォント縁取り
         OUTPUTHINTS,     //182101 PCDRP-Update:ヒント出力
 
-        DRAWLINE,//画面の左端から右端まで----と線を引く。
+		DRAWLINE,//画面の左端から右端まで----と線を引く。
 		BAR,//[*****....]のようなグラフを書く。BAR (変数) , (最大値), (長さ)
 		BARL,//改行付き。
 		TIMES,//小数計算。TIMES (変数) , (小数値)という形で使う。

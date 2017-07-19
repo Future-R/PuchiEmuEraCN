@@ -65,7 +65,7 @@ namespace MinorShift.Emuera.GameData
 		private const int globalIndex = (int)(VariableCode.GLOBALNAME & VariableCode.__LOWERCASE__);
 		private const int globalsIndex = (int)(VariableCode.GLOBALSNAME & VariableCode.__LOWERCASE__);
 		private const int countNameCsv = (int)VariableCode.__COUNT_CSV_STRING_ARRAY_1D__;
-		
+
 		public int[] MaxDataList = new int[countNameCsv];
 		List<VariableCode> changedCode = new List<VariableCode>();
 		
@@ -79,6 +79,10 @@ namespace MinorShift.Emuera.GameData
 		public int[] CharacterStrArrayLength;
 		public Int64[] CharacterIntArray2DLength;
 		public Int64[] CharacterStrArray2DLength;
+		public Translation tranls;
+        // JVN: Keep track if loading PARAM or PALAM.CSV
+        static private bool canLoadParam = false;
+
 
 		private readonly GameBase gamebase;
 		private string[][] names = new string[(int)VariableCode.__COUNT_CSV_STRING_ARRAY_1D__][];
@@ -188,12 +192,12 @@ namespace MinorShift.Emuera.GameData
 			EraStreamReader eReader = new EraStreamReader(false);
 			if (!eReader.Open(csvPath))
 			{
-				output.PrintError(eReader.Filename + "のオープンに失敗しました");
+				output.PrintError("Failed to open " + eReader.Filename);
 				return;
 			}
 			ScriptPosition position = null;
 			if (disp)
-				output.PrintSystemLine(eReader.Filename + "読み込み中・・・");
+				output.PrintSystemLine("Loading " + eReader.Filename + "...");
 			try
 			{
 				StringStream st = null;
@@ -208,9 +212,9 @@ namespace MinorShift.Emuera.GameData
 			{
 				System.Media.SystemSounds.Hand.Play();
 				if (position != null)
-					ParserMediator.Warn("予期しないエラーが発生しました", position, 3);
+					ParserMediator.Warn("An unexpected error has occurred", position, 3);
 				else
-					output.PrintError("予期しないエラーが発生しました");
+					output.PrintError("An unexpected error has occurred");
 				return;
 			}
 			finally
@@ -226,24 +230,24 @@ namespace MinorShift.Emuera.GameData
 			string[] tokens = line.Split(',');
 			if (tokens.Length < 2)
 			{
-				ParserMediator.Warn("\",\"が必要です", position, 1);
+				ParserMediator.Warn("\",\" is required", position, 1);
 				return;
 			}
 			string idtoken = tokens[0].Trim();
 			VariableIdentifier id = VariableIdentifier.GetVariableId(idtoken);
 			if (id == null)
 			{
-				ParserMediator.Warn("一つ目の値を変数名として認識できません", position, 1);
+				ParserMediator.Warn("The first value cannot be recognized as a variable name", position, 1);
 				return;
 			}
 			if ((!id.IsArray1D) && (!id.IsArray2D) && (!id.IsArray3D))
 			{
-				ParserMediator.Warn("配列変数でない変数" + id.ToString() + "のサイズを変更できません", position, 1);
+				ParserMediator.Warn("Cannot change the size of a " + id.ToString() + " variable that is not an array variable", position, 1);
 				return;
 			}
 			if ((id.IsCalc) || (id.Code == VariableCode.RANDDATA))
 			{
-				ParserMediator.Warn(id.ToString() + "のサイズは変更できません", position, 1);
+				ParserMediator.Warn("Cannot change the size of a " + id.ToString() + " variable", position, 1);
 				return;
 			}
 			int length = 0;
@@ -251,7 +255,7 @@ namespace MinorShift.Emuera.GameData
 			int length3 = 0;
 			if (!int.TryParse(tokens[1], out length))
 			{
-				ParserMediator.Warn("二つ目の値を整数値として認識できません", position, 1);
+				ParserMediator.Warn("The second value cannot be recognized as an integer value", position, 1);
 				return;
 			}
             //1820a16 変数禁止指定 負の値を指定する
@@ -587,18 +591,26 @@ check1break:
 
 		public void LoadData(string csvDir, EmueraConsole console, bool disp)
 		{
+			
 			output = console;
+			
+	
+			
 			loadVariableSizeData(csvDir + "VariableSize.CSV", disp);
 			for(int i = 0; i< countNameCsv;i++)
 			{
 				names[i] = new string[MaxDataList[i]];
 				nameToIntDics[i] = new Dictionary<string, int>();
 			}
+            // JVN: Check if file exist, keep result in canLoadParam
+            canLoadParam = File.Exists(csvDir + "PARAM.CSV");
+
+			tranls = new Translation(csvDir, ref output, canLoadParam);
 			ItemPrice = new Int64[MaxDataList[itemIndex]];
 			loadDataTo(csvDir + "ABL.CSV", ablIndex, null, disp);
 			loadDataTo(csvDir + "EXP.CSV", expIndex, null, disp);
 			loadDataTo(csvDir + "TALENT.CSV", talentIndex, null, disp);
-			loadDataTo(csvDir + "PALAM.CSV", paramIndex, null, disp);
+			loadDataTo(csvDir + (canLoadParam ? "PARAM.CSV" : "PALAM.CSV"), paramIndex, null, disp); // JVN: Change file name depending on boolean
 			loadDataTo(csvDir + "TRAIN.CSV", trainIndex, null, disp);
 			loadDataTo(csvDir + "MARK.CSV", markIndex, null, disp);
 			loadDataTo(csvDir + "ITEM.CSV", itemIndex, ItemPrice, disp);
@@ -729,7 +741,7 @@ check1break:
 				case VariableCode.UP:
 				case VariableCode.DOWN:
 					ret = nameToIntDics[paramIndex];//ParamName　１;
-					errPos = "palam.csv";
+					errPos = (canLoadParam ? "param.csv" : "palam.csv"); // JVN: For error output & debugging
 					allowIndex = 0;
 					break;
 				case VariableCode.PALAM:
@@ -738,7 +750,7 @@ check1break:
 				case VariableCode.CUP:
 				case VariableCode.CDOWN:
 					ret = nameToIntDics[paramIndex];//ParamName　２;
-					errPos = "palam.csv";
+					errPos = (canLoadParam ? "param.csv" : "palam.csv"); // JVN: For error output & debugging
 					allowIndex = 1;
 					break;
 
@@ -977,9 +989,9 @@ check1break:
 				{
 
 					if (!Config.CompatiSPChara && (tmpl.IsSpchara!= targetList[tmpl.No].IsSpchara))
-						ParserMediator.Warn("番号" + tmpl.No.ToString() + "のキャラが複数回定義されています(SPキャラとして定義するには互換性オプション「SPキャラを使用する」をONにしてください)", null, 1);
+						ParserMediator.Warn("Character number " + tmpl.No.ToString() + " was defined more than once\n" + "(To define it as an SP character please turn on compatibility option ”Allow SP characters”)", null, 1);
 					else
-						ParserMediator.Warn("番号" + tmpl.No.ToString() + "のキャラが複数回定義されています", null, 1);
+						ParserMediator.Warn("Character number " + tmpl.No.ToString() + " was defined more than once", null, 1);
 				}
 				else
 					targetList.Add(tmpl.No, tmpl);
@@ -992,12 +1004,12 @@ check1break:
 			EraStreamReader eReader = new EraStreamReader(false);
 			if (!eReader.Open(csvPath, csvName))
 			{
-				output.PrintError(eReader.Filename + "のオープンに失敗しました");
+				output.PrintError("Failed to open " + eReader.Filename);
 				return;
 			}
 			ScriptPosition position = null;
 			if (disp)
-				output.PrintSystemLine(eReader.Filename + "読み込み中・・・");
+				output.PrintSystemLine("Loading " + eReader.Filename + "...");
 			try
 			{
 				Int64 index = -1;
@@ -1008,7 +1020,7 @@ check1break:
 					string[] tokens = st.Substring().Split(',');
 					if (tokens.Length < 2)
 					{
-						ParserMediator.Warn("\",\"が必要です", position, 1);
+						ParserMediator.Warn("\",\" is required", position, 1);
 						continue;
 					}
 					if (tokens[0].Length == 0)
@@ -1059,9 +1071,9 @@ check1break:
 			{
 				System.Media.SystemSounds.Hand.Play();
 				if (position != null)
-					ParserMediator.Warn("予期しないエラーが発生しました", position, 3);
+					ParserMediator.Warn("An unexpected error has occurred", position, 3);
 				else
-					output.PrintError("予期しないエラーが発生しました");
+					output.PrintError("An unexpected error has occurred");
 				return;
 			}
 			finally
@@ -1132,19 +1144,19 @@ check1break:
 			{
 				case "NAME":
 				case "名前":
-					chara.Name = tokens[1];
+					chara.Name = Translation.translateChara(chara.No, Translation.CharaData.Name, tokens[1]); // JVN: This will translate the name of the character
 					return;
 				case "CALLNAME":
 				case "呼び名":
-					chara.Callname = tokens[1];
+					chara.Callname = Translation.translateChara(chara.No, Translation.CharaData.Callname, tokens[1]); // JVN: Translate Callname
 					return;
 				case "NICKNAME":
 				case "あだ名":
-					chara.Nickname = tokens[1];
+					chara.Nickname = Translation.translateChara(chara.No, Translation.CharaData.Nickname, tokens[1]); // JVN: Translate Nickname
 					return;
 				case "MASTERNAME":
 				case "主人の呼び方":
-					chara.Mastername = tokens[1];
+					chara.Mastername = Translation.translateChara(chara.No, Translation.CharaData.Mastername, tokens[1]); // JNV: Translate Mastername
 					return;
 				case "MARK":
 				case "刻印":
@@ -1206,8 +1218,8 @@ check1break:
 					length = CharacterIntArrayLength[(int)(VariableCode.__LOWERCASE__ & VariableCode.JUEL)];
 					intArray = chara.Juel;
 					namearray = nameToIntDics[paramIndex];//ParamName;
-					errPos = "palam.csv";
-					break;
+					errPos = (canLoadParam ? "param.csv" : "palam.csv"); // JVN: For error output & debugging
+                    break;
 				case "CSTR":
 					length = CharacterStrArrayLength[(int)(VariableCode.__LOWERCASE__ & VariableCode.CSTR)];
 					strArray = chara.CStr;
@@ -1215,23 +1227,23 @@ check1break:
 					errPos = "cstr.csv";
 					break;
 				default:
-					ParserMediator.Warn("\"" + tokens[0] + "\"は解釈できない識別子です", position, 1);
+					ParserMediator.Warn("\"" + tokens[0] + "\" cannot be interpreted", position, 1);
 					return;
 			}
 			if (length < 0)
 			{
-				ParserMediator.Warn("プログラムミス", position, 3);
+				ParserMediator.Warn("Program error", position, 3);
 				return;
 			}
 			if (length == 0)
 			{
-				ParserMediator.Warn(varname + "は禁止設定された変数です", position, 2);
+				ParserMediator.Warn(varname + " is a prohibited set variable", position, 2);
 				return;
 			}
 			bool p1isNumeric = tryToInt64(tokens[1].TrimEnd(), out p1);
 			if (p1isNumeric && ((p1 < 0) || (p1 >= length)))
 			{
-				ParserMediator.Warn(p1.ToString() + "は配列の範囲外です", position, 1);
+				ParserMediator.Warn(p1.ToString() + " is out of the range of the array", position, 1);
 				return;
 			}
 			int index = (int)p1;
@@ -1240,7 +1252,7 @@ check1break:
 				if (!namearray.TryGetValue(tokens[1], out index))
 				{
 					ParserMediator.Warn(errPos + "に\"" + tokens[1] + "\"の定義がありません", position, 1);
-					//ParserMediator.Warn("\"" + tokens[1] + "\"は解釈できない識別子です", position, 1);
+					//ParserMediator.Warn("\"" + tokens[1] + "\" cannot be interpreted", position, 1);
 					return;
 				}
 				else if (index >= length)
@@ -1257,7 +1269,7 @@ check1break:
 				else if (tokens[1].Length == 0)
 					ParserMediator.Warn("二つ目の識別子がありません", position, 1);
 				else
-					ParserMediator.Warn("\"" + tokens[1] + "\"は解釈できない識別子です", position, 1);
+					ParserMediator.Warn("\"" + tokens[1] + "\" cannot be interpreted", position, 1);
 				return;
 			}
 			if (strArray != null)
@@ -1266,7 +1278,7 @@ check1break:
 					ParserMediator.Warn("三つ目の識別子がありません", position, 1);
 				if (strArray.ContainsKey(index))
 					ParserMediator.Warn(varname + "の" + index.ToString() + "番目の要素は既に定義されています(上書きします)", position, 1);
-				strArray[index] = tokens[2];
+				strArray[index] = Translation.translateChara(chara.No, Translation.CharaData.CSTR, tokens[2], (Int32)index); // JVN: Finally, this translates CSTRs
 			}
 			else
 			{
@@ -1289,13 +1301,13 @@ check1break:
 			EraStreamReader eReader = new EraStreamReader(false);
 			if (!eReader.Open(csvPath))
 			{
-				output.PrintError(eReader.Filename + "のオープンに失敗しました");
+				output.PrintError("Failed to open " + eReader.Filename);
 				return;
 			}
 			ScriptPosition position = null;
 
 			if (disp || Program.AnalysisMode)
-				output.PrintSystemLine(eReader.Filename + "読み込み中・・・");
+				output.PrintSystemLine("Loading " + eReader.Filename + "...");
 			try
 			{
 				StringStream st = null;
@@ -1305,18 +1317,18 @@ check1break:
 					string[] tokens = st.Substring().Split(',');
 					if (tokens.Length < 2)
 					{
-						ParserMediator.Warn("\",\"が必要です", position, 1);
+						ParserMediator.Warn("\",\" is required", position, 1);
 						continue;
 					}
 					int index = 0;
 					if (!Int32.TryParse(tokens[0], out index))
 					{
-						ParserMediator.Warn("一つ目の値を整数値に変換できません", position, 1);
+						ParserMediator.Warn("The first value cannot be converted to an integer value", position, 1);
 						continue;
 					}
 					if (target.Length == 0)
 					{
-						ParserMediator.Warn("禁止設定された名前配列です", position, 2);
+						ParserMediator.Warn("Prohibited set name array", position, 2);
 						break;
 					}
 					if ((index < 0) || (target.Length <= index))
@@ -1335,7 +1347,7 @@ check1break:
 
 						if (!Int64.TryParse(tokens[2].TrimEnd(), out price))
 						{
-							ParserMediator.Warn("金額が読み取れません", position, 1);
+							ParserMediator.Warn("Couldn\'t read amount of money", position, 1);
 							continue;
 						}
 
@@ -1347,9 +1359,9 @@ check1break:
 			{
 				System.Media.SystemSounds.Hand.Play();
 				if (position != null)
-					ParserMediator.Warn("予期しないエラーが発生しました", position, 3);
+					ParserMediator.Warn("An unexpected error has occurred", position, 3);
 				else
-					output.PrintError("予期しないエラーが発生しました");
+					output.PrintError("An unexpected error has occurred");
 				return;
 			}
 			finally
@@ -1397,7 +1409,7 @@ check1break:
 				case CharacterStrData.CSTR:
 					return cstrSize;
 				default:
-					throw new CodeEE("存在しないキーを参照しました");
+					throw new CodeEE("Attempted to refer to a key that does not exist");
 			}
 		}
 
@@ -1428,7 +1440,7 @@ check1break:
 				case CharacterIntData.JUEL:
 					return arraySize[(int)(VariableCode.__LOWERCASE__ & VariableCode.JUEL)];
 				default:
-					throw new CodeEE("存在しないキーを参照しました");
+					throw new CodeEE("Attempted to refer to a key that does not exist");
 			}
 		}
 

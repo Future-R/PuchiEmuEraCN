@@ -120,6 +120,32 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>149, 17</value>
   </metadata>
+  <data name="checkBoxCBNewLinesOnly.ToolTip" xml:space="preserve">
+    <value>Classic mode only sends lines to the clipboard that weren't previously
+sent there. If disabled, it instead uses the "Lines to send to Clipboard"
+setting to determine how many of the newest lines to send and will
+resend old lines to fill that amount.</value>
+  </data>
+  <data name="label29.ToolTip" xml:space="preserve">
+    <value>If the Ignore &lt;&gt; tags setting is enabled, this will replace &lt;&gt; sets 
+with another text string. Useful for creating a little space between
+ text blocks that previously had graphics from &lt;&gt; tags  between them.</value>
+  </data>
+  <data name="textBoxCBReplaceTags.ToolTip" xml:space="preserve">
+    <value>If the Ignore &lt;&gt; tags setting is enabled, this will replace &lt;&gt; sets 
+with another text string. Useful for creating a little space between
+ text blocks that previously had graphics from &lt;&gt; tags  between them.</value>
+  </data>
+  <data name="label28.ToolTip" xml:space="preserve">
+    <value>How long the program waits in milliSeconds between each clipboard update.
+Shorter times might cause errors where the clipboard simply doesn't update
+at all. Note scrolling bypasses this and might still cause no-update issues.</value>
+  </data>
+  <data name="numericUpDownCBMinTimer.ToolTip" xml:space="preserve">
+    <value>How long the program waits in milliSeconds between each clipboard update.
+Shorter times might cause errors where the clipboard simply doesn't update
+at all. Note scrolling bypasses this and might still cause no-update issues.</value>
+  </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

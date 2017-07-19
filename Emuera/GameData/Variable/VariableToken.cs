@@ -95,7 +95,7 @@ namespace MinorShift.Emuera.GameData.Variable
 		//CodeEEにしているけど実際はExeEEかもしれない
 		public virtual Int64 GetIntValue(ExpressionMediator exm, Int64[] arguments)
 		{ throw new CodeEE("整数型でない変数" + varName + "を整数型として呼び出しました"); }
-		public virtual string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+		public virtual string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 		{ throw new CodeEE("文字列型でない変数" + varName + "を文字列型として呼び出しました"); }
 		public virtual void SetValue(Int64 value, Int64[] arguments)
 		{ throw new CodeEE("整数型でない変数" + varName + "を整数型として呼び出しました"); }
@@ -275,11 +275,11 @@ namespace MinorShift.Emuera.GameData.Variable
 		public override void CheckElement(Int64[] arguments, bool[] doCheck)
 		{
 			if (doCheck[0] && ((arguments[0] < 0) || (arguments[0] >= varData.CharacterList.Count)))
-				throw new CodeEE("キャラクタ配列変数" + varName + "の第１引数(" + arguments[0].ToString() + ")はキャラ登録番号の範囲外です");
+				throw new CodeEE("Character array variable " + varName + " at the first argument (" + arguments[0].ToString() + ") is out of range of the character registration number");
 			if (doCheck.Length > 1 && sizes.Length > 0 && doCheck[1] && ((arguments[1] < 0) || (arguments[1] >= sizes[0])))
-				throw new CodeEE("キャラクタ配列変数" + varName + "の第２引数(" + arguments[1].ToString() + ")は配列の範囲外です");
+				throw new CodeEE("Character array variable " + varName + " at the second argument (" + arguments[1].ToString() + ") is out of range of the array");
 			if (doCheck.Length > 2 && sizes.Length > 1 && doCheck[2] && ((arguments[2] < 0) || (arguments[2] >= sizes[1])))
-				throw new CodeEE("キャラクタ配列変数" + varName + "の第３引数(" + arguments[2].ToString() + ")は配列の範囲外です");
+				throw new CodeEE("Character array variable " + varName + " at the third argument (" + arguments[2].ToString() + ") is out of range of the array");
 		}
 
 		public override void IsArrayRangeValid(Int64[] arguments, Int64 index1, Int64 index2, string funcName, Int64 i1, Int64 i2)
@@ -815,7 +815,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				IsForbid = array.Length == 0;
 			}
 			string[] array;
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[VarCodeInt];
 			}
@@ -842,9 +842,10 @@ namespace MinorShift.Emuera.GameData.Variable
 				IsForbid = array.Length == 0;
 			}
 			string[] array;
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
-				return array[arguments[0]];
+				//Bartoum : Str.csv variable names switch here, so we try to translate
+                return Translation.translate(array[arguments[0]], "Str", translate);
 			}
 
 			public override void SetValue(string value, Int64[] arguments)
@@ -898,7 +899,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				IsForbid = array.Length == 0;
 			}
 			string[,] array;
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0], arguments[1]];
 			}
@@ -960,7 +961,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				IsForbid = array.Length == 0;
 			}
 			string[, ,] array;
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0], arguments[1], arguments[2]];
 			}
@@ -1112,7 +1113,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = false;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				CharacterData chara = varData.CharacterList[(int)arguments[0]];
 				return chara.DataString[VarCodeInt];
@@ -1141,7 +1142,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = false;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				CharacterData chara = varData.CharacterList[(int)arguments[0]];
 				return chara.DataStringArray[VarCodeInt][arguments[1]];
@@ -1246,7 +1247,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				CanRestructure = false;
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				CharacterData chara = varData.CharacterList[(int)arguments[0]];
 				return chara.DataStringArray2D[VarCodeInt][arguments[1], arguments[2]];
@@ -1331,7 +1332,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				this.s = s;
 			}
 			string s;
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return s;
 			}
@@ -1376,24 +1377,34 @@ namespace MinorShift.Emuera.GameData.Variable
 
 		private sealed class Str1DConstantToken : ConstantToken
 		{
+			string name;
 			public Str1DConstantToken(VariableCode varCode, VariableData varData, string[] array)
 				: base(varCode, varData)
 			{
 				this.array = array;
 				IsForbid = array.Length == 0;
+				name = "Base";
 			}
-			public Str1DConstantToken(VariableCode varCode, VariableData varData)
+			
+			public Str1DConstantToken(VariableCode varCode, VariableData varData, string pname)
 				: base(varCode, varData)
 			{
+				name = pname;
 				this.array = varData.constant.GetCsvNameList(varCode);
 				IsForbid = array.Length == 0;
 			}
 
 			string[] array = null;
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
-				return array[arguments[0]];
-			}
+                //Changes by Bartoum
+
+                //This is where the _TR files translate. They can only translate stuff that is on a print line
+                //Exemple PRINTFORM [%TALENTNAME:X%]
+
+
+                return Translation.translate(array[arguments[0]], name, translate);
+            }
 			public override Int32 GetLength()
 			{ return array.Length; }
 			public override Int32 GetLength(int dimension)
@@ -1497,7 +1508,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				: base(varCode, varData)
 			{
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return varData.LastLoadText;
 			}
@@ -1545,7 +1556,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = false;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return GlobalStatic.Console.GetWindowTitle();
 			}
@@ -1562,7 +1573,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = true;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return Config.MoneyLabel;
 			}
@@ -1575,7 +1586,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = true;
 			}
-			public override string GetStrValue(ExpressionMediator exm, long[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, long[] arguments, bool translate=false)
 			{
 				return exm.Console.getDefStBar();
 			}
@@ -1588,7 +1599,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = true;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return "";
 			}
@@ -1613,7 +1624,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = true;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				LogicalLine line = exm.Process.GetScaningLine();
 				if ((line == null) || (line.Position == null))
@@ -1629,7 +1640,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				CanRestructure = true;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				LogicalLine line = exm.Process.GetScaningLine();
 				if ((line == null) || (line.ParentLabelLine == null))
@@ -1698,7 +1709,7 @@ namespace MinorShift.Emuera.GameData.Variable
             {
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, long[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, long[] arguments, bool translate=false)
             {
                 return GlobalStatic.MainWindow.InternalEmueraVer;
             }
@@ -1777,6 +1788,8 @@ namespace MinorShift.Emuera.GameData.Variable
 			}
 		}
 
+		
+		//Bartoum: this is where ARGS and LOCALS are
 		private sealed class LocalStr1DVariableToken : LocalVariableToken
 		{
 			public LocalStr1DVariableToken(VariableCode varCode, VariableData varData, string subId, int size)
@@ -1790,7 +1803,7 @@ namespace MinorShift.Emuera.GameData.Variable
 					Array.Clear(array, 0, size);
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				if (array == null)
 					array = new string[size];
@@ -2000,6 +2013,9 @@ namespace MinorShift.Emuera.GameData.Variable
 			public override void Out() { }
 
 		}
+		
+		
+		//Bartoum: this is where user string variables are
 		private sealed class StaticStr1DVariableToken : UserDefinedVariableToken
 		{
 			public StaticStr1DVariableToken(UserDefinedVariableData data)
@@ -2020,7 +2036,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				if (defArray != null)
 					Array.Copy(defArray, array, defArray.Length);
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0]];
 			}
@@ -2046,6 +2062,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			public override void In() { }
 			public override void Out() { }
 		}
+
 		private sealed class StaticStr2DVariableToken : UserDefinedVariableToken
 		{
 			public StaticStr2DVariableToken(UserDefinedVariableData data)
@@ -2060,7 +2077,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				Array.Clear(array, 0, totalSize);
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0], arguments[1]];
 			}
@@ -2104,7 +2121,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 				Array.Clear(array, 0, totalSize);
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0], arguments[1], arguments[2]];
 			}
@@ -2362,7 +2379,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			public override void SetDefault()
 			{
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0]];
 			}
@@ -2426,7 +2443,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0], arguments[1]];
 			}
@@ -2489,7 +2506,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			string[, ,] array = null;
 			public override void SetDefault() { }
 
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				return array[arguments[0], arguments[1], arguments[2]];
 			}
@@ -2706,7 +2723,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				CanRestructure = false;
 				IsStatic = !data.Private;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				if (array == null)
 					throw new CodeEE("参照型変数" + varName + "は何も参照していません");
@@ -2747,7 +2764,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				CanRestructure = false;
 				IsStatic = !data.Private;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				if (array == null)
 					throw new CodeEE("参照型変数" + varName + "は何も参照していません");
@@ -2787,7 +2804,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				CanRestructure = false;
 				IsStatic = !data.Private;
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				if (array == null)
 					throw new CodeEE("参照型変数" + varName + "は何も参照していません");
@@ -2872,7 +2889,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				: base(VariableCode.CVARS, data, varData, arrayIndex)
 			{
 			}
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				string[] array = (string[])GetArrayChara((int)arguments[0]);
 				return array[arguments[1]];
@@ -2955,7 +2972,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			{
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, Int64[] arguments, bool translate = false)
 			{
 				string[,] array = (string[,])GetArrayChara((int)arguments[0]);
 				return array[arguments[1], arguments[2]];

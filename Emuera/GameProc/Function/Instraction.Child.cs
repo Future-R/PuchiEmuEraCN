@@ -104,13 +104,23 @@ namespace MinorShift.Emuera.GameProc.Function
 			readonly bool isLC;
 			readonly bool isC;
 			readonly bool isForms;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
+				//Changes by Bartoum
+				
+				//All print lines are going trough here.
+				//This is where our chain of booleans is set to true.
+				
+				//A lot of function have tryTranslate or translate in their signatures
+				//This was added in the goal to know when translating is required or not.
+				
 				exm.Console.UseUserStyle = true;
 				exm.Console.UseSetColorStyle = !func.Function.IsPrintDFunction();
 				string str = null;
-				if (func.Argument.IsConst)
+				if (func.Argument.IsConst) { 
+                    //Need to rework that part
 					str = func.Argument.ConstStr;
+                }
 				else if (isPrintV)
 				{
 					StringBuilder builder = new StringBuilder();
@@ -126,13 +136,13 @@ namespace MinorShift.Emuera.GameProc.Function
 				}
 				else
 				{
-					str = ((ExpressionArgument)func.Argument).Term.GetStrValue(exm);
+					str = ((ExpressionArgument)func.Argument).Term.GetStrValue(exm, true);
 					if (isForms)
 					{
 						str = exm.CheckEscape(str);
 						StrFormWord wt = LexicalAnalyzer.AnalyseFormattedString(new StringStream(str), FormStrEndWith.EoL, false);
 						StrForm strForm = StrForm.FromWordToken(wt);
-						str = strForm.GetString(exm);
+						str = strForm.GetString(exm, true);
 					}
 				}
 				if (func.Function.IsPrintKFunction())
@@ -185,7 +195,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					throw new ExeEE("PRINTDATA異常");
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.UseUserStyle = true;
 				exm.Console.UseSetColorStyle = !func.Function.IsPrintDFunction();
@@ -240,13 +250,13 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.STR_EXPRESSION);
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string str = null;
 				if (func.Argument.IsConst)
 					str = func.Argument.ConstStr;
 				else
-					str = ((ExpressionArgument)func.Argument).Term.GetStrValue(exm);
+					str = ((ExpressionArgument)func.Argument).Term.GetStrValue(exm, translate);
 				exm.Console.PrintHtml(str);
 			}
 		}
@@ -259,7 +269,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.SP_HTMLSPLIT);
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpHtmlSplitArgument spSplitArg = (SpHtmlSplitArgument)func.Argument;
 				string str = spSplitArg.TargetStr.GetStrValue(exm);
@@ -287,7 +297,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.STR_EXPRESSION);
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string str = null;
 				if (func.Argument.IsConst)
@@ -306,7 +316,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_ANY);
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArrayArgument intExpArg = (ExpressionArrayArgument)func.Argument;
 				int[] param = new int[intExpArg.TermList.Length];
@@ -325,7 +335,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				Int64 param;
 				if (func.Argument.IsConst)
@@ -349,7 +359,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				if (newline)
 					flag |= PRINT_NEWLINE;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string str = null;
 				if (func.Argument.IsConst)
@@ -369,7 +379,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | EXTENDED | DEBUG_FUNC;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.DebugClear();
 			}
@@ -382,7 +392,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.METHOD);
 				flag = METHOD_SAFE | EXTENDED;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				IOperandTerm term = ((MethodArgument)func.Argument).MethodTerm;
 				Type type = term.GetOperandType();
@@ -403,7 +413,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.SP_SET);
 				flag = METHOD_SAFE;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				if (func.Argument is SpSetArrayArgument)
 				{
@@ -449,9 +459,9 @@ namespace MinorShift.Emuera.GameProc.Function
 				}
 				else
 				{
-					string src = spsetarg.IsConst ? spsetarg.ConstStr : spsetarg.Term.GetStrValue(exm);
+					string src = spsetarg.IsConst ? spsetarg.ConstStr : spsetarg.Term.GetStrValue(exm); // JVN: Should fix wrong STRLENS count for TR translated strings
 					spsetarg.VariableDest.SetValue(src, exm);
-				}
+                }
 			}
 		}
 
@@ -462,7 +472,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.FORM_STR_NULLABLE);
 				flag = METHOD_SAFE | EXTENDED | IS_PRINT;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				IOperandTerm term = ((ExpressionArgument)func.Argument).Term;
 				string str = term.GetStrValue(exm);
@@ -477,7 +487,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 				flag = METHOD_SAFE | EXTENDED | IS_PRINT;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument intExpArg = (ExpressionArgument)func.Argument;
 				Int32 delNum = (Int32)intExpArg.Term.GetIntValue(exm);
@@ -498,7 +508,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				this.unicode = unicode;
 			}
 			bool unicode;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string str = null;
 				if (func.Argument.IsConst)
@@ -521,7 +531,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				this.op = op;
 			}
 			int op;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				BitArgument spsetarg = (BitArgument)func.Argument;
 				VariableTerm varTerm = spsetarg.VariableDest;
@@ -553,7 +563,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				isForce = force;
 			}
 			bool isForce;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				if (isForce)
 					exm.Console.ReadAnyKey(false, true);
@@ -569,7 +579,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = IS_PRINT;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.ReadAnyKey(true,false);
 			}
@@ -583,7 +593,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = IS_PRINT | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.ReadAnyKey();
 				SpSwapCharaArgument arg = (SpSwapCharaArgument)func.Argument;
@@ -606,7 +616,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = IS_PRINT | IS_INPUT;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument arg = (ExpressionArgument)func.Argument;
 				InputRequest req = new InputRequest();
@@ -632,7 +642,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = IS_PRINT | IS_INPUT;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument arg = (ExpressionArgument)func.Argument;
 				InputRequest req = new InputRequest();
@@ -659,7 +669,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = IS_PRINT | IS_INPUT | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument arg = (ExpressionArgument)func.Argument;
 				InputRequest req = new InputRequest();
@@ -694,7 +704,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = IS_PRINT | IS_INPUT | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument arg = (ExpressionArgument)func.Argument;
 				InputRequest req = new InputRequest();
@@ -728,7 +738,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				this.isOne = oneInput;
 			}
 			bool isOne;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpTInputsArgument tinputarg = (SpTInputsArgument)func.Argument;
 
@@ -764,7 +774,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				this.isOne = oneInput;
 			}
 			bool isOne;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpTInputsArgument tinputarg = (SpTInputsArgument)func.Argument;
 				InputRequest req = new InputRequest();
@@ -824,7 +834,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				}
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				IOperandTerm mToken = null;
 				string labelName = null;
@@ -855,7 +865,7 @@ namespace MinorShift.Emuera.GameProc.Function
 			}
 			bool newline;
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpBarArgument barArg = (SpBarArgument)func.Argument;
 				Int64 var = barArg.Terms[0].GetIntValue(exm);
@@ -875,7 +885,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpTimesArgument timesArg = (SpTimesArgument)func.Argument;
 				VariableTerm var = timesArg.VariableDest;
@@ -916,7 +926,7 @@ namespace MinorShift.Emuera.GameProc.Function
 			bool isDel;
 			bool isSp;
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				if(!Config.CompatiSPChara && isSp)
 					throw new CodeEE("SPキャラ関係の機能は標準では使用できません(互換性オプション「SPキャラを使用する」をONにしてください)");
@@ -958,7 +968,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.VEvaluator.AddPseudoCharacter();
 			}
@@ -972,7 +982,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpSwapCharaArgument arg = (SpSwapCharaArgument)func.Argument;
 				long x = arg.X.GetIntValue(exm);
@@ -988,7 +998,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpSwapCharaArgument arg = (SpSwapCharaArgument)func.Argument;
 				long x = arg.X.GetIntValue(exm);
@@ -1005,7 +1015,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArrayArgument intExpArg = (ExpressionArrayArgument)func.Argument;
 				foreach (IOperandTerm int64Term in intExpArg.TermList)
@@ -1021,7 +1031,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpSortcharaArgument spSortArg = (SpSortcharaArgument)func.Argument;
 				Int64 elem = 0;
@@ -1046,7 +1056,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.SetStringStyle(Config.ForeColor);
 			}
@@ -1060,7 +1070,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.SetBgColor(Config.BackColor);
 			}
@@ -1074,7 +1084,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.SetStringStyle(exm.Console.StringStyle.FontStyle | FontStyle.Bold);
 			}
@@ -1087,7 +1097,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.SetStringStyle(exm.Console.StringStyle.FontStyle | FontStyle.Italic);
 			}
@@ -1100,7 +1110,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.Console.SetStringStyle(FontStyle.Regular);
 			}
@@ -1114,7 +1124,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 
 				SpVarSetArgument spvarsetarg = (SpVarSetArgument)func.Argument;
@@ -1158,7 +1168,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpCVarSetArgument spvarsetarg = (SpCVarSetArgument)func.Argument;
 				FixedVariableTerm p = spvarsetarg.VariableDest.GetFixedVariableTerm(exm);
@@ -1214,7 +1224,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				Int64 iValue;
 				if (func.Argument.IsConst)
@@ -1232,7 +1242,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.VEvaluator.InitRanddata();
 			}
@@ -1246,7 +1256,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.VEvaluator.DumpRanddata();
 			}
@@ -1261,7 +1271,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.VEvaluator.SaveGlobal();
 			}
@@ -1275,7 +1285,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				if (exm.VEvaluator.LoadGlobal())
 					exm.VEvaluator.RESULT = 1;
@@ -1292,7 +1302,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.VEvaluator.ResetData();
 				exm.Console.ResetStyle();
@@ -1307,7 +1317,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				exm.VEvaluator.ResetGlobalData();
 			}
@@ -1331,7 +1341,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArrayArgument arg = (ExpressionArrayArgument)func.Argument;
 				IOperandTerm[] terms = arg.TermList;
@@ -1363,7 +1373,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument arg = (ExpressionArgument)func.Argument;
 				string datFilename = null;
@@ -1384,7 +1394,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				throw new NotImplCodeEE();
 				//SpSaveVarArgument arg = (SpSaveVarArgument)func.Argument;
@@ -1402,7 +1412,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				throw new NotImplCodeEE();
 				//ExpressionArgument arg = (ExpressionArgument)func.Argument;
@@ -1424,7 +1434,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				Int64 target;
 				if (func.Argument.IsConst)
@@ -1446,7 +1456,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				flag = METHOD_SAFE | EXTENDED | PARTIAL;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				//何もしない
 			}
@@ -1466,7 +1476,7 @@ namespace MinorShift.Emuera.GameProc.Function
 			}
 			bool byname;
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				throw new NotImplCodeEE();
 				//182101 PCDRP-Update:到達できないコードの警告が出るのでコメントアウト
@@ -1530,8 +1540,8 @@ namespace MinorShift.Emuera.GameProc.Function
 				}
 				return;
                 */
-            }
-        }
+			}
+		}
 
 		private sealed class TOOLTIP_SETCOLOR_Instruction : AbstractInstruction
 		{
@@ -1540,7 +1550,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.SP_SWAP);
 				flag = METHOD_SAFE | EXTENDED;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpSwapCharaArgument arg = (SpSwapCharaArgument)func.Argument;
 				long foreColor = arg.X.GetIntValue(exm);
@@ -1563,7 +1573,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 				flag = METHOD_SAFE | EXTENDED;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument arg = (ExpressionArgument)func.Argument;
 				long delay = 0;
@@ -1585,7 +1595,8 @@ namespace MinorShift.Emuera.GameProc.Function
                 ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.SP_FADE); 
                 flag = IS_PRINT | EXTENDED;
             }
-            public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+
+            public void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
             {
                 SpFadeArgument arg = (SpFadeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
@@ -1695,7 +1706,7 @@ namespace MinorShift.Emuera.GameProc.Function
                 ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.SP_SHAKE);
                 flag = IS_PRINT | EXTENDED;
             }
-            public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+            public void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
             {
                 SpShakeArgument arg = (SpShakeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
@@ -1745,7 +1756,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.STR);
 				flag = FLOW_CONTROL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string keyword = func.Argument.ConstStr;
 				if (Config.ICFunction)//1756 BEGINのキーワードは関数扱いらしい
@@ -1765,7 +1776,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				this.isSave = isSave;
 			}
 			readonly bool isSave;
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				if ((state.SystemState & SystemStateCode.__CAN_SAVE__) != SystemStateCode.__CAN_SAVE__)
 				{
@@ -1795,7 +1806,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 				}
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpForNextArgment forArg = (SpForNextArgment)func.Argument;
 				func.LoopCounter = forArg.Cnt;
@@ -1818,7 +1829,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 				flag = METHOD_SAFE | EXTENDED | FLOW_CONTROL | PARTIAL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument expArg = (ExpressionArgument)func.Argument;
 				if (expArg.Term.GetIntValue(exm) != 0)//式が真
@@ -1861,7 +1872,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					ParserMediator.Warn("SIF文の次の行が空行またはコメント行です(eramaker:SIF文は意味を失います)", func, 0, false, true);
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument expArg = (ExpressionArgument)func.Argument;
 				if (expArg.Term.GetIntValue(exm) == 0)//評価式が真ならそのまま流れ落ちる
@@ -1876,7 +1887,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(argtype);
 				flag = METHOD_SAFE | FLOW_CONTROL | PARTIAL | FORCE_SETARG;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				//if (iFuncCode == FunctionCode.ELSE || iFuncCode == FunctionCode.ELSEIF
 				//	|| iFuncCode == FunctionCode.CASE || iFuncCode == FunctionCode.CASEELSE)
@@ -1893,7 +1904,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = FLOW_CONTROL | PARTIAL | FORCE_SETARG;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 			}
 		}
@@ -1905,7 +1916,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 				flag = METHOD_SAFE | FLOW_CONTROL | PARTIAL | FORCE_SETARG;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				LogicalLine ifJumpto = func.JumpTo;//ENDIF
 				//チェック済み
@@ -1954,7 +1965,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.EXPRESSION);
 				flag = METHOD_SAFE | EXTENDED | FLOW_CONTROL | PARTIAL | FORCE_SETARG;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				LogicalLine caseJumpto = func.JumpTo;//ENDSELECT
 				IOperandTerm selectValue = ((ExpressionArgument)func.Argument).Term;
@@ -2026,7 +2037,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.FORM_STR);
 				flag = EXTENDED | FLOW_CONTROL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				//int termnum = 0;
 				//foreach (IOperandTerm term in ((ExpressionArrayArgument)func.Argument).TermList)
@@ -2068,7 +2079,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_ANY);
 				flag = FLOW_CONTROL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				//int termnum = 0;
 				ExpressionArrayArgument expArrayArg = (ExpressionArrayArgument)func.Argument;
@@ -2098,7 +2109,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | EXTENDED | FLOW_CONTROL | PARTIAL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				//if (sequential)//上から流れてきたなら何もしないでENDCATCHに飛ぶ
 				state.JumpTo(func.JumpToEndCatch);
@@ -2112,7 +2123,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | FLOW_CONTROL | EXTENDED;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				state.JumpTo(func.ParentLabelLine);
 			}
@@ -2125,7 +2136,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | FLOW_CONTROL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				////BREAKのJUMP先はRENDまたはNEXT。そのジャンプ先であるREPEATかFORをiLineに代入。
 				//1.723 仕様変更。BREAKのJUMP先にはREPEAT、FOR、WHILEを記憶する。そのJUMP先が本当のJUMP先。
@@ -2150,7 +2161,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | FLOW_CONTROL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				InstructionLine jumpTo = (InstructionLine)func.JumpTo;
 				if ((jumpTo.FunctionCode == FunctionCode.REPEAT) || (jumpTo.FunctionCode == FunctionCode.FOR))
@@ -2206,7 +2217,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | FLOW_CONTROL | PARTIAL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				InstructionLine jumpTo = (InstructionLine)func.JumpTo;
 				//ループ変数が不明(REPEAT、FORを経由せずにループしようとした場合は無視してループを抜ける(eramakerがこういう仕様だったりする))
@@ -2234,7 +2245,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.VOID);
 				flag = METHOD_SAFE | EXTENDED | FLOW_CONTROL | PARTIAL;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				InstructionLine jumpTo = (InstructionLine)func.JumpTo;
 				if (((ExpressionArgument)jumpTo.Argument).Term.GetIntValue(exm) != 0)
@@ -2249,7 +2260,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
 				flag = METHOD_SAFE | EXTENDED | FLOW_CONTROL | PARTIAL | FORCE_SETARG;
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				ExpressionArgument expArg = (ExpressionArgument)func.Argument;
 				if (expArg.Term.GetIntValue(exm) != 0)//式が真
@@ -2289,13 +2300,13 @@ namespace MinorShift.Emuera.GameProc.Function
 				}
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				IOperandTerm term = ((ExpressionArgument)func.Argument).Term;
 				SingleTerm ret = null;
 				if (term != null)
 				{
-					ret = term.GetValue(exm);
+					ret = term.GetValue(exm, translate);
 				}
 				state.ReturnF(ret);
 			}
@@ -2361,7 +2372,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				callArg.CallFunc = call;
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				SpCallArgment spCallArg = (SpCallArgment)func.Argument;
 				CalledFunction call = null;
@@ -2418,7 +2429,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				}
 			}
 
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string labelName = func.Argument.ConstStr;
 				if (Config.ICFunction)
@@ -2472,7 +2483,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					}
 				}
 			}
-			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
 				string label = null;
 				LogicalLine jumpto = null;

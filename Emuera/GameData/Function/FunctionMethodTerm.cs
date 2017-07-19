@@ -21,16 +21,16 @@ namespace MinorShift.Emuera.GameData.Function
         {
 			return method.GetIntValue(exm, arguments);
         }
-        public override string GetStrValue(ExpressionMediator exm)
+        public override string GetStrValue(ExpressionMediator exm, bool translate=false)
         {
-			return method.GetStrValue(exm, arguments);
+			return method.GetStrValue(exm, arguments, translate);
         }
-		public override SingleTerm GetValue(ExpressionMediator exm)
+		public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
 		{
-			return method.GetReturnValue(exm, arguments);
+			return method.GetReturnValue(exm, arguments, tryTranslate);
 		}
 		
-        public override IOperandTerm Restructure(ExpressionMediator exm)
+        public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
         {
 			if (method.HasUniqueRestructure)
 			{
@@ -43,7 +43,10 @@ namespace MinorShift.Emuera.GameData.Function
 			{
 				if(arguments[i] == null)
 					continue;
-				arguments[i] = arguments[i].Restructure(exm);
+				//Changes by Bartoum
+				
+				//This is a place to rework. This is where constant are translated
+				arguments[i] = arguments[i].Restructure(exm, true);
 				argIsConst &= arguments[i] is SingleTerm;
 			}
 			if ((method.CanRestructure) && (argIsConst))

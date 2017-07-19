@@ -64,7 +64,7 @@
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(49, 24);
 			this.buttonSave.TabIndex = 1;
-			this.buttonSave.Text = "保存";
+			this.buttonSave.Text = "Save";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
@@ -74,7 +74,7 @@
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(78, 24);
 			this.buttonCancel.TabIndex = 2;
-			this.buttonCancel.Text = "キャンセル";
+			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
@@ -109,7 +109,7 @@
 			this.tabPageDebug3.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageDebug3.Size = new System.Drawing.Size(305, 300);
 			this.tabPageDebug3.TabIndex = 7;
-			this.tabPageDebug3.Text = "デバッグ";
+			this.tabPageDebug3.Text = "Debug";
 			this.tabPageDebug3.UseVisualStyleBackColor = true;
 			// 
 			// label29
@@ -119,7 +119,7 @@
 			this.label29.Name = "label29";
 			this.label29.Size = new System.Drawing.Size(272, 24);
 			this.label29.TabIndex = 98;
-			this.label29.Text = "※デバッグ関連のオプションはコマンドライン引数に-Debug\r\nを指定して起動した時のみ有効です";
+			this.label29.Text = "※These options are related to debug window\r\nSettings apply only at start";
 			// 
 			// checkBoxDWTM
 			// 
@@ -128,7 +128,7 @@
 			this.checkBoxDWTM.Name = "checkBoxDWTM";
 			this.checkBoxDWTM.Size = new System.Drawing.Size(202, 16);
 			this.checkBoxDWTM.TabIndex = 97;
-			this.checkBoxDWTM.Text = "デバッグウインドウを最前面に表示する";
+			this.checkBoxDWTM.Text = "Always show debug window on the foreground";
 			this.checkBoxDWTM.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxShowDW
@@ -138,7 +138,7 @@
 			this.checkBoxShowDW.Name = "checkBoxShowDW";
 			this.checkBoxShowDW.Size = new System.Drawing.Size(202, 16);
 			this.checkBoxShowDW.TabIndex = 96;
-			this.checkBoxShowDW.Text = "起動時にデバッグウインドウを表示する";
+			this.checkBoxShowDW.Text = "Show debug window on start";
 			this.checkBoxShowDW.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxSetDWPos
@@ -148,7 +148,7 @@
 			this.checkBoxSetDWPos.Name = "checkBoxSetDWPos";
 			this.checkBoxSetDWPos.Size = new System.Drawing.Size(179, 16);
 			this.checkBoxSetDWPos.TabIndex = 95;
-			this.checkBoxSetDWPos.Text = "デバッグウィンドウ位置を指定する";
+			this.checkBoxSetDWPos.Text = "Use specified window position";
 			this.checkBoxSetDWPos.UseVisualStyleBackColor = true;
 			// 
 			// button5
@@ -157,7 +157,7 @@
 			this.button5.Name = "button5";
 			this.button5.Size = new System.Drawing.Size(178, 24);
 			this.button5.TabIndex = 94;
-			this.button5.Text = "現在のウィンドウ位置を取得";
+			this.button5.Text = "Use current window position";
 			this.button5.UseVisualStyleBackColor = true;
 			this.button5.Click += new System.EventHandler(this.button5_Click);
 			// 
@@ -168,7 +168,7 @@
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(115, 12);
 			this.label25.TabIndex = 93;
-			this.label25.Text = "デバッグウィンドウ位置Y";
+			this.label25.Text = "Position in Y";
 			// 
 			// label26
 			// 
@@ -177,7 +177,7 @@
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(115, 12);
 			this.label26.TabIndex = 92;
-			this.label26.Text = "デバッグウィンドウ位置X";
+			this.label26.Text = "Position in X";
 			// 
 			// numericUpDownDWY
 			// 
@@ -199,7 +199,7 @@
 			this.button6.Name = "button6";
 			this.button6.Size = new System.Drawing.Size(178, 24);
 			this.button6.TabIndex = 89;
-			this.button6.Text = "現在のウィンドウサイズを取得";
+			this.button6.Text = "Use current window size";
 			this.button6.UseVisualStyleBackColor = true;
 			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
@@ -210,7 +210,7 @@
 			this.label27.Name = "label27";
 			this.label27.Size = new System.Drawing.Size(104, 12);
 			this.label27.TabIndex = 88;
-			this.label27.Text = "デバッグウィンドウ高さ";
+			this.label27.Text = "Window height";
 			// 
 			// label28
 			// 
@@ -219,7 +219,7 @@
 			this.label28.Name = "label28";
 			this.label28.Size = new System.Drawing.Size(96, 12);
 			this.label28.TabIndex = 87;
-			this.label28.Text = "デバッグウィンドウ幅";
+			this.label28.Text = "Window width";
 			// 
 			// numericUpDownDWH
 			// 
@@ -242,7 +242,7 @@
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(197, 12);
 			this.label16.TabIndex = 36;
-			this.label16.Text = "※変更は再起動するまで反映されません";
+			this.label16.Text = "※You need to restart to see the changes";
 			// 
 			// openFileDialog1
 			// 

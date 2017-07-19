@@ -134,7 +134,22 @@ namespace MinorShift.Emuera
         ScreenEffectInterval,   //182101 PCDRP-Update:画面エフェクト機能の画面更新間隔
         EdgeColor,
 
-        MoneyLabel = 100,
+        CBUseClipboard,
+        CBIgnoreTags,
+        CBReplaceTags,
+        CBNewLinesOnly,
+        CBClearBuffer,
+        CBTriggerLeftClick,
+        CBTriggerMiddleClick,
+        CBTriggerDoubleLeftClick,
+        CBTriggerAnyKeyWait,
+        CBTriggerInputWait,
+        CBMaxCB,
+        CBBufferSize,
+        CBScrollCount,
+        CBMinTimer,
+
+		MoneyLabel = 100,
 		MoneyFirst = 101,
 		LoadLabel = 102,
 		MaxShopItem = 103,

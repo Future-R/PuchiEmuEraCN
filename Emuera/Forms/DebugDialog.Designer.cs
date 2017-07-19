@@ -74,27 +74,27 @@
             this.閉じるToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(66, 20);
-            this.toolStripMenuItem1.Text = "ファイル(&F)";
+            this.toolStripMenuItem1.Text = "File(&F)";
             // 
             // ウォッチリストの保存ToolStripMenuItem
             // 
             this.ウォッチリストの保存ToolStripMenuItem.Name = "ウォッチリストの保存ToolStripMenuItem";
             this.ウォッチリストの保存ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.ウォッチリストの保存ToolStripMenuItem.Text = "ウォッチリストの保存";
+            this.ウォッチリストの保存ToolStripMenuItem.Text = "Save Watch List";
             this.ウォッチリストの保存ToolStripMenuItem.Click += new System.EventHandler(this.ウォッチリストの保存ToolStripMenuItem_Click);
             // 
             // ウォッチリストの読込ToolStripMenuItem
             // 
             this.ウォッチリストの読込ToolStripMenuItem.Name = "ウォッチリストの読込ToolStripMenuItem";
             this.ウォッチリストの読込ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.ウォッチリストの読込ToolStripMenuItem.Text = "ウォッチリストの読込";
+            this.ウォッチリストの読込ToolStripMenuItem.Text = "Load Watch List";
             this.ウォッチリストの読込ToolStripMenuItem.Click += new System.EventHandler(this.ウォッチリストの読込ToolStripMenuItem_Click);
             // 
             // 閉じるToolStripMenuItem
             // 
             this.閉じるToolStripMenuItem.Name = "閉じるToolStripMenuItem";
             this.閉じるToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.閉じるToolStripMenuItem.Text = "閉じる";
+            this.閉じるToolStripMenuItem.Text = "Close";
             this.閉じるToolStripMenuItem.Click += new System.EventHandler(this.閉じるToolStripMenuItem_Click);
             // 
             // 設定ToolStripMenuItem
@@ -103,13 +103,13 @@
             this.設定ToolStripMenuItem1});
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
             this.設定ToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.設定ToolStripMenuItem.Text = "設定(&C)";
+            this.設定ToolStripMenuItem.Text = "Settings(&C)";
             // 
             // 設定ToolStripMenuItem1
             // 
             this.設定ToolStripMenuItem1.Name = "設定ToolStripMenuItem1";
             this.設定ToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
-            this.設定ToolStripMenuItem1.Text = "コンフィグ(&C)";
+            this.設定ToolStripMenuItem1.Text = "Config(&C)";
             this.設定ToolStripMenuItem1.Click += new System.EventHandler(this.設定ToolStripMenuItem1_Click);
             // 
             // tabControlMain
@@ -133,7 +133,7 @@
             this.tabPageWatch.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageWatch.Size = new System.Drawing.Size(376, 172);
             this.tabPageWatch.TabIndex = 0;
-            this.tabPageWatch.Text = "変数ウォッチ";
+            this.tabPageWatch.Text = "Variable Watch";
             this.tabPageWatch.UseVisualStyleBackColor = true;
             // 
             // listViewWatch
@@ -154,12 +154,12 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "対象";
+            this.columnHeader1.Text = "Object";
             this.columnHeader1.Width = 147;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "値";
+            this.columnHeader3.Text = "Value";
             this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader3.Width = 97;
             // 
@@ -171,7 +171,7 @@
             this.tabPageTrace.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageTrace.Size = new System.Drawing.Size(376, 172);
             this.tabPageTrace.TabIndex = 1;
-            this.tabPageTrace.Text = "スタックトレース";
+            this.tabPageTrace.Text = "Stack Trace";
             this.tabPageTrace.UseVisualStyleBackColor = true;
             // 
             // textBoxTrace
@@ -195,7 +195,7 @@
             this.tabPageConsole.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageConsole.Size = new System.Drawing.Size(376, 172);
             this.tabPageConsole.TabIndex = 2;
-            this.tabPageConsole.Text = "コンソール";
+            this.tabPageConsole.Text = "Console";
             this.tabPageConsole.UseVisualStyleBackColor = true;
             // 
             // textBoxCommand
@@ -228,7 +228,7 @@
             this.checkBoxTopMost.Name = "checkBoxTopMost";
             this.checkBoxTopMost.Size = new System.Drawing.Size(84, 22);
             this.checkBoxTopMost.TabIndex = 6;
-            this.checkBoxTopMost.Text = "最前面に表示";
+            this.checkBoxTopMost.Text = "Stay On Top";
             this.checkBoxTopMost.UseVisualStyleBackColor = true;
             this.checkBoxTopMost.CheckedChanged += new System.EventHandler(this.checkBoxTopMost_CheckedChanged);
             // 
@@ -239,7 +239,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 22);
             this.button1.TabIndex = 7;
-            this.button1.Text = "閉じる";
+            this.button1.Text = "Close";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -250,7 +250,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(89, 22);
             this.button2.TabIndex = 8;
-            this.button2.Text = "データ更新";
+            this.button2.Text = "Update Data";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -271,7 +271,7 @@
             this.Name = "DebugDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Emuera - デバッグウインドウ";
+            this.Text = "Emuera - Debug Window";
             this.Activated += new System.EventHandler(this.DebugDialog_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DebugDialog_FormClosing);
             this.Resize += new System.EventHandler(this.DebugDialog_Resize);

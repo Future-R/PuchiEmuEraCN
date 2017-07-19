@@ -189,12 +189,12 @@ namespace MinorShift.Emuera.GameView
                 PrintEdgeFont.DrawString(graph, Str, Config.ForeColor, PointX, pointY);                        //182101 PCDRP-Update:フォント縁取り機能で修正
             else
             {
-                if (mode == TextDrawingMode.GRAPHICS)
-                    graph.DrawString(Str, Config.Font, new SolidBrush(Config.ForeColor), new Point(PointX, pointY));
-                else
-                    System.Windows.Forms.TextRenderer.DrawText(graph, Str, Config.Font, new Point(PointX, pointY), Config.ForeColor, System.Windows.Forms.TextFormatFlags.NoPrefix);
+				if (mode == TextDrawingMode.GRAPHICS)
+					graph.DrawString(Str, Config.Font, new SolidBrush(Config.ForeColor), new Point(PointX, pointY));
+				else
+					System.Windows.Forms.TextRenderer.DrawText(graph, Str, Config.Font, new Point(PointX, pointY), Config.ForeColor, System.Windows.Forms.TextFormatFlags.NoPrefix);
             }
-        }
+		}
 
 		public override void GDIDrawTo(int pointY, bool isSelecting, bool isBackLog)
 		{

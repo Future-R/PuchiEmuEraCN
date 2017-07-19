@@ -42,20 +42,7 @@ namespace MinorShift.Emuera.GameView
 		{
 			if (string.IsNullOrEmpty(s))
 				return 0;
-            if (PrintEdgeFont.edgeEnabled)
-            {
-                if (s.Contains("\t"))
-                    s = s.Replace("\t", "        ");
-                ranges[0].Length = s.Length;
-                //CharacterRange[] ranges = new CharacterRange[] { new CharacterRange(0, s.Length) };
-                sf.SetMeasurableCharacterRanges(ranges);
-                Region[] regions = graph.MeasureCharacterRanges(s, font, layoutRect, sf);
-                RectangleF rectF = regions[0].GetBounds(graph);
-                //縁取り機能を使用している場合はわずかにずれが大きくなるため0.05f補正する
-                //(場当たり的な対応。本当は厳密に計算したほうが良い)
-                return (int)((int)((rectF.Width - 1) / fontDisplaySize + 1.00f) * fontDisplaySize);
-            }
-            else if (textDrawingMode == TextDrawingMode.GRAPHICS)
+			if (textDrawingMode == TextDrawingMode.GRAPHICS)
 			{
 				if (s.Contains("\t"))
 					s = s.Replace("\t", "        ");
@@ -64,10 +51,10 @@ namespace MinorShift.Emuera.GameView
 				sf.SetMeasurableCharacterRanges(ranges);
 				Region[] regions = graph.MeasureCharacterRanges(s, font, layoutRect, sf);
 				RectangleF rectF = regions[0].GetBounds(graph);
-                //return (int)rectF.Width;//プロポーショナルでなくても数ピクセルずれる
-                return (int)((int)((rectF.Width - 1) / fontDisplaySize + 0.95f) * fontDisplaySize);
-            }
-            else if (textDrawingMode == TextDrawingMode.TEXTRENDERER)
+				//return (int)rectF.Width;//プロポーショナルでなくても数ピクセルずれる
+				return (int)((int)((rectF.Width - 1) / fontDisplaySize + 0.95f) * fontDisplaySize);
+			}
+			else if (textDrawingMode == TextDrawingMode.TEXTRENDERER)
 			{
 				Size size = TextRenderer.MeasureText(graph, s, font, layoutSize, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
 				//Size size = TextRenderer.MeasureText(g, s, StaticConfig.Font);

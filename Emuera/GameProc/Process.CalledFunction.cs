@@ -42,7 +42,7 @@ namespace MinorShift.Emuera.GameProc
 					{
 						Int64 charaNo = vTerm.GetElementInt(0, exm);
 						if ((charaNo < 0) || (charaNo >= GlobalStatic.VariableData.CharacterList.Count))
-							throw new CodeEE("キャラクタ配列変数" + vTerm.Identifier.Name + "の第１引数(" + charaNo.ToString() + ")はキャラ登録番号の範囲外です");
+							throw new CodeEE("Character array variable " + vTerm.Identifier.Name + " at the first argument (" + charaNo.ToString() + ") is out of range of the character registration number");
 						TransporterRef[i] = (Array)vTerm.Identifier.GetArrayChara((int)charaNo);
 					}
 					else
@@ -55,7 +55,7 @@ namespace MinorShift.Emuera.GameProc
 					TransporterStr[i] = Arguments[i].GetStrValue(exm);
 			}
 		}
-		public UserDefinedFunctionArgument Restructure(ExpressionMediator exm)
+		public UserDefinedFunctionArgument Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			for (int i = 0; i < Arguments.Length; i++)
 			{

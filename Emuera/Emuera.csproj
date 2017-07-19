@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F3B2ED56-A5BF-45DA-A270-3ED0F775320B}</ProjectGuid>
+    <ProjectGuid>{56F90DD3-4B9E-476C-8DC2-39503763167D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MinorShift.Emuera</RootNamespace>
-    <AssemblyName>PuchiEmuera</AssemblyName>
+    <AssemblyName>Emuera</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -52,10 +52,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -153,10 +149,7 @@
     <Compile Include="GameView\ButtonStringCreator.cs" />
     <Compile Include="GameView\EmueraConsole.cs" />
     <Compile Include="GameView\EmueraConsole.Print.cs" />
-    <Compile Include="GameView\FixImgPrint.cs" />
     <Compile Include="GameView\HtmlManager.cs" />
-    <Compile Include="GameView\FixGroupInfo.cs" />
-    <Compile Include="GameView\PrintEdgeFont.cs" />
     <Compile Include="GameView\PrintStringBuffer.cs" />
     <Compile Include="GameView\StringMeasure.cs" />
     <Compile Include="GameView\StringStyle.cs" />
@@ -231,9 +224,8 @@
     </Compile>
     <Compile Include="GameProc\Function\Argument.cs" />
     <Compile Include="GameProc\Process.CalledFunction.cs" />
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -280,6 +272,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -253,6 +253,7 @@ namespace MinorShift.Emuera.GameData.Expression
 			}
 			else
 			{//変数 or キーワード
+                idStr = idStr.Replace("PARAM","PALAM"); // JVN: cheatsy doodles activate! PARAM becomes PALAM internally, things now work
 				VariableToken id = ReduceVariableIdentifier(wc, idStr);
 				if (id != null)//idStrが変数名の場合、
 				{
@@ -457,11 +458,11 @@ namespace MinorShift.Emuera.GameData.Expression
             public void Add(OperatorCode op)
             {
                 if (state == 2 || state == 3)
-                    throw new CodeEE("式が異常です");
+                    throw new CodeEE("Unrecognized syntax");
                 if (state == 0)
                 {
                     if (!OperatorManager.IsUnary(op))
-                        throw new CodeEE("式が異常です");
+                        throw new CodeEE("Unrecognized syntax");
                     stack.Push(op);
                     if (op == OperatorCode.Plus || op == OperatorCode.Minus || op == OperatorCode.BitNot)
                         state = 2;
@@ -495,7 +496,7 @@ namespace MinorShift.Emuera.GameData.Expression
                         return;
                     }
                     if (!OperatorManager.IsBinary(op) && !OperatorManager.IsTernary(op))
-                        throw new CodeEE("式が異常です");
+                        throw new CodeEE("Unrecognized syntax");
                     //先に未解決の前置演算子解決
                     if (waitAfter)
                         reduceUnary();
@@ -512,7 +513,7 @@ namespace MinorShift.Emuera.GameData.Expression
                     hasAfter = false;
                     return;
                 }
-                throw new CodeEE("式が異常です");
+                throw new CodeEE("Unrecognized syntax");
             }
             public void Add(Int64 i) { Add(new SingleTerm(i)); }
             public void Add(string s) { Add(new SingleTerm(s)); }
@@ -520,7 +521,7 @@ namespace MinorShift.Emuera.GameData.Expression
             {
                 stack.Push(term);
                 if (state == 1)
-                    throw new CodeEE("式が異常です");
+                    throw new CodeEE("Unrecognized syntax");
                 if (state == 2)
                     waitAfter = true;
                 if (state == 3)
@@ -549,7 +550,7 @@ namespace MinorShift.Emuera.GameData.Expression
                 if (stack.Count == 0)
                     return null;
                 if (state != 1)
-                    throw new CodeEE("式が異常です");
+                    throw new CodeEE("Unrecognized syntax");
                 //単項演算子の待ちが未解決の時はここで解決
                 if (waitAfter)
                     reduceUnary();

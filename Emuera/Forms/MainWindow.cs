@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows;
 using System.IO;
 using MinorShift._Library;
 using MinorShift.Emuera.Sub;
@@ -12,6 +13,7 @@ using MinorShift.Emuera.GameData;
 using MinorShift.Emuera.GameProc;
 using MinorShift.Emuera.GameView;
 using MinorShift.Emuera.Forms;
+using MinorShift.Emuera.GameProc.Function;
 
 namespace MinorShift.Emuera
 {
@@ -37,14 +39,15 @@ namespace MinorShift.Emuera
             folderSelectDialog.ShowNewFolderButton = false;
 
 			openFileDialog.InitialDirectory = Program.ErbDir;
-            openFileDialog.Filter = "ERBファイル (*.erb)|*.erb";
+            openFileDialog.Filter = "ERB File (*.erb)|*.erb"; //ERBファイル
             openFileDialog.FileName = "";
             openFileDialog.Multiselect = true;
             openFileDialog.RestoreDirectory = true;
             
-           string Emuera_verInfo = "PuchiEmuera Ver. " + emueraVer.FileVersion.Remove(5);		//182101 PCDRP-Update
+           string Emuera_verInfo = "Emuera Ver. " + emueraVer.FileVersion.Remove(5);
             if (emueraVer.FileBuildPart > 0)
                 Emuera_verInfo += "+v" + emueraVer.FileBuildPart.ToString() + ((emueraVer.FilePrivatePart > 0) ? "." + emueraVer.FilePrivatePart.ToString() : "");
+            Emuera_verInfo += " Anchor V1.25";
 			EmuVerToolStripTextBox.Text = Emuera_verInfo;
 
              timer.Enabled = true;
@@ -67,7 +70,7 @@ namespace MinorShift.Emuera
 			this.richTextBox1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.richTextBox1_MouseWheel);
 			this.mainPicBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.richTextBox1_MouseWheel);
 			this.vScrollBar.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.richTextBox1_MouseWheel);
-		}
+        }
 		private ToolStripMenuItem[] macroMenuItems = new ToolStripMenuItem[KeyMacro.MaxFkey];
         private System.Diagnostics.FileVersionInfo emueraVer = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
 		public PictureBox MainPicBox { get { return mainPicBox; } }
@@ -77,6 +80,7 @@ namespace MinorShift.Emuera
 		public string EmueraVerText { get { return EmuVerToolStripTextBox.Text; } }
 		public ToolTip ToolTip { get { return toolTipButton; } }
 		private EmueraConsole console = null;
+        private bool ctrl_pressed = false;
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
@@ -88,7 +92,9 @@ namespace MinorShift.Emuera
 					return true;
 				}
 			}
-			else if (((keyData & Keys.KeyCode) == Keys.C && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control) || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+			else if (((keyData & Keys.KeyCode) == Keys.C && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control) ||
+                    ((keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control) ||
+                    (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
 			{
 				if (this.richTextBox1.SelectedText == "")
 				{
@@ -99,7 +105,96 @@ namespace MinorShift.Emuera
 					return true;
 				}
 			}
-			else if (((keyData & Keys.KeyCode) == Keys.V && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control) || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Shift) == Keys.Shift)
+            //BARTOUM bad code practise for keyboard shortcut
+            else if (((keyData & Keys.KeyCode) == Keys.O && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+            || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+            {
+                bool doit = true;
+                if (console == null)
+                    doit = false;
+                if (console.IsInProcess)
+                {
+                    MessageBox.Show("Cannot use while script is processing.");  //スクリプト動作中には使用できません
+                    doit = false;
+                }
+                if (doit) { 
+                    DialogResult result = openFileDialog.ShowDialog();
+                    List<string> filepath = new List<string>();
+                    if (result == DialogResult.OK)
+                    {
+                        foreach (string fname in openFileDialog.FileNames)
+                        {
+                            if (!File.Exists(fname))
+                            {
+                                MessageBox.Show("File Not Found", "File Not Found"); //ファイルがありません
+                                doit = false;
+                            }
+                            if (Path.GetExtension(fname).ToUpper() != ".ERB")
+                            {
+                                MessageBox.Show("Cannot read files that aren't .ERB", "File Format Error"); //ERBファイル以外は読み込めません  , ファイル形式エラー
+                                doit = false;
+                            }
+                            if (fname.StartsWith(Program.ErbDir, StringComparison.OrdinalIgnoreCase))
+                                filepath.Add(Program.ErbDir + fname.Substring(Program.ErbDir.Length));
+                            else
+                                filepath.Add(fname);
+                        }
+                        if (doit)
+                        {
+                            console.ReloadPartialErb(filepath);
+                            return true;
+                        }
+                    }
+                }
+            }         
+            else if (((keyData & Keys.KeyCode) == Keys.T && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+                || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+            {
+                bool doit = true;
+                {
+                    if (console == null)
+                        doit = false;
+                    if (console.IsInProcess)
+                    {
+                        MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません or something close
+                        doit = false;
+                    }
+                    if (console.notToTitle)
+                    {
+                        if (console.byError)
+                            MessageBox.Show("Because an error was found in Analysis mode, you cannot return to the title."); //コード解析でエラーが発見されたため、タイトルへは飛べません
+                        else
+                            MessageBox.Show("Cannot return to title because you're in Analysis Mode."); //解析モードのためタイトルへは飛べません
+                        doit = false;
+                    }
+                    if (doit)
+                    {
+                        DialogResult result = MessageBox.Show("Return to Title Screen?", "Return to Title", MessageBoxButtons.OKCancel);
+                        if (result != DialogResult.OK)
+                            doit = false;
+                        if (doit) {
+                            this.GotoTitle();
+                            return true;
+                        }
+                            
+                    }
+                }
+            }
+
+            else if (((keyData & Keys.KeyCode) == Keys.R && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)   
+                || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+            {
+                DialogResult result = MessageBox.Show("Restart Game?", "Restart", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    this.Reboot();
+                    return true;
+                }
+                    
+
+            }
+            else if (((keyData & Keys.KeyCode) == Keys.V && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
+                        || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Shift) == Keys.Shift)
 			{
 				if (Clipboard.GetDataObject() == null || !Clipboard.ContainsText())
 					return true;
@@ -109,6 +204,14 @@ namespace MinorShift.Emuera
 						richTextBox1.Paste(DataFormats.GetFormat(DataFormats.UnicodeText));
 					return true;
 				}
+            }
+            else if (((keyData & Keys.KeyCode) == Keys.Up && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control))
+            {
+                if (console.CBProc.ScrollUp(1)) return true;
+            }
+            else if (((keyData & Keys.KeyCode) == Keys.Down && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control))
+            {
+                if (console.CBProc.ScrollDown(1)) return true;
 			}
 			//else if (((int)keyData == (int)Keys.Control + (int)Keys.D) && Program.DebugMode)
 			//{
@@ -468,16 +571,21 @@ namespace MinorShift.Emuera
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			DialogResult result = MessageBox.Show("ゲームを終了します", "終了", MessageBoxButtons.OKCancel);
+			DialogResult result = MessageBox.Show("Exit Game?", "Exit", MessageBoxButtons.OKCancel);
 			if (result != DialogResult.OK)
 				return;
 			this.Close();
 
 		}
 
-		private void rebootToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+
+
+
+        private void rebootToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			DialogResult result = MessageBox.Show("ゲームを再起動します", "再起動", MessageBoxButtons.OKCancel);
+			DialogResult result = MessageBox.Show("Restart Game?", "Restart", MessageBoxButtons.OKCancel);
 			if (result != DialogResult.OK)
 				return;
 			this.Reboot();
@@ -551,18 +659,18 @@ namespace MinorShift.Emuera
 				return;
 			if (console.IsInProcess)
 			{
-				MessageBox.Show("スクリプト動作中には使用できません");
+				MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません or something close
                 return;
             }
             if (console.notToTitle)
             {
                 if (console.byError)
-                    MessageBox.Show("コード解析でエラーが発見されたため、タイトルへは飛べません");
+                    MessageBox.Show("Because an error was found in Analysis mode, you cannot return to the title."); //コード解析でエラーが発見されたため、タイトルへは飛べません
                 else
-                    MessageBox.Show("解析モードのためタイトルへは飛べません");
+                    MessageBox.Show("Cannot return to title because you're in Analysis Mode."); //解析モードのためタイトルへは飛べません
                 return;
             }
-            DialogResult result = MessageBox.Show("タイトル画面へ戻ります", "タイトル画面に戻る", MessageBoxButtons.OKCancel);
+            DialogResult result = MessageBox.Show("Return to Title Screen?", "Return to Title", MessageBoxButtons.OKCancel);
 			if (result != DialogResult.OK)
 				return;
 			this.GotoTitle();
@@ -574,11 +682,11 @@ namespace MinorShift.Emuera
 				return;
 			if (console.IsInProcess)
 			{
-				MessageBox.Show("スクリプト動作中には使用できません");
+				MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません
                 return;
             }
-            DialogResult result = MessageBox.Show("ERBファイルを読み直します", "ERBファイル読み直し", MessageBoxButtons.OKCancel);
-			if (result != DialogResult.OK)
+            DialogResult result = MessageBox.Show("Try to Load the ERB Files?", "Load Files", MessageBoxButtons.OKCancel); //ERBファイルを読み直します
+            if (result != DialogResult.OK)
 				return;
 			this.ReloadErb();
 
@@ -617,7 +725,7 @@ namespace MinorShift.Emuera
             }
             catch (Exception)
             {
-                MessageBox.Show("予期せぬエラーが発生したためクリップボードを開けません");
+                MessageBox.Show("Because of an unexpected error, the cilpboard could not be opened."); //予期せぬエラーが発生したためクリップボードを開けません
                 return;
             }
 		}
@@ -628,8 +736,8 @@ namespace MinorShift.Emuera
 				return;
 			if (console.IsInProcess)
             {
-				MessageBox.Show("スクリプト動作中には使用できません");
-                return;
+				MessageBox.Show("Cannot use while script is processing.");  //スクリプト動作中には使用できません
+                 return;
             }
             DialogResult result = openFileDialog.ShowDialog();
 			List<string> filepath = new List<string>();
@@ -639,13 +747,13 @@ namespace MinorShift.Emuera
 				{
 					if (!File.Exists(fname))
 					{
-						MessageBox.Show("ファイルがありません", "File Not Found");
-						return;
+						MessageBox.Show("File Not Found", "File Not Found"); //ファイルがありません
+                        return;
 					}
 					if (Path.GetExtension(fname).ToUpper() != ".ERB")
 					{
-						MessageBox.Show("ERBファイル以外は読み込めません", "ファイル形式エラー");
-						return;
+						MessageBox.Show("Cannot read files that aren't .ERB", "File Format Error"); //ERBファイル以外は読み込めません  , ファイル形式エラー
+                        return;
 					}
 					if (fname.StartsWith(Program.ErbDir, StringComparison.OrdinalIgnoreCase))
 						filepath.Add(Program.ErbDir + fname.Substring(Program.ErbDir.Length));
@@ -676,7 +784,7 @@ namespace MinorShift.Emuera
 				return;
             if (console.IsInProcess)
             {
-                MessageBox.Show("スクリプト動作中には使用できません");
+                MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません
                 return;
             }
             List<KeyValuePair<string, string>> filepath = new List<KeyValuePair<string, string>>();
@@ -696,9 +804,16 @@ namespace MinorShift.Emuera
 				return;
 			//e.Deltaには大きな値が入っているので符号のみ採用する
 			int move = -Math.Sign(e.Delta) * vScrollBar.SmallChange * Config.ScrollHeight;
-			//スクロールが必要ないならリターンする
-			if ((vScrollBar.Value == vScrollBar.Maximum && move > 0) || (vScrollBar.Value == vScrollBar.Minimum && move < 0))
-				return;
+            //Clipboard scroll only when using ctrl
+            if (Config.CBUseClipboard && Control.ModifierKeys == Keys.Control)
+            {
+                if (move > 0) console.CBProc.ScrollDown(move);
+                else if (move < 0) console.CBProc.ScrollUp(-move);
+                return;
+            }
+            //スクロールが必要ないならリターンする
+            if ((vScrollBar.Value == vScrollBar.Maximum && move > 0) || (vScrollBar.Value == vScrollBar.Minimum && move < 0))
+	        return;
 			int value = vScrollBar.Value + move;
 			if (value >= vScrollBar.Maximum)
 				vScrollBar.Value = vScrollBar.Maximum;
@@ -823,15 +938,15 @@ namespace MinorShift.Emuera
                     return;
                 }
             }
-			if (e.KeyCode == Keys.Up)
-			{
+			if ((e.KeyCode == Keys.Up) && !e.Control)
+            {
 				e.SuppressKeyPress = true;
 				if (console.IsInProcess)
                     return;
 				movePrev(-1);
 				return;
 			}
-            if (e.KeyCode == Keys.Down)
+            if ((e.KeyCode == Keys.Down) && !e.Control)
             {
                 e.SuppressKeyPress = true;
 				if (console.IsInProcess)

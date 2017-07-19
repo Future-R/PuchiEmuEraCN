@@ -250,32 +250,32 @@ namespace MinorShift.Emuera.GameData.Variable
 
 
 			varTokenDic.Add("ITEMPRICE", new Int1DConstantToken(VariableCode.ITEMPRICE, this, constant.ItemPrice));
-			varTokenDic.Add("ABLNAME", new Str1DConstantToken(VariableCode.ABLNAME, this));
-			varTokenDic.Add("TALENTNAME", new Str1DConstantToken(VariableCode.TALENTNAME, this));
-			varTokenDic.Add("EXPNAME", new Str1DConstantToken(VariableCode.EXPNAME, this));
-			varTokenDic.Add("MARKNAME", new Str1DConstantToken(VariableCode.MARKNAME, this));
-			varTokenDic.Add("PALAMNAME", new Str1DConstantToken(VariableCode.PALAMNAME, this));
-			varTokenDic.Add("ITEMNAME", new Str1DConstantToken(VariableCode.ITEMNAME, this));
-			varTokenDic.Add("TRAINNAME", new Str1DConstantToken(VariableCode.TRAINNAME, this));
-			varTokenDic.Add("BASENAME", new Str1DConstantToken(VariableCode.BASENAME, this));
-			varTokenDic.Add("SOURCENAME", new Str1DConstantToken(VariableCode.SOURCENAME, this));
-			varTokenDic.Add("EXNAME", new Str1DConstantToken(VariableCode.EXNAME, this));
-			varTokenDic.Add("EQUIPNAME", new Str1DConstantToken(VariableCode.EQUIPNAME, this));
-			varTokenDic.Add("TEQUIPNAME", new Str1DConstantToken(VariableCode.TEQUIPNAME, this));
-			varTokenDic.Add("FLAGNAME", new Str1DConstantToken(VariableCode.FLAGNAME, this));
-			varTokenDic.Add("TFLAGNAME", new Str1DConstantToken(VariableCode.TFLAGNAME, this));
-			varTokenDic.Add("CFLAGNAME", new Str1DConstantToken(VariableCode.CFLAGNAME, this));
-			varTokenDic.Add("TCVARNAME", new Str1DConstantToken(VariableCode.TCVARNAME, this));
-			varTokenDic.Add("CSTRNAME", new Str1DConstantToken(VariableCode.CSTRNAME, this));
-			varTokenDic.Add("STAINNAME", new Str1DConstantToken(VariableCode.STAINNAME, this));
+			varTokenDic.Add("ABLNAME", new Str1DConstantToken(VariableCode.ABLNAME, this, "Abl"));
+			varTokenDic.Add("TALENTNAME", new Str1DConstantToken(VariableCode.TALENTNAME, this, "Talent"));
+			varTokenDic.Add("EXPNAME", new Str1DConstantToken(VariableCode.EXPNAME, this, "Exp"));
+			varTokenDic.Add("MARKNAME", new Str1DConstantToken(VariableCode.MARKNAME, this, "Mark"));
+			varTokenDic.Add("PALAMNAME", new Str1DConstantToken(VariableCode.PALAMNAME, this, "Palam"));
+			varTokenDic.Add("ITEMNAME", new Str1DConstantToken(VariableCode.ITEMNAME, this, "Item"));
+			varTokenDic.Add("TRAINNAME", new Str1DConstantToken(VariableCode.TRAINNAME, this, "Train"));
+			varTokenDic.Add("BASENAME", new Str1DConstantToken(VariableCode.BASENAME, this, "Base"));
+			varTokenDic.Add("SOURCENAME", new Str1DConstantToken(VariableCode.SOURCENAME, this, "Source"));
+			varTokenDic.Add("EXNAME", new Str1DConstantToken(VariableCode.EXNAME, this, "Ex"));
+			varTokenDic.Add("EQUIPNAME", new Str1DConstantToken(VariableCode.EQUIPNAME, this,"EQUIP"));
+			varTokenDic.Add("TEQUIPNAME", new Str1DConstantToken(VariableCode.TEQUIPNAME, this, "TEQUIP"));
+			varTokenDic.Add("FLAGNAME", new Str1DConstantToken(VariableCode.FLAGNAME, this, "Flag"));
+			varTokenDic.Add("TFLAGNAME", new Str1DConstantToken(VariableCode.TFLAGNAME, this, "TFLAG"));
+			varTokenDic.Add("CFLAGNAME", new Str1DConstantToken(VariableCode.CFLAGNAME, this, "Cflag"));
+			varTokenDic.Add("TCVARNAME", new Str1DConstantToken(VariableCode.TCVARNAME, this, "Tcvar"));
+			varTokenDic.Add("CSTRNAME", new Str1DConstantToken(VariableCode.CSTRNAME, this, "CSTR"));
+			varTokenDic.Add("STAINNAME", new Str1DConstantToken(VariableCode.STAINNAME, this, "Stain"));
 
-			varTokenDic.Add("CDFLAGNAME1", new Str1DConstantToken(VariableCode.CDFLAGNAME1, this));
-			varTokenDic.Add("CDFLAGNAME2", new Str1DConstantToken(VariableCode.CDFLAGNAME2, this));
-			varTokenDic.Add("STRNAME", new Str1DConstantToken(VariableCode.STRNAME, this));
-			varTokenDic.Add("TSTRNAME", new Str1DConstantToken(VariableCode.TSTRNAME, this));
-			varTokenDic.Add("SAVESTRNAME", new Str1DConstantToken(VariableCode.SAVESTRNAME, this));
-			varTokenDic.Add("GLOBALNAME", new Str1DConstantToken(VariableCode.GLOBALNAME, this));
-			varTokenDic.Add("GLOBALSNAME", new Str1DConstantToken(VariableCode.GLOBALSNAME, this));
+			varTokenDic.Add("CDFLAGNAME1", new Str1DConstantToken(VariableCode.CDFLAGNAME1, this, "Cdflag1"));
+			varTokenDic.Add("CDFLAGNAME2", new Str1DConstantToken(VariableCode.CDFLAGNAME2, this, "Cdflag2"));
+			varTokenDic.Add("STRNAME", new Str1DConstantToken(VariableCode.STRNAME, this, "Str"));
+			varTokenDic.Add("TSTRNAME", new Str1DConstantToken(VariableCode.TSTRNAME, this, "TSTR"));
+			varTokenDic.Add("SAVESTRNAME", new Str1DConstantToken(VariableCode.SAVESTRNAME, this, "SaveStr"));
+			varTokenDic.Add("GLOBALNAME", new Str1DConstantToken(VariableCode.GLOBALNAME, this, "GLOBAL"));
+			varTokenDic.Add("GLOBALSNAME", new Str1DConstantToken(VariableCode.GLOBALSNAME, this, "GLOBALS"));
 
 			StrConstantToken token = new StrConstantToken(VariableCode.GAMEBASE_AUTHOR, this, gamebase.ScriptAutherName);
 			varTokenDic.Add("GAMEBASE_AUTHER", token);

@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigDialog));
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonReboot = new System.Windows.Forms.Button();
@@ -87,6 +88,32 @@
 			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
 			this.label4 = new System.Windows.Forms.Label();
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.colorBoxBacklog = new MinorShift.Emuera.Forms.ColorBox();
+            this.colorBoxSelecting = new MinorShift.Emuera.Forms.ColorBox();
+            this.colorBoxFG = new MinorShift.Emuera.Forms.ColorBox();
+            this.colorBoxBG = new MinorShift.Emuera.Forms.ColorBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBoxCBTriggerMiddleClick = new System.Windows.Forms.CheckBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.checkBoxCBClearBuffer = new System.Windows.Forms.CheckBox();
+            this.checkBoxCBNewLinesOnly = new System.Windows.Forms.CheckBox();
+            this.checkBoxCBTriggerDoubleLeftClick = new System.Windows.Forms.CheckBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.numericUpDownCBScrollCount = new System.Windows.Forms.NumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBoxCBReplaceTags = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.numericUpDownCBMinTimer = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxCBTriggerInputWait = new System.Windows.Forms.CheckBox();
+            this.checkBoxCBTriggerAnyKeyWait = new System.Windows.Forms.CheckBox();
+            this.checkBoxCBTriggerLeftClick = new System.Windows.Forms.CheckBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.numericUpDownCBBufferSize = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownCBMaxCB = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxCBIgnoreTags = new System.Windows.Forms.CheckBox();
+            this.checkBoxCBuseCB = new System.Windows.Forms.CheckBox();
 			this.tabPageSystem = new System.Windows.Forms.TabPage();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label11 = new System.Windows.Forms.Label();
@@ -101,6 +128,7 @@
 			this.checkBox10 = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.tabPageSystem2 = new System.Windows.Forms.TabPage();
+            this.checkBox29 = new System.Windows.Forms.CheckBox();
 			this.checkBox26 = new System.Windows.Forms.CheckBox();
 			this.checkBox27 = new System.Windows.Forms.CheckBox();
 			this.checkBoxSystemTripleSymbol = new System.Windows.Forms.CheckBox();
@@ -159,6 +187,11 @@
 			this.tabPageFont.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBScrollCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBMinTimer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBBufferSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBMaxCB)).BeginInit();
 			this.tabPageSystem.SuspendLayout();
 			this.tabPageSystem2.SuspendLayout();
 			this.tabPageCompati.SuspendLayout();
@@ -171,7 +204,7 @@
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(49, 24);
 			this.buttonSave.TabIndex = 1;
-			this.buttonSave.Text = "保存";
+            this.buttonSave.Text = "Save";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
@@ -181,7 +214,7 @@
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(78, 24);
 			this.buttonCancel.TabIndex = 2;
-			this.buttonCancel.Text = "キャンセル";
+            this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
@@ -191,7 +224,7 @@
 			this.buttonReboot.Name = "buttonReboot";
 			this.buttonReboot.Size = new System.Drawing.Size(100, 24);
 			this.buttonReboot.TabIndex = 1;
-			this.buttonReboot.Text = "保存して再起動";
+            this.buttonReboot.Text = "Save and Restart";
 			this.buttonReboot.UseVisualStyleBackColor = true;
 			this.buttonReboot.Click += new System.EventHandler(this.buttonReboot_Click);
 			// 
@@ -237,7 +270,7 @@
 			this.tabEnvironment.Name = "tabEnvironment";
 			this.tabEnvironment.Size = new System.Drawing.Size(308, 326);
 			this.tabEnvironment.TabIndex = 6;
-			this.tabEnvironment.Text = "環境";
+            this.tabEnvironment.Text = "Environment";
 			this.tabEnvironment.UseVisualStyleBackColor = true;
 			// 
 			// comboBox6
@@ -245,10 +278,10 @@
 			this.comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox6.FormattingEnabled = true;
 			this.comboBox6.Items.AddRange(new object[] {
-            "サクラエディタ",
+            "Sakura editor",
             "TERAPAD",
             "EmEditor",
-            "ユーザー設定"});
+            "User setting"});
 			this.comboBox6.Location = new System.Drawing.Point(108, 250);
 			this.comboBox6.Name = "comboBox6";
 			this.comboBox6.Size = new System.Drawing.Size(178, 20);
@@ -262,7 +295,7 @@
 			this.checkBox24.Name = "checkBox24";
 			this.checkBox24.Size = new System.Drawing.Size(207, 16);
 			this.checkBox24.TabIndex = 77;
-			this.checkBox24.Text = "セーブデータをsavフォルダ内に作成する";
+            this.checkBox24.Text = "Use sav folder for save data";
 			this.checkBox24.UseVisualStyleBackColor = true;
 			// 
 			// textBox2
@@ -279,7 +312,7 @@
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(90, 12);
 			this.label23.TabIndex = 75;
-			this.label23.Text = "コマンドライン引数";
+            this.label23.Text = "Command line suffix";
 			// 
 			// button4
 			// 
@@ -287,7 +320,7 @@
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(40, 23);
 			this.button4.TabIndex = 74;
-			this.button4.Text = "選択";
+            this.button4.Text = "Choose";
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.button4_Click);
 			// 
@@ -305,7 +338,7 @@
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(128, 12);
 			this.label22.TabIndex = 72;
-			this.label22.Text = "関連づけるテキストエディタ";
+            this.label22.Text = "Associated text editor";
 			// 
 			// label20
 			// 
@@ -314,7 +347,7 @@
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(117, 12);
 			this.label20.TabIndex = 71;
-			this.label20.Text = "使用するセーブデータ数";
+            this.label20.Text = "Number of used save slots";
 			// 
 			// label17
 			// 
@@ -323,7 +356,7 @@
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(137, 12);
 			this.label17.TabIndex = 70;
-			this.label17.Text = "無限ループ警告までのミリ秒";
+            this.label17.Text = "Milliseconds for infinite loop warn";
 			// 
 			// label6
 			// 
@@ -332,7 +365,7 @@
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(81, 12);
 			this.label6.TabIndex = 69;
-			this.label6.Text = "履歴ログの行数";
+            this.label6.Text = "Lines in history log";
 			// 
 			// numericUpDown11
 			// 
@@ -348,7 +381,7 @@
 			this.checkBox18.Name = "checkBox18";
 			this.checkBox18.Size = new System.Drawing.Size(151, 16);
 			this.checkBox18.TabIndex = 65;
-			this.checkBox18.Text = "キーボードマクロを使用する";
+            this.checkBox18.Text = "Use keyboard macros";
 			this.checkBox18.UseVisualStyleBackColor = true;
 			// 
 			// numericUpDown10
@@ -372,7 +405,7 @@
 			this.checkBox7.Name = "checkBox7";
 			this.checkBox7.Size = new System.Drawing.Size(118, 16);
 			this.checkBox7.TabIndex = 62;
-			this.checkBox7.Text = "オートセーブを行なう";
+            this.checkBox7.Text = "Make autosaves";
 			this.checkBox7.UseVisualStyleBackColor = true;
 			// 
 			// checkBox6
@@ -382,7 +415,7 @@
 			this.checkBox6.Name = "checkBox6";
 			this.checkBox6.Size = new System.Drawing.Size(124, 16);
 			this.checkBox6.TabIndex = 61;
-			this.checkBox6.Text = "多重起動を許可する";
+            this.checkBox6.Text = "Allow multiple instances";
 			this.checkBox6.UseVisualStyleBackColor = true;
 			// 
 			// checkBox5
@@ -392,7 +425,7 @@
 			this.checkBox5.Name = "checkBox5";
 			this.checkBox5.Size = new System.Drawing.Size(147, 16);
 			this.checkBox5.TabIndex = 60;
-			this.checkBox5.Text = "デバッグコマンドを使用する";
+            this.checkBox5.Text = "Allow debug commands";
 			this.checkBox5.UseVisualStyleBackColor = true;
 			// 
 			// checkBox4
@@ -402,7 +435,7 @@
 			this.checkBox4.Name = "checkBox4";
 			this.checkBox4.Size = new System.Drawing.Size(111, 16);
 			this.checkBox4.TabIndex = 59;
-			this.checkBox4.Text = "メニューを使用する";
+            this.checkBox4.Text = "Show menu";
 			this.checkBox4.UseVisualStyleBackColor = true;
 			// 
 			// checkBox3
@@ -412,7 +445,7 @@
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(103, 16);
 			this.checkBox3.TabIndex = 58;
-			this.checkBox3.Text = "マウスを使用する";
+            this.checkBox3.Text = "Use mouse";
 			this.checkBox3.UseVisualStyleBackColor = true;
 			// 
 			// tabPageView
@@ -431,7 +464,7 @@
 			this.tabPageView.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageView.Size = new System.Drawing.Size(308, 326);
 			this.tabPageView.TabIndex = 4;
-			this.tabPageView.Text = "表示";
+            this.tabPageView.Text = "Display";
 			this.tabPageView.UseVisualStyleBackColor = true;
 			// 
 			// checkBox14
@@ -441,7 +474,7 @@
 			this.checkBox14.Name = "checkBox14";
 			this.checkBox14.Size = new System.Drawing.Size(183, 16);
 			this.checkBox14.TabIndex = 67;
-			this.checkBox14.Text = "ボタンの途中で行を折りかえさない";
+            this.checkBox14.Text = "Don\'t break lines in the middle of buttons";
 			this.checkBox14.UseVisualStyleBackColor = true;
 			// 
 			// label18
@@ -451,7 +484,7 @@
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(99, 12);
 			this.label18.TabIndex = 65;
-			this.label18.Text = "描画インターフェース";
+            this.label18.Text = "Drawing Interface";
 			// 
 			// comboBoxTextDrawingMode
 			// 
@@ -473,7 +506,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(92, 12);
 			this.label1.TabIndex = 63;
-			this.label1.Text = "PRINTCの文字数";
+            this.label1.Text = "Number of characters in PRINTC";
 			// 
 			// numericUpDown9
 			// 
@@ -489,7 +522,7 @@
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(98, 12);
 			this.label5.TabIndex = 61;
-			this.label5.Text = "PRINTCを並べる数";
+            this.label5.Text = "Number of PRINTC per column";
 			// 
 			// numericUpDown1
 			// 
@@ -505,7 +538,7 @@
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(66, 12);
 			this.label9.TabIndex = 56;
-			this.label9.Text = "フレーム毎秒";
+            this.label9.Text = "Frames per second";
 			// 
 			// numericUpDown7
 			// 
@@ -535,7 +568,7 @@
 			this.tabPageWindow.Name = "tabPageWindow";
 			this.tabPageWindow.Size = new System.Drawing.Size(308, 326);
 			this.tabPageWindow.TabIndex = 5;
-			this.tabPageWindow.Text = "ウィンドウ";
+            this.tabPageWindow.Text = "Window";
 			this.tabPageWindow.UseVisualStyleBackColor = true;
 			// 
 			// checkBox21
@@ -545,7 +578,7 @@
 			this.checkBox21.Name = "checkBox21";
 			this.checkBox21.Size = new System.Drawing.Size(176, 16);
 			this.checkBox21.TabIndex = 83;
-			this.checkBox21.Text = "起動時にウィンドウを最大化する";
+            this.checkBox21.Text = "Maximize window at start";
 			this.checkBox21.UseVisualStyleBackColor = true;
 			// 
 			// ScrollRange
@@ -555,7 +588,7 @@
 			this.ScrollRange.Name = "ScrollRange";
 			this.ScrollRange.Size = new System.Drawing.Size(85, 12);
 			this.ScrollRange.TabIndex = 82;
-			this.ScrollRange.Text = "スクロールの行数";
+            this.ScrollRange.Text = "Lines per Scroll";
 			// 
 			// numericUpDown8
 			// 
@@ -571,7 +604,7 @@
 			this.checkBox17.Name = "checkBox17";
 			this.checkBox17.Size = new System.Drawing.Size(199, 16);
 			this.checkBox17.TabIndex = 80;
-			this.checkBox17.Text = "起動時のウィンドウの位置を固定する";
+            this.checkBox17.Text = "Fix starting position";
 			this.checkBox17.UseVisualStyleBackColor = true;
 			// 
 			// button3
@@ -580,7 +613,7 @@
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(178, 24);
 			this.button3.TabIndex = 79;
-			this.button3.Text = "現在のウィンドウ位置を取得";
+            this.button3.Text = "Get present Window Position";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
@@ -591,7 +624,7 @@
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(79, 12);
 			this.label10.TabIndex = 78;
-			this.label10.Text = "ウィンドウ位置Y";
+            this.label10.Text = "Fixed Window Position Y";
 			// 
 			// label19
 			// 
@@ -600,7 +633,7 @@
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(79, 12);
 			this.label19.TabIndex = 77;
-			this.label19.Text = "ウィンドウ位置X";
+            this.label19.Text = "Fixed Window Position X";
 			// 
 			// numericUpDownPosY
 			// 
@@ -622,7 +655,7 @@
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(178, 24);
 			this.button1.TabIndex = 74;
-			this.button1.Text = "現在のウィンドウサイズを取得";
+            this.button1.Text = "Update Window Size";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
@@ -633,7 +666,7 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(68, 12);
 			this.label3.TabIndex = 73;
-			this.label3.Text = "ウィンドウ高さ";
+            this.label3.Text = "Last checked Window Height";
 			// 
 			// label2
 			// 
@@ -642,7 +675,7 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(60, 12);
 			this.label2.TabIndex = 72;
-			this.label2.Text = "ウィンドウ幅";
+            this.label2.Text = "Window Width";
 			// 
 			// numericUpDown3
 			// 
@@ -665,7 +698,7 @@
 			this.checkBox8.Name = "checkBox8";
 			this.checkBox8.Size = new System.Drawing.Size(158, 16);
 			this.checkBox8.TabIndex = 69;
-			this.checkBox8.Text = "ウィンドウの高さを可変にする";
+            this.checkBox8.Text = "Changeable Window Height";
 			this.checkBox8.UseVisualStyleBackColor = true;
 			// 
 			// tabPageFont
@@ -686,7 +719,7 @@
 			this.tabPageFont.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageFont.Size = new System.Drawing.Size(308, 326);
 			this.tabPageFont.TabIndex = 1;
-			this.tabPageFont.Text = "フォント";
+            this.tabPageFont.Text = "Font";
 			this.tabPageFont.UseVisualStyleBackColor = true;
 			// 
 			// button2
@@ -695,7 +728,7 @@
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(178, 24);
 			this.button2.TabIndex = 69;
-			this.button2.Text = "フォント名一覧を取得";
+            this.button2.Text = "Acquire more fonts";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
@@ -706,7 +739,7 @@
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(59, 12);
 			this.label7.TabIndex = 53;
-			this.label7.Text = "一行の高さ";
+            this.label7.Text = "Distance between lines";
 			// 
 			// label8
 			// 
@@ -715,7 +748,7 @@
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(67, 12);
 			this.label8.TabIndex = 52;
-			this.label8.Text = "フォントサイズ";
+            this.label8.Text = "Font Size";
 			// 
 			// numericUpDown6
 			// 
@@ -738,7 +771,7 @@
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(50, 12);
 			this.label4.TabIndex = 49;
-			this.label4.Text = "フォント名";
+            this.label4.Text = "Font Name";
 			// 
 			// comboBox2
 			// 
@@ -747,6 +780,291 @@
 			this.comboBox2.Size = new System.Drawing.Size(121, 20);
 			this.comboBox2.TabIndex = 48;
 			// 
+            // colorBoxBacklog
+            // 
+            this.colorBoxBacklog.ButtonText = "History Letter Color";
+            this.colorBoxBacklog.Location = new System.Drawing.Point(5, 121);
+            this.colorBoxBacklog.Name = "colorBoxBacklog";
+            this.colorBoxBacklog.SelectingColor = System.Drawing.Color.Transparent;
+            this.colorBoxBacklog.Size = new System.Drawing.Size(215, 33);
+            this.colorBoxBacklog.TabIndex = 3;
+            // 
+            // colorBoxSelecting
+            // 
+            this.colorBoxSelecting.ButtonText = "Selected letters";
+            this.colorBoxSelecting.Location = new System.Drawing.Point(5, 88);
+            this.colorBoxSelecting.Name = "colorBoxSelecting";
+            this.colorBoxSelecting.SelectingColor = System.Drawing.Color.Transparent;
+            this.colorBoxSelecting.Size = new System.Drawing.Size(215, 33);
+            this.colorBoxSelecting.TabIndex = 2;
+            // 
+            // colorBoxFG
+            // 
+            this.colorBoxFG.ButtonText = "Letter Color";
+            this.colorBoxFG.Location = new System.Drawing.Point(5, 54);
+            this.colorBoxFG.Name = "colorBoxFG";
+            this.colorBoxFG.SelectingColor = System.Drawing.Color.Transparent;
+            this.colorBoxFG.Size = new System.Drawing.Size(215, 33);
+            this.colorBoxFG.TabIndex = 1;
+            // 
+            // colorBoxBG
+            // 
+            this.colorBoxBG.ButtonText = "Background Color";
+            this.colorBoxBG.Location = new System.Drawing.Point(5, 22);
+            this.colorBoxBG.Name = "colorBoxBG";
+            this.colorBoxBG.SelectingColor = System.Drawing.Color.Transparent;
+            this.colorBoxBG.Size = new System.Drawing.Size(215, 33);
+            this.colorBoxBG.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.checkBoxCBTriggerMiddleClick);
+            this.tabPage1.Controls.Add(this.label32);
+            this.tabPage1.Controls.Add(this.checkBoxCBClearBuffer);
+            this.tabPage1.Controls.Add(this.checkBoxCBNewLinesOnly);
+            this.tabPage1.Controls.Add(this.checkBoxCBTriggerDoubleLeftClick);
+            this.tabPage1.Controls.Add(this.label31);
+            this.tabPage1.Controls.Add(this.numericUpDownCBScrollCount);
+            this.tabPage1.Controls.Add(this.label29);
+            this.tabPage1.Controls.Add(this.textBoxCBReplaceTags);
+            this.tabPage1.Controls.Add(this.label28);
+            this.tabPage1.Controls.Add(this.numericUpDownCBMinTimer);
+            this.tabPage1.Controls.Add(this.checkBoxCBTriggerInputWait);
+            this.tabPage1.Controls.Add(this.checkBoxCBTriggerAnyKeyWait);
+            this.tabPage1.Controls.Add(this.checkBoxCBTriggerLeftClick);
+            this.tabPage1.Controls.Add(this.label27);
+            this.tabPage1.Controls.Add(this.label26);
+            this.tabPage1.Controls.Add(this.label25);
+            this.tabPage1.Controls.Add(this.numericUpDownCBBufferSize);
+            this.tabPage1.Controls.Add(this.numericUpDownCBMaxCB);
+            this.tabPage1.Controls.Add(this.checkBoxCBIgnoreTags);
+            this.tabPage1.Controls.Add(this.checkBoxCBuseCB);
+            this.tabPage1.Location = new System.Drawing.Point(4, 40);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(308, 357);
+            this.tabPage1.TabIndex = 10;
+            this.tabPage1.Text = "Clipboard";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCBTriggerMiddleClick
+            // 
+            this.checkBoxCBTriggerMiddleClick.AutoSize = true;
+            this.checkBoxCBTriggerMiddleClick.Location = new System.Drawing.Point(128, 124);
+            this.checkBoxCBTriggerMiddleClick.Name = "checkBoxCBTriggerMiddleClick";
+            this.checkBoxCBTriggerMiddleClick.Size = new System.Drawing.Size(121, 17);
+            this.checkBoxCBTriggerMiddleClick.TabIndex = 101;
+            this.checkBoxCBTriggerMiddleClick.Text = "MiddleClick - Mouse";
+            this.toolTip1.SetToolTip(this.checkBoxCBTriggerMiddleClick, "This triggers on any middle click in the text window.");
+            this.checkBoxCBTriggerMiddleClick.UseVisualStyleBackColor = true;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(11, 318);
+            this.label32.MaximumSize = new System.Drawing.Size(230, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(225, 26);
+            this.label32.TabIndex = 100;
+            this.label32.Text = "Scroll through the history using ctrl+↑ and ↓ or ctrl + mouse wheel up and down.";
+            // 
+            // checkBoxCBClearBuffer
+            // 
+            this.checkBoxCBClearBuffer.AutoSize = true;
+            this.checkBoxCBClearBuffer.Location = new System.Drawing.Point(14, 88);
+            this.checkBoxCBClearBuffer.Name = "checkBoxCBClearBuffer";
+            this.checkBoxCBClearBuffer.Size = new System.Drawing.Size(273, 17);
+            this.checkBoxCBClearBuffer.TabIndex = 99;
+            this.checkBoxCBClearBuffer.Text = "Clear Clipboard and Buffer when game screen clears";
+            this.toolTip1.SetToolTip(this.checkBoxCBClearBuffer, "This will clear the clipboard and buffers whenever the game explicitly\r\nclears th" +
+        "e whole screen. Otherwise it merely inserts a blank line and\r\nkeeps all text.");
+            this.checkBoxCBClearBuffer.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCBNewLinesOnly
+            // 
+            this.checkBoxCBNewLinesOnly.AutoSize = true;
+            this.checkBoxCBNewLinesOnly.Location = new System.Drawing.Point(14, 65);
+            this.checkBoxCBNewLinesOnly.Name = "checkBoxCBNewLinesOnly";
+            this.checkBoxCBNewLinesOnly.Size = new System.Drawing.Size(194, 17);
+            this.checkBoxCBNewLinesOnly.TabIndex = 98;
+            this.checkBoxCBNewLinesOnly.Text = "Show new lines only - Classic Mode";
+            this.toolTip1.SetToolTip(this.checkBoxCBNewLinesOnly, resources.GetString("checkBoxCBNewLinesOnly.ToolTip"));
+            this.checkBoxCBNewLinesOnly.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCBTriggerDoubleLeftClick
+            // 
+            this.checkBoxCBTriggerDoubleLeftClick.AutoSize = true;
+            this.checkBoxCBTriggerDoubleLeftClick.Location = new System.Drawing.Point(14, 147);
+            this.checkBoxCBTriggerDoubleLeftClick.Name = "checkBoxCBTriggerDoubleLeftClick";
+            this.checkBoxCBTriggerDoubleLeftClick.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxCBTriggerDoubleLeftClick.TabIndex = 97;
+            this.checkBoxCBTriggerDoubleLeftClick.Text = "Double Left Click - Mouse";
+            this.toolTip1.SetToolTip(this.checkBoxCBTriggerDoubleLeftClick, "This triggers on any double left click in the text window.");
+            this.checkBoxCBTriggerDoubleLeftClick.UseVisualStyleBackColor = true;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(90, 271);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(114, 13);
+            this.label31.TabIndex = 96;
+            this.label31.Text = "Lines to scroll at a time";
+            this.toolTip1.SetToolTip(this.label31, "How many lines are skipped at a time when scrolling through the history.");
+            // 
+            // numericUpDownCBScrollCount
+            // 
+            this.numericUpDownCBScrollCount.Location = new System.Drawing.Point(14, 269);
+            this.numericUpDownCBScrollCount.Name = "numericUpDownCBScrollCount";
+            this.numericUpDownCBScrollCount.Size = new System.Drawing.Size(70, 20);
+            this.numericUpDownCBScrollCount.TabIndex = 95;
+            this.toolTip1.SetToolTip(this.numericUpDownCBScrollCount, "How many lines are skipped at a time when scrolling through the history.");
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(38, 49);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(84, 13);
+            this.label29.TabIndex = 94;
+            this.label29.Text = "Replace <> with";
+            this.toolTip1.SetToolTip(this.label29, resources.GetString("label29.ToolTip"));
+            // 
+            // textBoxCBReplaceTags
+            // 
+            this.textBoxCBReplaceTags.Location = new System.Drawing.Point(128, 46);
+            this.textBoxCBReplaceTags.Name = "textBoxCBReplaceTags";
+            this.textBoxCBReplaceTags.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCBReplaceTags.TabIndex = 93;
+            this.toolTip1.SetToolTip(this.textBoxCBReplaceTags, resources.GetString("textBoxCBReplaceTags.ToolTip"));
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(90, 297);
+            this.label28.MaximumSize = new System.Drawing.Size(250, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(198, 13);
+            this.label28.TabIndex = 92;
+            this.label28.Text = "Min time(mS) between clipboard updates";
+            this.toolTip1.SetToolTip(this.label28, resources.GetString("label28.ToolTip"));
+            // 
+            // numericUpDownCBMinTimer
+            // 
+            this.numericUpDownCBMinTimer.Location = new System.Drawing.Point(14, 295);
+            this.numericUpDownCBMinTimer.Name = "numericUpDownCBMinTimer";
+            this.numericUpDownCBMinTimer.Size = new System.Drawing.Size(70, 20);
+            this.numericUpDownCBMinTimer.TabIndex = 91;
+            this.toolTip1.SetToolTip(this.numericUpDownCBMinTimer, resources.GetString("numericUpDownCBMinTimer.ToolTip"));
+            // 
+            // checkBoxCBTriggerInputWait
+            // 
+            this.checkBoxCBTriggerInputWait.AutoSize = true;
+            this.checkBoxCBTriggerInputWait.Location = new System.Drawing.Point(14, 193);
+            this.checkBoxCBTriggerInputWait.Name = "checkBoxCBTriggerInputWait";
+            this.checkBoxCBTriggerInputWait.Size = new System.Drawing.Size(250, 17);
+            this.checkBoxCBTriggerInputWait.TabIndex = 90;
+            this.checkBoxCBTriggerInputWait.Text = "Input Wait - When the script waits for user input";
+            this.toolTip1.SetToolTip(this.checkBoxCBTriggerInputWait, "This trigger occurs any time the program asks for text input.");
+            this.checkBoxCBTriggerInputWait.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCBTriggerAnyKeyWait
+            // 
+            this.checkBoxCBTriggerAnyKeyWait.AutoSize = true;
+            this.checkBoxCBTriggerAnyKeyWait.Location = new System.Drawing.Point(14, 170);
+            this.checkBoxCBTriggerAnyKeyWait.Name = "checkBoxCBTriggerAnyKeyWait";
+            this.checkBoxCBTriggerAnyKeyWait.Size = new System.Drawing.Size(281, 17);
+            this.checkBoxCBTriggerAnyKeyWait.TabIndex = 89;
+            this.checkBoxCBTriggerAnyKeyWait.Text = "AnyKey Wait - When the script waits for any key press";
+            this.toolTip1.SetToolTip(this.checkBoxCBTriggerAnyKeyWait, "This triggers any time the game waits for any key to be pressed. Note\r\nthat this " +
+        "will still occur if you hold right click through a section of text.");
+            this.checkBoxCBTriggerAnyKeyWait.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCBTriggerLeftClick
+            // 
+            this.checkBoxCBTriggerLeftClick.AutoSize = true;
+            this.checkBoxCBTriggerLeftClick.Location = new System.Drawing.Point(14, 124);
+            this.checkBoxCBTriggerLeftClick.Name = "checkBoxCBTriggerLeftClick";
+            this.checkBoxCBTriggerLeftClick.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCBTriggerLeftClick.TabIndex = 88;
+            this.checkBoxCBTriggerLeftClick.Text = "LeftClick - Mouse";
+            this.toolTip1.SetToolTip(this.checkBoxCBTriggerLeftClick, "This triggers on any single or double left click in the text window.");
+            this.checkBoxCBTriggerLeftClick.UseVisualStyleBackColor = true;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(11, 108);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(82, 13);
+            this.label27.TabIndex = 87;
+            this.label27.Text = "Triggers to Use:";
+            this.toolTip1.SetToolTip(this.label27, "Triggers are what causes the clipboard to update. Important for Classic\r\nMode, wh" +
+        "ich only displays the new lines since last update, and can skip\r\ntext when there" +
+        "\'s too many triggers in succession.");
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(90, 244);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(85, 13);
+            this.label26.TabIndex = 86;
+            this.label26.Text = "Total Buffer Size";
+            this.toolTip1.SetToolTip(this.label26, "This determines the total lines of old text to keep. Shouldn\'t need\r\nadjusting un" +
+        "less you need a really long scrollable history.");
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(90, 218);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(129, 13);
+            this.label25.TabIndex = 85;
+            this.label25.Text = "Lines to send to Clipboard";
+            this.toolTip1.SetToolTip(this.label25, "This determines how many lines long the clipboard is when scrolling back or\r\nin n" +
+        "on-Classic Mode.");
+            // 
+            // numericUpDownCBBufferSize
+            // 
+            this.numericUpDownCBBufferSize.Location = new System.Drawing.Point(14, 242);
+            this.numericUpDownCBBufferSize.Name = "numericUpDownCBBufferSize";
+            this.numericUpDownCBBufferSize.Size = new System.Drawing.Size(70, 20);
+            this.numericUpDownCBBufferSize.TabIndex = 84;
+            this.toolTip1.SetToolTip(this.numericUpDownCBBufferSize, "This determines the total lines of old text to keep. Shouldn\'t need\r\nadjusting un" +
+        "less you need a really long scrollable history.");
+            // 
+            // numericUpDownCBMaxCB
+            // 
+            this.numericUpDownCBMaxCB.Location = new System.Drawing.Point(14, 216);
+            this.numericUpDownCBMaxCB.Name = "numericUpDownCBMaxCB";
+            this.numericUpDownCBMaxCB.Size = new System.Drawing.Size(70, 20);
+            this.numericUpDownCBMaxCB.TabIndex = 83;
+            this.toolTip1.SetToolTip(this.numericUpDownCBMaxCB, "This determines how many lines long the clipboard is when scrolling back or\r\nin n" +
+        "on-Classic Mode.");
+            // 
+            // checkBoxCBIgnoreTags
+            // 
+            this.checkBoxCBIgnoreTags.AutoSize = true;
+            this.checkBoxCBIgnoreTags.Location = new System.Drawing.Point(14, 26);
+            this.checkBoxCBIgnoreTags.Name = "checkBoxCBIgnoreTags";
+            this.checkBoxCBIgnoreTags.Size = new System.Drawing.Size(94, 17);
+            this.checkBoxCBIgnoreTags.TabIndex = 82;
+            this.checkBoxCBIgnoreTags.Text = "Ignore <> tags";
+            this.toolTip1.SetToolTip(this.checkBoxCBIgnoreTags, "Some games will use html style <> tags for graphics, which can fill up\r\nthe clipb" +
+        "oard. This removes those tags. Note some games use <> in\r\n normal text.");
+            this.checkBoxCBIgnoreTags.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCBuseCB
+            // 
+            this.checkBoxCBuseCB.AutoSize = true;
+            this.checkBoxCBuseCB.Location = new System.Drawing.Point(14, 3);
+            this.checkBoxCBuseCB.Name = "checkBoxCBuseCB";
+            this.checkBoxCBuseCB.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCBuseCB.TabIndex = 81;
+            this.checkBoxCBuseCB.Text = "Copy to clipboard";
+            this.toolTip1.SetToolTip(this.checkBoxCBuseCB, "Enables copying all text from the program to the clipboard.");
+            this.checkBoxCBuseCB.UseVisualStyleBackColor = true;
+            // 
 			// tabPageSystem
 			// 
 			this.tabPageSystem.Controls.Add(this.comboBox1);
@@ -766,7 +1084,7 @@
 			this.tabPageSystem.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageSystem.Size = new System.Drawing.Size(308, 326);
 			this.tabPageSystem.TabIndex = 0;
-			this.tabPageSystem.Text = "システム";
+            this.tabPageSystem.Text = "System";
 			this.tabPageSystem.UseVisualStyleBackColor = true;
 			// 
 			// comboBox1
@@ -790,7 +1108,7 @@
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(146, 12);
 			this.label11.TabIndex = 77;
-			this.label11.Text = "内部で使用する東アジア言語";
+            this.label11.Text = "Internal language used";
 			// 
 			// checkBoxSystemFullSpace
 			// 
@@ -799,7 +1117,7 @@
 			this.checkBoxSystemFullSpace.Name = "checkBoxSystemFullSpace";
 			this.checkBoxSystemFullSpace.Size = new System.Drawing.Size(209, 16);
 			this.checkBoxSystemFullSpace.TabIndex = 74;
-			this.checkBoxSystemFullSpace.Text = "全角スペースをホワイトスペースに含める";
+            this.checkBoxSystemFullSpace.Text = "Include full-width space in whitespace";
 			this.checkBoxSystemFullSpace.UseVisualStyleBackColor = true;
 			// 
 			// checkBox22
@@ -809,7 +1127,7 @@
 			this.checkBox22.Name = "checkBox22";
 			this.checkBox22.Size = new System.Drawing.Size(276, 16);
 			this.checkBox22.TabIndex = 73;
-			this.checkBox22.Text = "同名の非イベント関数が複数定義されたとき警告する";
+            this.checkBox22.Text = "Warn when multiple non-event functions use same name";
 			this.checkBox22.UseVisualStyleBackColor = true;
 			// 
 			// label21
@@ -819,7 +1137,7 @@
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(228, 24);
 			this.label21.TabIndex = 71;
-			this.label21.Text = "※システムの項目を変化させた場合、\nERBスクリプトが正常に動作しないことがあります";
+            this.label21.Text = "※If you change system settings, \nERB scripts may not work properly.";
 			// 
 			// checkBox20
 			// 
@@ -828,7 +1146,7 @@
 			this.checkBox20.Name = "checkBox20";
 			this.checkBox20.Size = new System.Drawing.Size(181, 16);
 			this.checkBox20.TabIndex = 70;
-			this.checkBox20.Text = "システム関数の上書きを許可する";
+            this.checkBox20.Text = "Allow to override system functions";
 			this.checkBox20.UseVisualStyleBackColor = true;
 			// 
 			// checkBox19
@@ -838,7 +1156,7 @@
 			this.checkBox19.Name = "checkBox19";
 			this.checkBox19.Size = new System.Drawing.Size(250, 16);
 			this.checkBox19.TabIndex = 69;
-			this.checkBox19.Text = "システム関数が上書きされたとき警告を表示する";
+            this.checkBox19.Text = "Warn about overridden functions";
 			this.checkBox19.UseVisualStyleBackColor = true;
 			// 
 			// checkBox16
@@ -848,7 +1166,7 @@
 			this.checkBox16.Name = "checkBox16";
 			this.checkBox16.Size = new System.Drawing.Size(204, 16);
 			this.checkBox16.TabIndex = 55;
-			this.checkBox16.Text = "読み込み順をファイル名順にソートする";
+            this.checkBox16.Text = "Load files in name-order";
 			this.checkBox16.UseVisualStyleBackColor = true;
 			// 
 			// checkBox15
@@ -858,7 +1176,7 @@
 			this.checkBox15.Name = "checkBox15";
 			this.checkBox15.Size = new System.Drawing.Size(144, 16);
 			this.checkBox15.TabIndex = 54;
-			this.checkBox15.Text = "サブディレクトリを検索する";
+            this.checkBox15.Text = "Search files in subfolders";
 			this.checkBox15.UseVisualStyleBackColor = true;
 			// 
 			// checkBox1
@@ -868,7 +1186,7 @@
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(180, 16);
 			this.checkBox1.TabIndex = 38;
-			this.checkBox1.Text = "大文字小文字の違いを無視する";
+            this.checkBox1.Text = "Ignore capitalization";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// checkBox10
@@ -878,7 +1196,7 @@
 			this.checkBox10.Name = "checkBox10";
 			this.checkBox10.Size = new System.Drawing.Size(141, 16);
 			this.checkBox10.TabIndex = 53;
-			this.checkBox10.Text = "_Replace.csvを利用する";
+            this.checkBox10.Text = "Use _Replace.csv file";
 			this.checkBox10.UseVisualStyleBackColor = true;
 			// 
 			// checkBox2
@@ -888,7 +1206,7 @@
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(141, 16);
 			this.checkBox2.TabIndex = 12;
-			this.checkBox2.Text = "_Rename.csvを利用する";
+            this.checkBox2.Text = "Use _Rename.csv file";
 			this.checkBox2.UseVisualStyleBackColor = true;
 			// 
 			// tabPageSystem2
@@ -902,9 +1220,19 @@
 			this.tabPageSystem2.Name = "tabPageSystem2";
 			this.tabPageSystem2.Size = new System.Drawing.Size(308, 326);
 			this.tabPageSystem2.TabIndex = 9;
-			this.tabPageSystem2.Text = "システム2";
+            this.tabPageSystem2.Text = "System2";
 			this.tabPageSystem2.UseVisualStyleBackColor = true;
 			// 
+            // checkBox29
+            // 
+            this.checkBox29.AutoSize = true;
+            this.checkBox29.Location = new System.Drawing.Point(6, 116);
+            this.checkBox29.Name = "checkBox29";
+            this.checkBox29.Size = new System.Drawing.Size(188, 17);
+            this.checkBox29.TabIndex = 83;
+            this.checkBox29.Text = "Don\'t autocomplete arguments in character variables";
+            this.checkBox29.UseVisualStyleBackColor = true;
+            // 
 			// checkBox26
 			// 
 			this.checkBox26.AutoSize = true;
@@ -912,7 +1240,7 @@
 			this.checkBox26.Name = "checkBox26";
 			this.checkBox26.Size = new System.Drawing.Size(203, 16);
 			this.checkBox26.TabIndex = 82;
-			this.checkBox26.Text = "セーブデータをバイナリ形式で保存する";
+            this.checkBox26.Text = "Use binary format for save data";
 			this.checkBox26.UseVisualStyleBackColor = true;
 			// 
 			// checkBox27
@@ -922,7 +1250,7 @@
 			this.checkBox27.Name = "checkBox27";
 			this.checkBox27.Size = new System.Drawing.Size(266, 16);
 			this.checkBox27.TabIndex = 81;
-			this.checkBox27.Text = "セーブデータをUTF-8で保存する(非バイナリ時のみ)";
+            this.checkBox27.Text = "Use UTF-8 format for save data (only in non-binary mode)";
 			this.checkBox27.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxSystemTripleSymbol
@@ -932,7 +1260,7 @@
 			this.checkBoxSystemTripleSymbol.Name = "checkBoxSystemTripleSymbol";
 			this.checkBoxSystemTripleSymbol.Size = new System.Drawing.Size(188, 16);
 			this.checkBoxSystemTripleSymbol.TabIndex = 73;
-			this.checkBoxSystemTripleSymbol.Text = "FORM中の三連記号を展開しない";
+            this.checkBoxSystemTripleSymbol.Text = "Don\'t process triple symbols inside FORM";
 			this.checkBoxSystemTripleSymbol.UseVisualStyleBackColor = true;
 			// 
 			// label24
@@ -942,7 +1270,7 @@
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(228, 24);
 			this.label24.TabIndex = 72;
-			this.label24.Text = "※システムの項目を変化させた場合、\nERBスクリプトが正常に動作しないことがあります";
+            this.label24.Text = "※If you change system settings, \nERB scripts may not work properly.";
 			// 
 			// tabPageCompati
 			// 
@@ -964,7 +1292,7 @@
 			this.tabPageCompati.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageCompati.Size = new System.Drawing.Size(308, 326);
 			this.tabPageCompati.TabIndex = 8;
-			this.tabPageCompati.Text = "互換性";
+            this.tabPageCompati.Text = "Compatibility";
 			this.tabPageCompati.UseVisualStyleBackColor = true;
 			// 
 			// checkBox9
@@ -974,7 +1302,7 @@
 			this.checkBox9.Name = "checkBox9";
 			this.checkBox9.Size = new System.Drawing.Size(195, 16);
 			this.checkBox9.TabIndex = 82;
-			this.checkBox9.Text = "TIMESの計算をeramakerにあわせる";
+            this.checkBox9.Text = "Calculate TIMES like in eramaker";
 			this.checkBox9.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxCompatiSP
@@ -984,8 +1312,8 @@
 			this.checkBoxCompatiSP.Name = "checkBoxCompatiSP";
 			this.checkBoxCompatiSP.Size = new System.Drawing.Size(116, 16);
 			this.checkBoxCompatiSP.TabIndex = 81;
-			this.checkBoxCompatiSP.Text = "SPキャラを使用する";
-			this.toolTip1.SetToolTip(this.checkBoxCompatiSP, "ON：eramaker仕様");
+            this.checkBoxCompatiSP.Text = "Allow SP characters";
+            this.toolTip1.SetToolTip(this.checkBoxCompatiSP, "ON：Like in eramaker");
 			this.checkBoxCompatiSP.UseVisualStyleBackColor = true;
 			// 
 			// checkBox28
@@ -995,8 +1323,8 @@
 			this.checkBox28.Name = "checkBox28";
 			this.checkBox28.Size = new System.Drawing.Size(174, 16);
 			this.checkBox28.TabIndex = 80;
-			this.checkBox28.Text = "イベント関数のCALLを許可する";
-			this.toolTip1.SetToolTip(this.checkBox28, "ON：eramaker仕様");
+            this.checkBox28.Text = "Allow CALL on event functions";
+            this.toolTip1.SetToolTip(this.checkBox28, "ON：Like in eramaker");
 			this.checkBox28.UseVisualStyleBackColor = true;
 			// 
 			// checkBox25
@@ -1006,8 +1334,8 @@
 			this.checkBox25.Name = "checkBox25";
 			this.checkBox25.Size = new System.Drawing.Size(265, 16);
 			this.checkBox25.TabIndex = 79;
-			this.checkBox25.Text = "ユーザー関数の引数に自動的にTOSTRを補完する";
-			this.toolTip1.SetToolTip(this.checkBox25, "ON：Emuera旧仕様　OFF：標準仕様（eramaker仕様）");
+            this.checkBox25.Text = "Add TOSTR automatically for user function arguments";
+            this.toolTip1.SetToolTip(this.checkBox25, "ON：Emuera old setting　OFF：Default setting (Like in eramaker)");
 			this.checkBox25.UseVisualStyleBackColor = true;
 			// 
 			// checkBox12
@@ -1017,8 +1345,8 @@
 			this.checkBox12.Name = "checkBox12";
 			this.checkBox12.Size = new System.Drawing.Size(239, 16);
 			this.checkBox12.TabIndex = 78;
-			this.checkBox12.Text = "ユーザー関数の全ての引数の省略を許可する";
-			this.toolTip1.SetToolTip(this.checkBox12, "ON：Emuera旧仕様　OFF：標準仕様（eramaker仕様）");
+            this.checkBox12.Text = "Allow omission of all arguments when calling user functions";
+            this.toolTip1.SetToolTip(this.checkBox12, "ON：Emuera old setting　OFF：Default setting (Like in eramaker)");
 			this.checkBox12.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFuncNoIgnoreCase
@@ -1028,8 +1356,8 @@
 			this.checkBoxFuncNoIgnoreCase.Name = "checkBoxFuncNoIgnoreCase";
 			this.checkBoxFuncNoIgnoreCase.Size = new System.Drawing.Size(259, 16);
 			this.checkBoxFuncNoIgnoreCase.TabIndex = 77;
-			this.checkBoxFuncNoIgnoreCase.Text = "関数・属性については大文字小文字を無視しない";
-			this.toolTip1.SetToolTip(this.checkBoxFuncNoIgnoreCase, "ON：eramaker仕様");
+            this.checkBoxFuncNoIgnoreCase.Text = "Don\'t ignore case for functions and attributes";
+            this.toolTip1.SetToolTip(this.checkBoxFuncNoIgnoreCase, "ON：Like in eramaker");
 			this.checkBoxFuncNoIgnoreCase.UseVisualStyleBackColor = true;
 			// 
 			// button8
@@ -1038,7 +1366,7 @@
 			this.button8.Name = "button8";
 			this.button8.Size = new System.Drawing.Size(138, 23);
 			this.button8.TabIndex = 76;
-			this.button8.Text = "Emuera標準仕様にする";
+            this.button8.Text = "Set to Emuera default";
 			this.button8.UseVisualStyleBackColor = true;
 			this.button8.Click += new System.EventHandler(this.button8_Click);
 			// 
@@ -1048,7 +1376,7 @@
 			this.button7.Name = "button7";
 			this.button7.Size = new System.Drawing.Size(138, 23);
 			this.button7.TabIndex = 75;
-			this.button7.Text = "eramakerの仕様にする";
+            this.button7.Text = "Set to eramaker default";
 			this.button7.UseVisualStyleBackColor = true;
 			this.button7.Click += new System.EventHandler(this.button7_Click);
 			// 
@@ -1059,8 +1387,8 @@
 			this.checkBoxCompatiLinefeedAs1739.Name = "checkBoxCompatiLinefeedAs1739";
 			this.checkBoxCompatiLinefeedAs1739.Size = new System.Drawing.Size(230, 16);
 			this.checkBoxCompatiLinefeedAs1739.TabIndex = 74;
-			this.checkBoxCompatiLinefeedAs1739.Text = "ver1739以前の非ボタン折り返しを再現する";
-			this.toolTip1.SetToolTip(this.checkBoxCompatiLinefeedAs1739, "ON：Emuera旧仕様　OFF：標準仕様（eramaker仕様）");
+            this.checkBoxCompatiLinefeedAs1739.Text = "Reproduce non-button wrapping like in pre ver1739";
+            this.toolTip1.SetToolTip(this.checkBoxCompatiLinefeedAs1739, "ON：Emuera old setting　OFF：Default setting (Like in eramaker)");
 			this.checkBoxCompatiLinefeedAs1739.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxCompatiRAND
@@ -1070,8 +1398,8 @@
 			this.checkBoxCompatiRAND.Name = "checkBoxCompatiRAND";
 			this.checkBoxCompatiRAND.Size = new System.Drawing.Size(244, 16);
 			this.checkBoxCompatiRAND.TabIndex = 73;
-			this.checkBoxCompatiRAND.Text = "擬似変数RANDの仕様をeramakerに合わせる";
-			this.toolTip1.SetToolTip(this.checkBoxCompatiRAND, "ON：eramaker仕様");
+            this.checkBoxCompatiRAND.Text = "Imitate behavior of pseudo-variable RAND from eramaker";
+            this.toolTip1.SetToolTip(this.checkBoxCompatiRAND, "ON：Like in eramaker");
 			this.checkBoxCompatiRAND.UseVisualStyleBackColor = true;
 			// 
 			// label30
@@ -1081,8 +1409,8 @@
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(274, 48);
 			this.label30.TabIndex = 72;
-			this.label30.Text = "※eramakerとEmueraで動作が違う、\r\nEmueraの過去のバージョンで動作したものが動作しない、\r\nなどの問題を解決するためのオプションです\r\n標準で" +
-    "問題ない場合は変更しないでください";
+            this.label30.Text = "※Many things work differently between Emuera and eramaker,\r\nAs well as between older and newer Emuera versions,\r\nThese options should solve compatibility problems.\r\nPlease don\'t change " +
+    "anything if there\'s no issues.";
 			// 
 			// checkBoxCompatiCALLNAME
 			// 
@@ -1091,8 +1419,8 @@
 			this.checkBoxCompatiCALLNAME.Name = "checkBoxCompatiCALLNAME";
 			this.checkBoxCompatiCALLNAME.Size = new System.Drawing.Size(257, 16);
 			this.checkBoxCompatiCALLNAME.TabIndex = 56;
-			this.checkBoxCompatiCALLNAME.Text = "CALLNAMEが空文字列の時にNAMEを代入する";
-			this.toolTip1.SetToolTip(this.checkBoxCompatiCALLNAME, "ON：eramaker仕様");
+            this.checkBoxCompatiCALLNAME.Text = "Use NAME if CALLNAME is empty";
+            this.toolTip1.SetToolTip(this.checkBoxCompatiCALLNAME, "ON：Like in eramaker");
 			this.checkBoxCompatiCALLNAME.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxCompatiErrorLine
@@ -1102,8 +1430,8 @@
 			this.checkBoxCompatiErrorLine.Name = "checkBoxCompatiErrorLine";
 			this.checkBoxCompatiErrorLine.Size = new System.Drawing.Size(195, 16);
 			this.checkBoxCompatiErrorLine.TabIndex = 54;
-			this.checkBoxCompatiErrorLine.Text = "解釈不可能な行があっても実行する";
-			this.toolTip1.SetToolTip(this.checkBoxCompatiErrorLine, "ON：eramaker仕様");
+            this.checkBoxCompatiErrorLine.Text = "Execute even if lines cannot be interpreted";
+            this.toolTip1.SetToolTip(this.checkBoxCompatiErrorLine, "ON：Like in eramaker");
 			this.checkBoxCompatiErrorLine.UseVisualStyleBackColor = true;
 			// 
 			// tabPageDebug
@@ -1126,7 +1454,7 @@
 			this.tabPageDebug.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageDebug.Size = new System.Drawing.Size(308, 326);
 			this.tabPageDebug.TabIndex = 2;
-			this.tabPageDebug.Text = "解析";
+            this.tabPageDebug.Text = "Debug";
 			this.tabPageDebug.UseVisualStyleBackColor = true;
 			// 
 			// button6
@@ -1135,7 +1463,7 @@
 			this.button6.Name = "button6";
 			this.button6.Size = new System.Drawing.Size(144, 23);
 			this.button6.TabIndex = 75;
-			this.button6.Text = "開発者向けの設定にする";
+            this.button6.Text = "Set for developers";
 			this.button6.UseVisualStyleBackColor = true;
 			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
@@ -1145,7 +1473,7 @@
 			this.button5.Name = "button5";
 			this.button5.Size = new System.Drawing.Size(144, 23);
 			this.button5.TabIndex = 74;
-			this.button5.Text = "ユーザー向けの設定にする";
+            this.button5.Text = "Set for users";
 			this.button5.UseVisualStyleBackColor = true;
 			this.button5.Click += new System.EventHandler(this.button5_Click);
 			// 
@@ -1156,7 +1484,7 @@
 			this.checkBox23.Name = "checkBox23";
 			this.checkBox23.Size = new System.Drawing.Size(223, 16);
 			this.checkBox23.TabIndex = 73;
-			this.checkBox23.Text = "eramaker互換性に関する警告を表示する";
+            this.checkBox23.Text = "Display eramaker compatibility warning";
 			this.checkBox23.UseVisualStyleBackColor = true;
 			// 
 			// label15
@@ -1166,17 +1494,17 @@
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(125, 12);
 			this.label15.TabIndex = 56;
-			this.label15.Text = "表示する最低警告レベル";
+            this.label15.Text = "Minimum warning level display";
 			// 
 			// comboBox5
 			// 
 			this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox5.FormattingEnabled = true;
 			this.comboBox5.Items.AddRange(new object[] {
-            "0:標準でない文法",
-            "1:無視可能なエラー",
-            "2:動作しないエラー",
-            "3:致命的エラー"});
+            "0:Non-standard grammar",
+            "1:Possible to ignore errors",
+            "2:Critical errors",
+            "3:Fatal errors"});
 			this.comboBox5.Location = new System.Drawing.Point(42, 117);
 			this.comboBox5.Name = "comboBox5";
 			this.comboBox5.Size = new System.Drawing.Size(190, 20);
@@ -1189,17 +1517,17 @@
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(185, 12);
 			this.label14.TabIndex = 54;
-			this.label14.Text = "関数が呼び出されなかった警告の扱い";
+            this.label14.Text = "How to deal with never called functions";
 			// 
 			// comboBox4
 			// 
 			this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox4.FormattingEnabled = true;
 			this.comboBox4.Items.AddRange(new object[] {
-            "無視",
-            "総数のみ表示する",
-            "ファイル毎に一度だけ表示する",
-            "表示する"});
+            "Ignore them",
+            "Show only total number of them",
+            "Show only one per file",
+            "Show all"});
 			this.comboBox4.Location = new System.Drawing.Point(42, 236);
 			this.comboBox4.Name = "comboBox4";
 			this.comboBox4.Size = new System.Drawing.Size(190, 20);
@@ -1212,17 +1540,17 @@
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(154, 12);
 			this.label13.TabIndex = 52;
-			this.label13.Text = "関数が見つからない警告の扱い";
+            this.label13.Text = "How to deal with calling non-existing functions";
 			// 
 			// comboBox3
 			// 
 			this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox3.FormattingEnabled = true;
 			this.comboBox3.Items.AddRange(new object[] {
-            "無視",
-            "総数のみ表示する",
-            "ファイル毎に一度だけ表示する",
-            "表示する"});
+            "Ignore them",
+            "Show only total number of them",
+            "Show only one per file",
+            "Show all"});
 			this.comboBox3.Location = new System.Drawing.Point(42, 186);
 			this.comboBox3.Name = "comboBox3";
 			this.comboBox3.Size = new System.Drawing.Size(190, 20);
@@ -1235,17 +1563,17 @@
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(130, 12);
 			this.label12.TabIndex = 50;
-			this.label12.Text = "ロード時に引数を解析する";
+            this.label12.Text = "Parse arguments when loading";
 			// 
 			// comboBoxReduceArgumentOnLoad
 			// 
 			this.comboBoxReduceArgumentOnLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxReduceArgumentOnLoad.FormattingEnabled = true;
 			this.comboBoxReduceArgumentOnLoad.Items.AddRange(new object[] {
-            "常に行わない",
-            "更新されていれば行う",
-            "常に行う"});
-			this.comboBoxReduceArgumentOnLoad.Location = new System.Drawing.Point(18, 79);
+            "Never",
+            "When updated",
+            "Always"});
+            this.comboBoxReduceArgumentOnLoad.Location = new System.Drawing.Point(18, 79);
 			this.comboBoxReduceArgumentOnLoad.Name = "comboBoxReduceArgumentOnLoad";
 			this.comboBoxReduceArgumentOnLoad.Size = new System.Drawing.Size(190, 20);
 			this.comboBoxReduceArgumentOnLoad.TabIndex = 49;
@@ -1254,11 +1582,11 @@
 			// checkBox11
 			// 
 			this.checkBox11.AutoSize = true;
-			this.checkBox11.Location = new System.Drawing.Point(29, 152);
-			this.checkBox11.Name = "checkBox11";
-			this.checkBox11.Size = new System.Drawing.Size(190, 16);
+            this.checkBox11.Location = new System.Drawing.Point(29, 165);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(192, 17);
 			this.checkBox11.TabIndex = 18;
-			this.checkBox11.Text = "呼び出されなかった関数を無視する";
+            this.checkBox11.Text = "Ignore functions that were not called";
 			this.checkBox11.UseVisualStyleBackColor = true;
 			// 
 			// checkBox13
@@ -1369,6 +1697,12 @@
 			this.tabPageFont.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBScrollCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBMinTimer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBBufferSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBMaxCB)).EndInit();
 			this.tabPageSystem.ResumeLayout(false);
 			this.tabPageSystem.PerformLayout();
 			this.tabPageSystem2.ResumeLayout(false);
@@ -1496,5 +1830,27 @@
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.CheckBox checkBox9;
 		private System.Windows.Forms.CheckBox checkBox29;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.CheckBox checkBoxCBIgnoreTags;
+        private System.Windows.Forms.CheckBox checkBoxCBuseCB;
+        private System.Windows.Forms.NumericUpDown numericUpDownCBMaxCB;
+        private System.Windows.Forms.NumericUpDown numericUpDownCBBufferSize;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.CheckBox checkBoxCBTriggerInputWait;
+        private System.Windows.Forms.CheckBox checkBoxCBTriggerAnyKeyWait;
+        private System.Windows.Forms.CheckBox checkBoxCBTriggerLeftClick;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.NumericUpDown numericUpDownCBMinTimer;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBoxCBReplaceTags;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.NumericUpDown numericUpDownCBScrollCount;
+        private System.Windows.Forms.CheckBox checkBoxCBTriggerDoubleLeftClick;
+        private System.Windows.Forms.CheckBox checkBoxCBClearBuffer;
+        private System.Windows.Forms.CheckBox checkBoxCBNewLinesOnly;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.CheckBox checkBoxCBTriggerMiddleClick;
 	}
 }
