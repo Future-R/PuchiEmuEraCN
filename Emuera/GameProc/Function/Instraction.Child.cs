@@ -1596,7 +1596,7 @@ namespace MinorShift.Emuera.GameProc.Function
                 flag = IS_PRINT | EXTENDED;
             }
 
-            public void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+            public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
             {
                 SpFadeArgument arg = (SpFadeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
@@ -1706,7 +1706,8 @@ namespace MinorShift.Emuera.GameProc.Function
                 ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.SP_SHAKE);
                 flag = IS_PRINT | EXTENDED;
             }
-            public void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state)
+
+            public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
             {
                 SpShakeArgument arg = (SpShakeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
