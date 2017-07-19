@@ -29,9 +29,12 @@ namespace MinorShift.Emuera.GameData.Variable
 			if (dic == null)
 				dic = exm.VEvaluator.Constant.GetKeywordDictionary(out errPos, parentCode, index);
 			string key = strTerm.GetStrValue(exm);
+
+			
 			if (key == "")
 				throw new CodeEE("キーワードを空には出来ません");
 			int i;
+			
 			if (!dic.TryGetValue(key, out i))
 			{
 				if (errPos == null)
@@ -42,7 +45,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			return i;
         }
 		
-        public override IOperandTerm Restructure(ExpressionMediator exm)
+        public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
         {
 			if (dic == null)
 				dic = exm.VEvaluator.Constant.GetKeywordDictionary(out errPos, parentCode, index);

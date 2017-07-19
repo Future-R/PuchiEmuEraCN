@@ -53,42 +53,42 @@ namespace MinorShift.Emuera.GameProc
 					string file = erbFiles[i].Value;
 #if DEBUG
 					if (displayReport)
-						output.PrintSystemLine("経過時間:" + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:" + filename + "読み込み中・・・");
+						output.PrintSystemLine("Elapsed time: " + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:" + filename + " is being loaded...");
 #else
 					if (displayReport)
-						output.PrintSystemLine(filename + "読み込み中・・・");
+						output.PrintSystemLine("Loading " + filename + "...");
 #endif
 					System.Windows.Forms.Application.DoEvents();
 					loadErb(file, filename, isOnlyEvent);
 				}
 				ParserMediator.FlushWarningList();
 #if DEBUG
-				output.PrintSystemLine("経過時間:" + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:");
+				output.PrintSystemLine("Elapsed time: " + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:");
 #endif
 				if (displayReport)
-					output.PrintSystemLine("ユーザー定義関数のリストを構築中・・・");
+					output.PrintSystemLine("Building a list of user-defined functions...");
 				setLabelsArg();
 				ParserMediator.FlushWarningList();
 				labelDic.Initialized = true;
 #if DEBUG
-				output.PrintSystemLine("経過時間:" + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:");
+				output.PrintSystemLine("Elapsed time: " + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:");
 #endif
 				if (displayReport)
-					output.PrintSystemLine("スクリプトの構文チェック中・・・");
+					output.PrintSystemLine("Script syntax checking...");
 				checkScript();
 				ParserMediator.FlushWarningList();
 
 #if DEBUG
-				output.PrintSystemLine("経過時間:" + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:");
+				output.PrintSystemLine("Elapsed time: " + (WinmmTimer.TickCount - starttime).ToString("D4") + "ms:");
 #endif
 				if (displayReport)
-					output.PrintSystemLine("ロード完了");
+					output.PrintSystemLine("Load is complete");
 			}
 			catch (Exception e)
 			{
 				ParserMediator.FlushWarningList();
 				System.Media.SystemSounds.Hand.Play();
-				output.PrintError("予期しないエラーが発生しました:" + Program.ExeName);
+				output.PrintError("An unexpected error has occurred: " + Program.ExeName);
 				output.PrintError(e.GetType().ToString() + ":" + e.Message);
 				return false;
 			}
@@ -118,7 +118,7 @@ namespace MinorShift.Emuera.GameProc
 				else
 					fname = fpath;
 				if (Program.AnalysisMode)
-					output.PrintSystemLine(fname + "読み込み中・・・");
+					output.PrintSystemLine("Loading " + fname + "...");
 				System.Windows.Forms.Application.DoEvents();
                 loadErb(fpath, fname, isOnlyEvent);
 			}
@@ -152,12 +152,12 @@ namespace MinorShift.Emuera.GameProc
 					case "SKIPSTART":
 						if (!string.IsNullOrEmpty(token2))
 						{
-							ParserMediator.Warn(token + "に余分な引数があります", position, 1);
+							ParserMediator.Warn("There\'s an extra argument in " + token, position, 1);
 							break;
 						}
 						if (skip)
 						{
-							ParserMediator.Warn("[SKIPSTART]が重複して使用されています", position, 1);
+							ParserMediator.Warn("[SKIPSTART] is being used twice or overlapping", position, 1);
 							break;
 						}
 						ppMatch.Push("SKIPEND");
@@ -170,7 +170,7 @@ namespace MinorShift.Emuera.GameProc
 					case "IF_DEBUG":
 						if (!string.IsNullOrEmpty(token2))
 						{
-							ParserMediator.Warn(token + "に余分な引数があります", position, 1);
+							ParserMediator.Warn("There\'s an extra argument in " + token, position, 1);
 							break;
 						}
 						ppMatch.Push("ELSEIF");
@@ -182,7 +182,7 @@ namespace MinorShift.Emuera.GameProc
 					case "IF_NDEBUG":
 						if (!string.IsNullOrEmpty(token2))
 						{
-							ParserMediator.Warn(token + "に余分な引数があります", position, 1);
+							ParserMediator.Warn("There\'s an extra argument in " + token, position, 1);
 							break;
 						}
 						ppMatch.Push("ELSEIF");
@@ -194,7 +194,7 @@ namespace MinorShift.Emuera.GameProc
 					case "IF":
 						if (string.IsNullOrEmpty(token2))
 						{
-							ParserMediator.Warn(token + "に引数がありません", position, 1);
+							ParserMediator.Warn("Argument is missing in " + token, position, 1);
 							break;
 						}
 						ppMatch.Push("ELSEIF");
@@ -206,12 +206,12 @@ namespace MinorShift.Emuera.GameProc
 					case "ELSEIF":
 						if (string.IsNullOrEmpty(token2))
 						{
-							ParserMediator.Warn(token + "に引数がありません", position, 1);
+							ParserMediator.Warn("Argument is missing in " + token, position, 1);
 							break;
 						}
 						if (ppMatch.Count == 0 || ppMatch.Pop() != "ELSEIF")
 						{
-							ParserMediator.Warn("不適切な[ELSEIF]です", position, 1);
+							ParserMediator.Warn("Inappropriate [ELSEIF] detected", position, 1);
 							break;
 						}
 						ppMatch.Push("ELSEIF");
@@ -221,12 +221,12 @@ namespace MinorShift.Emuera.GameProc
 					case "ELSE":
 						if (!string.IsNullOrEmpty(token2))
 						{
-							ParserMediator.Warn(token + "に余分な引数があります", position, 1);
+							ParserMediator.Warn("There\'s an extra argument in " + token, position, 1);
 							break;
 						}
 						if (ppMatch.Count == 0 || ppMatch.Pop() != "ELSEIF")
 						{
-							ParserMediator.Warn("不適切な[ELSE]です", position, 1);
+							ParserMediator.Warn("Inappropriate [ELSE] detected", position, 1);
 							break;
 						}
 						ppMatch.Push("ENDIF");
@@ -238,13 +238,13 @@ namespace MinorShift.Emuera.GameProc
 						{
 							if (!string.IsNullOrEmpty(token2))
 							{
-								ParserMediator.Warn(token + "に余分な引数があります", position, 1);
+								ParserMediator.Warn("There\'s an extra argument in " + token, position, 1);
 								break;
 							}
 							string match = ppMatch.Count == 0 ? "" : ppMatch.Pop();
 							if (match != "SKIPEND")
 							{
-								ParserMediator.Warn("[SKIPSTART]と対応しない[SKIPEND]です", position, 1);
+								ParserMediator.Warn("[SKIPSTART] should be closed with [SKIPEND]", position, 1);
 								break;
 							}
 							skip = false;
@@ -256,13 +256,13 @@ namespace MinorShift.Emuera.GameProc
 						{
 							if (!string.IsNullOrEmpty(token2))
 							{
-								ParserMediator.Warn(token + "に余分な引数があります", position, 1);
+								ParserMediator.Warn("There\'s an extra argument in " + token, position, 1);
 								break;
 							}
 							string match = ppMatch.Count == 0 ? "" : ppMatch.Pop();
 							if (match != "ENDIF" && match != "ELSEIF")
 							{
-								ParserMediator.Warn("対応する[IF]のない[ENDIF]です", position, 1);
+								ParserMediator.Warn("[IF] doesn\'t have a corresponding [ENDIF]", position, 1);
 								break;
 							}
 							Disabled = disabledStack.Pop();
@@ -270,7 +270,7 @@ namespace MinorShift.Emuera.GameProc
 						}
 						break;
 					default:
-						ParserMediator.Warn("認識できないプリプロセッサです", position, 1);
+						ParserMediator.Warn("An unrecognized preprocessor", position, 1);
 						break;
 				}
 				if (skip)
@@ -301,7 +301,7 @@ namespace MinorShift.Emuera.GameProc
 			EraStreamReader eReader = new EraStreamReader(Config.UseRenameFile && ParserMediator.RenameDic != null);
 			if (!eReader.Open(filepath, filename))
 			{
-				output.PrintError(eReader.Filename + "のオープンに失敗しました");
+				output.PrintError("Failed to open " + eReader.Filename);
 				return;
 			}
 			try
@@ -329,7 +329,7 @@ namespace MinorShift.Emuera.GameProc
 						LexicalAnalyzer.SkipWhiteSpace(st);
 						string token2 = LexicalAnalyzer.ReadSingleIdentifier(st);
 						if ((string.IsNullOrEmpty(token)) || (st.Current != ']'))
-							ParserMediator.Warn("[]の使い方が不正です", position, 1);
+							ParserMediator.Warn("Illegal use of []", position, 1);
 						ppstate.AddKeyWord(token, token2, position);
 						st.ShiftNext();
 						if (!st.EOS)
@@ -752,7 +752,7 @@ namespace MinorShift.Emuera.GameProc
 			}
 			ParserMediator.FlushWarningList();
 			if (Config.DisplayReport)
-				output.PrintError(string.Format("非コメント行数:{0}, 全関数合計:{1}, 被呼出関数合計:{2}", enabledLineCount, labelDic.Count, usedLabelCount));
+				output.PrintError(string.Format("Number of non-comment lines: {0}, All functions total: {1}, Total called functions: {2}", enabledLineCount, labelDic.Count, usedLabelCount));
 			if (Config.AllowFunctionOverloading && Config.WarnFunctionOverloading)
 			{
 				List<string> overloadedList = GlobalStatic.IdentifierDictionary.GetOverloadedList(labelDic);
@@ -1381,7 +1381,7 @@ namespace MinorShift.Emuera.GameProc
 				string funcName = func.Function.Name;
 				string funcMatch = FunctionIdentifier.getMatchFunction(func.FunctionCode);
 				if (func != null)
-					ParserMediator.Warn(funcName + "に対応する" + funcMatch + "が見つかりません", func, 2, true, false);
+					ParserMediator.Warn(funcName + " is missing corresponding " + funcMatch, func, 2, true, false);
 				else
 					ParserMediator.Warn("ディフォルトエラー（Emuera設定漏れ）", func, 2, true, false);
 			}

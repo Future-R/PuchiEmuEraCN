@@ -41,7 +41,7 @@ namespace MinorShift.Emuera.GameProc
 					string filename = headerFiles[i].Key;
 					string file = headerFiles[i].Value;
 					if (displayReport)
-						output.PrintSystemLine(filename + "読み込み中・・・");
+						output.PrintSystemLine("Loading " + filename + "...");
 					noError = loadHeaderFile(file, filename);
 					if (!noError)
 						break;

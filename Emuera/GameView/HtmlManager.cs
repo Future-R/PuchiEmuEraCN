@@ -321,7 +321,7 @@ namespace MinorShift.Emuera.GameView
 						throw new CodeEE("タグ終端'>'が見つかりません");
 					//182101 PCDRP-Update:画像固定表示機能で修正↓--------------------------
                     //生成されたインスタンスが固定画像表示機能用のインスタンスだった場合
-                    if (part != null) {
+					if (part != null) {
                         if (part.GetType() == typeof(ConsoleImagePart) &&
                             ((ConsoleImagePart)part).fImgInfo.isFixed)
                         {
@@ -332,10 +332,10 @@ namespace MinorShift.Emuera.GameView
                         }
                         else
                         {
-                            cssList.Add(part);
+							cssList.Add(part);
                         }
                     }
-                    st.ShiftNext();
+					st.ShiftNext();
 					//182101 PCDRP-Update:画像固定表示機能で修正↑--------------------------
 				}
 
@@ -750,7 +750,7 @@ namespace MinorShift.Emuera.GameView
                         int group = -1;             //182101 PCDRP-Update:画像固定表示機能で修正
                         float alpha = -1.0f;        //182101 PCDRP-Update:画像固定表示機能で修正
                         string backGroupInfo = "";  //182101 PCDRP-Update:画像固定表示機能で修正
-                        while (wc != null && !wc.EOL)
+						while (wc != null && !wc.EOL)
 						{
 							word = wc.Current as IdentifierWord;
 							wc.ShiftNext();
@@ -848,8 +848,8 @@ namespace MinorShift.Emuera.GameView
                                 backGroupInfo = attrValue;
                             }
                             //182101 PCDRP-Update:画像固定表示機能で修正↑--------------------------
-                            else
-                                throw new CodeEE("<" + tag + ">タグの属性名" + word.Code + "は解釈できません");
+							else
+								throw new CodeEE("<" + tag + ">タグの属性名" + word.Code + "は解釈できません");
 						}
 						if (src == null)
 							throw new CodeEE("<" + tag + ">タグにsrc属性が設定されていません");

@@ -4,6 +4,8 @@ using System.Text;
 using MinorShift.Emuera.Sub;
 using MinorShift.Emuera.GameProc;
 
+using MinorShift.Emuera.GameData.Variable;
+
 namespace MinorShift.Emuera.GameData.Expression
 {
 
@@ -51,11 +53,19 @@ namespace MinorShift.Emuera.GameData.Expression
         {
             return iValue;
         }
-        public override string GetStrValue(ExpressionMediator exm)
+        public override string GetStrValue(ExpressionMediator exm, bool translate=false)
         {
+            //Modified by Bartoum
+            //PRINTS go through here.
+            if (exm != null && exm.Process != null && exm.Process.getCurrentLine != null)
+            {
+                string name = exm.Process.getCurrentLine.ToString();
+                name = Translation.searchParentFile(name);
+                sValue = Translation.translate(sValue, name, translate);
+            }
             return sValue;
         }
-        public override SingleTerm GetValue(ExpressionMediator exm)
+        public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
         {
             return this;
         }
@@ -68,6 +78,10 @@ namespace MinorShift.Emuera.GameData.Expression
                 //    throw new ExeEE("項の種別が異常");
 				return sValue;
 			}
+            set // JVN: Set method needed to make things work smoother for PARAM stuff
+            {
+                this.sValue = value;
+            }
 		}
 
 		public Int64 Int
@@ -89,7 +103,7 @@ namespace MinorShift.Emuera.GameData.Expression
 			return base.ToString();
 		}
 		
-        public override IOperandTerm Restructure(ExpressionMediator exm)
+        public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
         {
 			return this;
         }
@@ -114,20 +128,26 @@ namespace MinorShift.Emuera.GameData.Expression
 			}
 		}
 
-		public override string GetStrValue(ExpressionMediator exm)
+		public override string GetStrValue(ExpressionMediator exm, bool translate=false)
 		{
-			return sfValue.GetString(exm);
-		}
-		public override SingleTerm GetValue(ExpressionMediator exm)
-		{
-			return new SingleTerm(sfValue.GetString(exm));
+            // Bartoum: If the current line containts <nonbutton (for HTML) we translate it.
+            if (exm.Process.getCurrentLine.ToString().Contains("<nonbutton"))
+            {
+                translate = true;
+            }
+            return sfValue.GetString(exm, translate);
 		}
 		
-        public override IOperandTerm Restructure(ExpressionMediator exm)
+		public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
+		{
+			return new SingleTerm(sfValue.GetString(exm, tryTranslate));
+		}
+		
+        public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
         {
 			sfValue.Restructure(exm);
 			if(sfValue.IsConst)
-				return new SingleTerm(sfValue.GetString(exm));
+				return new SingleTerm(sfValue.GetString(exm, tryTranslate));
 			IOperandTerm term = sfValue.GetIOperandTerm();
 			if(term != null)
 				return term;

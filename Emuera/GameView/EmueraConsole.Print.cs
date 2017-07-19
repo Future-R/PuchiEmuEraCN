@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using MinorShift.Emuera.GameData.Variable;
 
 namespace MinorShift.Emuera.GameView
 {
@@ -22,6 +23,8 @@ namespace MinorShift.Emuera.GameView
 
 		public void ClearDisplay()
 		{
+            CBProc.ClearScreen();
+
 			displayLineList.Clear();
 			logicalLineCount = 0;
 			lineNo = 0;
@@ -109,6 +112,8 @@ namespace MinorShift.Emuera.GameView
 
 		private void addDisplayLine(ConsoleDisplayLine line, bool force_LEFT)
 		{
+            CBProc.AddLine(line, force_LEFT);
+
 			if (LastLineIsTemporary)
 				deleteLine(1);
 			//不適正なFontのチェック
@@ -155,6 +160,8 @@ namespace MinorShift.Emuera.GameView
 
 		public void deleteLine(int argNum)
 		{
+            CBProc.DelLine(Math.Min(argNum, displayLineList.Count)); //FIXIT - Do we need to worry about the count?
+
 			int delNum = 0;
 			int num = argNum;
 			while (delNum < num)
@@ -218,17 +225,17 @@ namespace MinorShift.Emuera.GameView
 			{
 				if (position.LineNo >= 0)
 				{
-					PrintErrorButton(string.Format("警告Lv{0}:{1}:{2}行目:{3}", level, position.Filename, position.LineNo, str), position);
+					PrintErrorButton(string.Format("Warning Lv{0}:{1}: at line {2}:{3}", level, position.Filename, position.LineNo, str), position);
 					if (position.RowLine != null)
 						PrintError(position.RowLine);
 				}
 				else
-					PrintErrorButton(string.Format("警告Lv{0}:{1}:{2}", level, position.Filename, str), position);
+					PrintErrorButton(string.Format("Warning Lv{0}:{1}:{2}", level, position.Filename, str), position);
 
 			}
 			else
 			{
-				PrintError(string.Format("警告Lv{0}:{1}", level, str));
+				PrintError(string.Format("Warning Lv{0}:{1}", level, str));
 			}
 			force_temporary = b;
 		}

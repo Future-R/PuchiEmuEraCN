@@ -165,7 +165,7 @@ namespace MinorShift.Emuera.GameData
 			return null;
 		}
 
-		public void Restructure(ExpressionMediator exm)
+		public void Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			if (strs.Length == 1)
 				return;
@@ -188,7 +188,7 @@ namespace MinorShift.Emuera.GameData
 			{
 				if (termList[i] is SingleTerm)
 				{
-					string str = termList[i].GetStrValue(exm);
+					string str = termList[i].GetStrValue(exm, tryTranslate);
 					strList[i] = strList[i] + str + strList[i + 1];
 					termList.RemoveAt(i);
 					strList.RemoveAt(i + 1);
@@ -202,18 +202,21 @@ namespace MinorShift.Emuera.GameData
 			return;
 		}
 
-		public string GetString(ExpressionMediator exm)
+		public string GetString(ExpressionMediator exm, bool tryTranslate = false)
 		{
 			if (strs.Length == 1)
 				return strs[0];
 			StringBuilder builder = new StringBuilder(100);
 			for (int i = 0; i < strs.Length - 1; i++)
 			{
-				builder.Append(strs[i]);
-				builder.Append(terms[i].GetStrValue(exm));
-			}
+                builder.Append(strs[i]);
+                //builder.Append(Translation.translate(terms[i].GetStrValue(exm)));
+                //If the tryTranslate is true we'll try to translate it
+                //HERE
+                builder.Append(terms[i].GetStrValue(exm, tryTranslate));
+            }
 			builder.Append(strs[strs.Length - 1]);
-			return builder.ToString();
+            return builder.ToString();
 		}
 
 		#region FormattedStringMethod 書式付文字列の内部
@@ -227,29 +230,50 @@ namespace MinorShift.Emuera.GameData
 			}
 			public override string CheckArgumentType(string name, IOperandTerm[] arguments) { throw new ExeEE("型チェックは呼び出し元が行うこと"); }
 			public override Int64 GetIntValue(ExpressionMediator exm, IOperandTerm[] arguments) { throw new ExeEE("戻り値の型が違う"); }
-			public override SingleTerm GetReturnValue(ExpressionMediator exm, IOperandTerm[] arguments) { return new SingleTerm(GetStrValue(exm, arguments)); }
+			public override SingleTerm GetReturnValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate) { return new SingleTerm(GetStrValue(exm, arguments, tryTranslate)); }
 		}
 
 		private sealed class FormatCurlyBrace : FormattedStringMethod
 		{
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
+				int nbrPad = 0;
 				string ret = arguments[0].GetIntValue(exm).ToString();
 				if (arguments[1] == null)
 					return ret;
-				if (arguments[2] != null)
-					ret = ret.PadRight((int)arguments[1].GetIntValue(exm), ' ');//LEFT
+				//Bartoum: Engine bug fix, a negative value will make PadRight && PadLeft left.
+				nbrPad = (int)arguments[1].GetIntValue(exm);
+				if(nbrPad < 0)
+					nbrPad = 0;
+				if (arguments[2] != null)					
+					ret = ret.PadRight(nbrPad, ' ');//LEFT
 				else
-					ret = ret.PadLeft((int)arguments[1].GetIntValue(exm), ' ');//RIGHT
+					ret = ret.PadLeft(nbrPad, ' ');//RIGHT
+
 				return ret;
 			}
 		}
 
 		private sealed class FormatPercent : FormattedStringMethod
 		{
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
-				string ret = arguments[0].GetStrValue(exm);
+
+                //Changes by Bartoum
+                string ret = arguments[0].GetStrValue(exm, tryTranslate);
+				string original = ret;
+                //We try to translate the entire string. If the name of a csv variable was put alone in a variable like ARGS this will work.
+                //At this point we can't know where the name came from so we need to use ALL.
+                if(exm.Process.getCurrentLine != null && exm.Process.getCurrentLine.ToString().Contains("RETURNF"))
+                    tryTranslate = false;
+
+                if (tryTranslate){
+					ret = Translation.translate(ret, "ALL", tryTranslate);
+					//If it didn't work we strip everything after a number and all those characters -  [ ] 【 】and ( if ) is not present.
+					if(original == ret){
+						ret = Translation.translateALL(ret, "ALL");	
+					}
+				}
 				if (arguments[1] == null)
 					return ret;
 				int totalLength = (int)arguments[1].GetIntValue(exm);
@@ -267,7 +291,7 @@ namespace MinorShift.Emuera.GameData
 
 		private sealed class FormatYenAt : FormattedStringMethod
 		{//Operator のTernaryIntStrStrとやってることは同じ
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				return (arguments[0].GetIntValue(exm) != 0) ? arguments[1].GetStrValue(exm) : arguments[2].GetStrValue(exm);
 			}

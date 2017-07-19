@@ -4,6 +4,7 @@ using System.Text;
 using MinorShift.Emuera.GameData.Expression;
 using MinorShift.Emuera.Sub;
 using MinorShift.Emuera.GameProc;
+using MinorShift.Emuera.GameData.Variable;
 
 
 namespace MinorShift.Emuera.GameData.Function
@@ -143,6 +144,10 @@ namespace MinorShift.Emuera.GameData.Function
 			methodList["HTML_POPPRINTINGSTR"] = new HtmlPopPrintingStrMethod();
 			methodList["HTML_TOPLAINTEXT"] = new HtmlToPlainTextMethod();
 			methodList["HTML_ESCAPE"] = new HtmlEscapeMethod();
+
+            // JVN: TR Commands here
+            methodList["TR_NAME"] = new TRNameMethod();
+            //methodList["TR_CSTR"] = new TRCSTRMethod();
         }
 
 		private static Dictionary<string, FunctionMethod> methodList;

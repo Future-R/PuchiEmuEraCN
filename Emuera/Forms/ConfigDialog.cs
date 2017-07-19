@@ -47,7 +47,16 @@ namespace MinorShift.Emuera.Forms
 			numericUpDownPosX.Maximum = 10000;//WindowPosX
 			numericUpDownPosY.Maximum = 10000;
 
-		}
+            numericUpDownCBMaxCB.Minimum = 1;//CB Length of Clipboard
+            numericUpDownCBMaxCB.Maximum = 200;
+            numericUpDownCBBufferSize.Minimum = 50; //CB Buffer Size
+            numericUpDownCBBufferSize.Maximum = 5000;
+            numericUpDownCBScrollCount.Minimum = 1; //CB Scroll lines per key press
+            numericUpDownCBScrollCount.Maximum = 100;
+            numericUpDownCBMinTimer.Minimum = 300; //CB Min timer between updates
+            numericUpDownCBMinTimer.Maximum = 60000;
+
+        }
 
 		private void buttonSave_Click(object sender, EventArgs e)
 		{
@@ -273,6 +282,23 @@ namespace MinorShift.Emuera.Forms
             textBox1.Text = Config.TextEditor;
             textBox2.Text = Config.EditorArg;
             textBox2.Enabled = itemET.Value == TextEditorType.USER_SETTING;
+
+            setCheckBox(checkBoxCBuseCB, ConfigCode.CBUseClipboard);
+            setCheckBox(checkBoxCBIgnoreTags, ConfigCode.CBIgnoreTags);
+            textBoxCBReplaceTags.Text = Config.CBReplaceTags;
+            setCheckBox(checkBoxCBNewLinesOnly, ConfigCode.CBNewLinesOnly);
+            setCheckBox(checkBoxCBClearBuffer, ConfigCode.CBClearBuffer);
+            setCheckBox(checkBoxCBTriggerLeftClick, ConfigCode.CBTriggerLeftClick);
+            setCheckBox(checkBoxCBTriggerMiddleClick, ConfigCode.CBTriggerMiddleClick);
+            setCheckBox(checkBoxCBTriggerDoubleLeftClick, ConfigCode.CBTriggerDoubleLeftClick);
+            setCheckBox(checkBoxCBTriggerAnyKeyWait, ConfigCode.CBTriggerAnyKeyWait);
+            setCheckBox(checkBoxCBTriggerInputWait, ConfigCode.CBTriggerInputWait);
+            setNumericUpDown(numericUpDownCBMaxCB, ConfigCode.CBMaxCB);
+            setNumericUpDown(numericUpDownCBBufferSize, ConfigCode.CBBufferSize);
+            setNumericUpDown(numericUpDownCBScrollCount, ConfigCode.CBScrollCount);
+            setNumericUpDown(numericUpDownCBMinTimer, ConfigCode.CBMinTimer);
+
+
 		}
 
 		private void SaveConfig()
@@ -318,7 +344,6 @@ namespace MinorShift.Emuera.Forms
 			config.GetConfigItem(ConfigCode.CompatiSPChara).SetValue<bool>(checkBoxCompatiSP.Checked);
 			config.GetConfigItem(ConfigCode.TimesNotRigorousCalculation).SetValue<bool>(checkBox9.Checked);
 			config.GetConfigItem(ConfigCode.SystemNoTarget).SetValue<bool>(checkBox29.Checked);
-
 
 			config.GetConfigItem(ConfigCode.WindowX).SetValue<int>((int)numericUpDown2.Value);
 			config.GetConfigItem(ConfigCode.WindowY).SetValue<int>((int)numericUpDown3.Value);
@@ -418,6 +443,20 @@ namespace MinorShift.Emuera.Forms
             config.GetConfigItem(ConfigCode.TextEditor).SetValue<string>(textBox1.Text);
             config.GetConfigItem(ConfigCode.EditorArgument).SetValue<string>(textBox2.Text);
 
+            config.GetConfigItem(ConfigCode.CBUseClipboard).SetValue<bool>(checkBoxCBuseCB.Checked);
+            config.GetConfigItem(ConfigCode.CBIgnoreTags).SetValue<bool>(checkBoxCBIgnoreTags.Checked);
+            config.GetConfigItem(ConfigCode.CBReplaceTags).SetValue<string>(textBoxCBReplaceTags.Text);
+            config.GetConfigItem(ConfigCode.CBNewLinesOnly).SetValue<bool>(checkBoxCBNewLinesOnly.Checked);
+            config.GetConfigItem(ConfigCode.CBClearBuffer).SetValue<bool>(checkBoxCBClearBuffer.Checked);
+            config.GetConfigItem(ConfigCode.CBTriggerLeftClick).SetValue<bool>(checkBoxCBTriggerLeftClick.Checked);
+            config.GetConfigItem(ConfigCode.CBTriggerMiddleClick).SetValue<bool>(checkBoxCBTriggerMiddleClick.Checked);
+            config.GetConfigItem(ConfigCode.CBTriggerDoubleLeftClick).SetValue<bool>(checkBoxCBTriggerDoubleLeftClick.Checked);
+            config.GetConfigItem(ConfigCode.CBTriggerAnyKeyWait).SetValue<bool>(checkBoxCBTriggerAnyKeyWait.Checked);
+            config.GetConfigItem(ConfigCode.CBTriggerInputWait).SetValue<bool>(checkBoxCBTriggerInputWait.Checked);
+            config.GetConfigItem(ConfigCode.CBMaxCB).SetValue<int>((int)numericUpDownCBMaxCB.Value);
+            config.GetConfigItem(ConfigCode.CBBufferSize).SetValue<int>((int)numericUpDownCBBufferSize.Value);
+            config.GetConfigItem(ConfigCode.CBScrollCount).SetValue<int>((int)numericUpDownCBScrollCount.Value);
+            config.GetConfigItem(ConfigCode.CBMinTimer).SetValue<int>((int)numericUpDownCBMinTimer.Value);
 			config.SaveConfig();
 		}
 

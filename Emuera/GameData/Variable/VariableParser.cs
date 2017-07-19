@@ -42,7 +42,7 @@ namespace MinorShift.Emuera.GameData.Variable
 		//    wc.ShiftNext();
 		//    VariableToken vid = ExpressionParser.ReduceVariableIdentifier(wc, id.Code);
 		//    if (vid == null)
-		//        throw new CodeEE("\"" + id.Code + "\"は解釈できない識別子です");
+		//        throw new CodeEE("\"" + id.Code + "\" cannot be interpreted");
 		//    return ReduceVariable(vid, wc);
 		//}
 
@@ -63,7 +63,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				if (wc.Current.Type != ':')
 					break;
 				if (i >= 3)
-					throw new CodeEE(id.Code.ToString() + "の引数が多すぎます");
+					throw new CodeEE(id.Code.ToString() + " Too many arguments");
 				wc.ShiftNext();
 
 				operand = ExpressionParser.ReduceVariableArgument(wc, id.Code);
@@ -95,7 +95,7 @@ namespace MinorShift.Emuera.GameData.Variable
 					if ((op1 == null) && (op2 == null) && (op3 == null))
 						return new VariableNoArgTerm(id);
 					if ((op1 == null) || (op2 == null) || (op3 == null))
-						throw new CodeEE("キャラクタ二次元配列変数" + id.Name + "の引数は省略できません");
+						throw new CodeEE("You cannot omit arguments for character two-dimensional array variable " + id.Name + "");
 					terms = new IOperandTerm[3];
 					terms[0] = op1;
 					terms[1] = op2;
@@ -104,13 +104,13 @@ namespace MinorShift.Emuera.GameData.Variable
 				else if (id.IsArray1D)
 				{
 					if (op3 != null)
-						throw new CodeEE("キャラクタ変数" + id.Name + "の引数が多すぎます");
+						throw new CodeEE("Character variable " + id.Name + " has too many arguments");
 					if ((op1 == null) && (op2 == null) && (op3 == null) && Config.SystemNoTarget)
 						return new VariableNoArgTerm(id);
 					if (op2 == null)
 					{
 						if (Config.SystemNoTarget)
-							throw new CodeEE("キャラクタ配列変数" + id.Name + "の引数は省略できません(コンフィグにより禁止が選択されています)");
+							throw new CodeEE("You cannot omit arguments for character two-dimensional array variable " + id.Name + " (Prohibited by current config)");
 						if (op1 == null)
 							op2 = ZeroTerm;
 						else
@@ -124,13 +124,13 @@ namespace MinorShift.Emuera.GameData.Variable
 				else
 				{
 					if (op2 != null)
-						throw new CodeEE("キャラクタ変数" + id.Name + "の引数が多すぎます");
+						throw new CodeEE("Character variable " + id.Name + " has too many arguments");
 					if ((op1 == null) && (op2 == null) && (op3 == null) && Config.SystemNoTarget)
 						return new VariableNoArgTerm(id);
 					if (op1 == null)
 					{
 						if (Config.SystemNoTarget)
-							throw new CodeEE("キャラクタ変数" + id.Name + "の引数は省略できません(コンフィグにより禁止が選択されています)");
+							throw new CodeEE("Character variable " + id.Name + " cannot have omitted arguments (Prohibited by current config)");
 						op1 = TARGET;
 					}
 					terms = new IOperandTerm[1];
@@ -142,7 +142,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				if ((op1 == null) && (op2 == null) && (op3 == null))
 					return new VariableNoArgTerm(id);
 				if ((op1 == null) || (op2 == null) || (op3 == null))
-					throw new CodeEE("三次元配列変数" + id.Name + "の引数は省略できません");
+					throw new CodeEE("Three-dimensional array variable " + id.Name + " cannot have omitted arguments");
 				terms = new IOperandTerm[3];
 				terms[0] = op1;
 				terms[1] = op2;
@@ -153,9 +153,9 @@ namespace MinorShift.Emuera.GameData.Variable
 				if ((op1 == null) && (op2 == null) && (op3 == null))
 					return new VariableNoArgTerm(id);
 				if ((op1 == null) || (op2 == null))
-					throw new CodeEE("二次元配列変数" + id.Name + "の引数は省略できません");
+					throw new CodeEE("Two-dimensional array variable " + id.Name + " cannot have omitted arguments");
 				if (op3 != null)
-					throw new CodeEE("二次元配列" + id.Name + "の引数が多すぎます");
+					throw new CodeEE("Two-dimensional array " + id.Name + " has too many arguments");
 				terms = new IOperandTerm[2];
 				terms[0] = op1;
 				terms[1] = op2;
@@ -163,26 +163,26 @@ namespace MinorShift.Emuera.GameData.Variable
 			else if (id.IsArray1D)
 			{
 				if (op2 != null)
-					throw new CodeEE("一次元配列変数" + id.Name + "の引数が多すぎます");
+					throw new CodeEE("One-dimensional array variable " + id.Name + " has too many arguments");
                 if (op1 == null)
                 {
                     op1 = ZeroTerm;
                     if (!Config.CompatiRAND && id.Code == VariableCode.RAND)
                     {
-                        throw new CodeEE("RANDの引数が省略されています");
+                        throw new CodeEE("RAND has an omitted argument");
                     }
                 }
                 if (!Config.CompatiRAND && op1 is SingleTerm && id.Code == VariableCode.RAND)
                 {
                     if (((SingleTerm)op1).Int == 0)
-                        throw new CodeEE("RANDの引数に0が与えられています");
+                        throw new CodeEE("RAND has 0 as an argument");
                 }
 				terms = new IOperandTerm[1];
 				terms[0] = op1;
 			}
 			else if (op1 != null)
 			{
-				throw new CodeEE("配列でない変数" + id.Name + "を引数付きで呼び出しています");
+				throw new CodeEE("Variable that is not an array " + id.Name + " is being called with an argument");
 			}
 			else
 				terms = new IOperandTerm[0];

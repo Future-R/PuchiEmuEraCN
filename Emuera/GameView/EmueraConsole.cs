@@ -70,7 +70,7 @@ namespace MinorShift.Emuera.GameView
     //難読化用属性。enum.ToString()やenum.Parse()を行うなら(Exclude=true)にすること。
     [global::System.Reflection.Obfuscation(Exclude = false)]
     internal enum EffectStatus
-    {
+	{
         NotEffect = 0,          //エフェクトしていない
         EffectStart = 1,        //エフェクト開始,初回描画領域バッファリング前
         EffectBuffered = 2,     //エフェクト実行中、描画領域バッファリング済み
@@ -99,85 +99,87 @@ namespace MinorShift.Emuera.GameView
         public float fadeResultAlpha = 0.0f;	                        //ループ終了時の目標透過率
         System.Diagnostics.Stopwatch sWatch;                            //画面エフェクト処理に要した時間の測定用
         //182101 PCDRP-Update:画像固定表示機能,画面エフェクト機能で修正↑--------------------------
-        public EmueraConsole(MainWindow parent)
-        {
-            window = parent;
+		public EmueraConsole(MainWindow parent)
+		{
+			window = parent;
+            CBProc = new ClipboardProcessor(parent);
 
             fixImgPrint = new FixImgPrint(Config.FixImgGroupNumber, window.MainPicBox.Width, window.MainPicBox.Height); //182101 PCDRP-Update:画像固定表示機能で修正
 
-            //1.713 この段階でsetStBarを使用してはいけない
-            //setStBar(StaticConfig.DrawLineString);
-            state = ConsoleState.Initializing;
-            if (Config.FPS > 0)
-                msPerFrame = 1000 / (uint)Config.FPS;
-            displayLineList = new List<ConsoleDisplayLine>();
-            printBuffer = new PrintStringBuffer(this);
+			//1.713 この段階でsetStBarを使用してはいけない
+			//setStBar(StaticConfig.DrawLineString);
+			state = ConsoleState.Initializing;
+			if (Config.FPS > 0)
+				msPerFrame = 1000 / (uint)Config.FPS;
+			displayLineList = new List<ConsoleDisplayLine>();
+			printBuffer = new PrintStringBuffer(this);
 
-            timer = new Timer();
-            timer.Enabled = false;
-            timer.Tick += new EventHandler(tickTimer);
-            timer.Interval = 100;
+			timer = new Timer();
+			timer.Enabled = false;
+			timer.Tick += new EventHandler(tickTimer);
+			timer.Interval = 100;
             fadeColor = this.bgColor;                       //182101 PCDRP-Update:画面フェード機能で修正
             sWatch = new System.Diagnostics.Stopwatch();    //182101 PCDRP-Update:画面フェード機能で修正
         }
-        const string ErrorButtonsText = "__openFileWithDebug__";
+		const string ErrorButtonsText = "__openFileWithDebug__";
         private readonly MainWindow window;
+        public ClipboardProcessor CBProc;
 
         MinorShift.Emuera.GameProc.Process emuera;
-        ConsoleState state = ConsoleState.Initializing;
-        public bool Enabled { get { return window.Created; } }
+		ConsoleState state = ConsoleState.Initializing;
+		public bool Enabled { get { return window.Created; } }
 
-        /// <summary>
-        /// スクリプトが継続中かどうか
-        /// 入力系はメッセージスキップやマクロも含めてIsInProcessを参照すべき
-        /// </summary>
-        internal bool IsRunning
-        {
-            get
-            {
-                if (state == ConsoleState.Initializing)
-                    return true;
-                return (state == ConsoleState.Running || runningERBfromMemory);
-            }
-        }
+		/// <summary>
+		/// スクリプトが継続中かどうか
+		/// 入力系はメッセージスキップやマクロも含めてIsInProcessを参照すべき
+		/// </summary>
+		internal bool IsRunning
+		{
+			get
+			{
+				if (state == ConsoleState.Initializing)
+					return true;
+				return (state == ConsoleState.Running || runningERBfromMemory);
+			}
+		}
 
-        internal bool IsInProcess
-        {
-            get
-            {
-                if (state == ConsoleState.Initializing)
-                    return true;
-                if (inProcess)
-                    return true;
-                return (state == ConsoleState.Running || runningERBfromMemory);
-            }
-        }
+		internal bool IsInProcess
+		{
+			get
+			{
+				if (state == ConsoleState.Initializing)
+					return true;
+				if (inProcess)
+					return true;
+				return (state == ConsoleState.Running || runningERBfromMemory);
+			}
+		}
 
-        internal bool IsError
-        {
-            get
-            {
-                return state == ConsoleState.Error;
-            }
-        }
+		internal bool IsError
+		{
+			get
+			{
+				return state == ConsoleState.Error;
+			}
+		}
 
-        internal bool IsWaitingEnterKey
-        {
-            get
-            {
-                if ((state == ConsoleState.Quit) || (state == ConsoleState.Error))
-                    return true;
-                if (state == ConsoleState.WaitInput)
-                    return (inputReq.InputType == InputType.AnyKey || inputReq.InputType == InputType.EnterKey);
-                return false;
-            }
-        }
+		internal bool IsWaitingEnterKey
+		{
+			get
+			{
+				if ((state == ConsoleState.Quit) || (state == ConsoleState.Error))
+					return true;
+				if(state == ConsoleState.WaitInput)
+					return (inputReq.InputType == InputType.AnyKey || inputReq.InputType == InputType.EnterKey);
+				return false;
+			}
+		}
 
         internal bool IsWaitAnyKey
         {
             get
-            {
-                return (state == ConsoleState.WaitInput && inputReq.InputType == InputType.AnyKey);
+			{
+				return (state == ConsoleState.WaitInput && inputReq.InputType == InputType.AnyKey);
             }
         }
 
@@ -185,99 +187,99 @@ namespace MinorShift.Emuera.GameView
         {
             get
             {
-                return (state == ConsoleState.WaitInput && inputReq.OneInput);
+				return (state == ConsoleState.WaitInput && inputReq.OneInput);
             }
         }
 
-        internal bool IsRunningTimer
-        {
-            get
-            {
-                return (state == ConsoleState.WaitInput && inputReq.Timelimit > 0 && !isTimeout);
-            }
-        }
+		internal bool IsRunningTimer
+		{
+			get
+			{
+				return (state == ConsoleState.WaitInput && inputReq.Timelimit > 0 && !isTimeout);
+			}
+		}
 
-        internal string SelectedString
-        {
-            get
-            {
-                if (selectingButton == null)
-                    return null;
-                if (state == ConsoleState.Error)
-                    return selectingButton.Inputs;
-                if (state != ConsoleState.WaitInput)
-                    return null;
-                if (inputReq.InputType == InputType.IntValue && (selectingButton.IsInteger))
-                    return selectingButton.Input.ToString();
-                if (inputReq.InputType == InputType.StrValue)
-                    return selectingButton.Inputs;
-                return null;
-            }
-        }
+		internal string SelectedString
+		{
+			get
+			{
+				if (selectingButton == null)
+					return null;
+				if (state == ConsoleState.Error)
+					return selectingButton.Inputs;
+				if (state != ConsoleState.WaitInput)
+					return null;
+				if (inputReq.InputType == InputType.IntValue && (selectingButton.IsInteger))
+					return selectingButton.Input.ToString();
+				if (inputReq.InputType == InputType.StrValue)
+					return selectingButton.Inputs;
+				return null;
+			}
+		}
 
-        public void Initialize()
-        {
-            GlobalStatic.Console = this;
-            GlobalStatic.MainWindow = window;
+		public void Initialize()
+		{
+			GlobalStatic.Console = this;
+			GlobalStatic.MainWindow = window;
             emuera = new GameProc.Process(this);
-            GlobalStatic.Process = emuera;
-            if (Program.DebugMode && Config.DebugShowWindow)
-            {
-                OpenDebugDialog();
-                window.Focus();
-            }
-            ClearDisplay();
-            if (!emuera.Initialize())
-            {
-                state = ConsoleState.Error;
-                OutputLog(null);
-                PrintFlush(false);
-                RefreshStrings(true);
-                return;
-            }
-            callEmueraProgram("");
-            RefreshStrings(true);
-        }
-
+			GlobalStatic.Process = emuera;
+			if (Program.DebugMode && Config.DebugShowWindow)
+			{
+				OpenDebugDialog();
+				window.Focus();
+			}
+			ClearDisplay();
+			if (!emuera.Initialize())
+			{
+				state = ConsoleState.Error;
+				OutputLog(null);
+				PrintFlush(false);
+				RefreshStrings(true);
+				return;
+			}
+			callEmueraProgram("");
+			RefreshStrings(true);
+		}
+		
 
         public void Quit() { state = ConsoleState.Quit; }
-        public void ThrowTitleError(bool error)
-        {
-            state = ConsoleState.Error;
-            notToTitle = true;
-            byError = error;
-        }
-        public void ThrowError(bool playSound)
-        {
-            if (playSound)
-                System.Media.SystemSounds.Hand.Play();
-            forceUpdateGeneration();
-            UseUserStyle = false;
-            PrintFlush(false);
-            RefreshStrings(false);
-            state = ConsoleState.Error;
-        }
+		public void ThrowTitleError(bool error)
+		{
+			state = ConsoleState.Error;
+			notToTitle = true;
+			byError = error;
+		}
+		public void ThrowError(bool playSound)
+		{
+			if (playSound)
+				System.Media.SystemSounds.Hand.Play();
+			forceUpdateGeneration();
+			UseUserStyle = false;
+			PrintFlush(false);
+			RefreshStrings(false);
+			state = ConsoleState.Error;
+		}
 
         public bool notToTitle = false;
         public bool byError = false;
         //public ScriptPosition ErrPos = null;
 
-        #region button関連
-        bool lastButtonIsInput = true;
+		#region button関連
+		bool lastButtonIsInput = true;
         public bool updatedGeneration = false;
-        int lastButtonGeneration = 0;//最後に追加された選択肢の世代。これと世代が一致しない選択肢は選択できない。
-        int newButtonGeneration = 0;//次に追加される選択肢の世代。Input又はInputsごとに増加
-                                    //public int LastButtonGeneration { get { return lastButtonGeneration; } }
-        public int NewButtonGeneration { get { return newButtonGeneration; } }
+		int lastButtonGeneration = 0;//最後に追加された選択肢の世代。これと世代が一致しない選択肢は選択できない。
+		int newButtonGeneration = 0;//次に追加される選択肢の世代。Input又はInputsごとに増加
+		//public int LastButtonGeneration { get { return lastButtonGeneration; } }
+		public int NewButtonGeneration { get { return newButtonGeneration; } }
         public void UpdateGeneration() { lastButtonGeneration = newButtonGeneration; updatedGeneration = true; }
         public void forceUpdateGeneration() { newButtonGeneration++; lastButtonGeneration = newButtonGeneration; updatedGeneration = true; }
         LogicalLine lastInputLine;
 
-        private void newGeneration()
-        {
+		private void newGeneration()
+		{
             //値の入力を求められない時は更新は必要ないはず
-            if (state != ConsoleState.WaitInput || !inputReq.NeedValue)
-                return;
+			if (state != ConsoleState.WaitInput || !inputReq.NeedValue)
+				return;
             if (!updatedGeneration && emuera.getCurrentLine != lastInputLine)
             {
                 //ボタン無しで次の入力に来たなら強制で世代更新
@@ -286,71 +288,73 @@ namespace MinorShift.Emuera.GameView
             else
                 updatedGeneration = false;
             lastInputLine = emuera.getCurrentLine;
-            //古い選択肢を選択できないように。INPUTで使った選択肢をINPUTSには流用できないように。
-            if (inputReq.InputType == InputType.IntValue)
-            {
-                if (lastButtonGeneration == newButtonGeneration)
-                    unchecked { newButtonGeneration++; }
-                else if (!lastButtonIsInput)
-                    lastButtonGeneration = newButtonGeneration;
-                lastButtonIsInput = true;
-            }
-            if (inputReq.InputType == InputType.StrValue)
-            {
-                if (lastButtonGeneration == newButtonGeneration)
-                    unchecked { newButtonGeneration++; }
-                else if (lastButtonIsInput)
-                    lastButtonGeneration = newButtonGeneration;
-                lastButtonIsInput = false;
-            }
-        }
+			//古い選択肢を選択できないように。INPUTで使った選択肢をINPUTSには流用できないように。
+			if (inputReq.InputType == InputType.IntValue)
+			{
+				if (lastButtonGeneration == newButtonGeneration)
+					unchecked { newButtonGeneration++; }
+				else if (!lastButtonIsInput)
+					lastButtonGeneration = newButtonGeneration;
+				lastButtonIsInput = true;
+			}
+			if (inputReq.InputType == InputType.StrValue)
+			{
+				if (lastButtonGeneration == newButtonGeneration)
+					unchecked { newButtonGeneration++; }
+				else if (lastButtonIsInput)
+					lastButtonGeneration = newButtonGeneration;
+				lastButtonIsInput = false;
+			}
+		}
 
-        /// <summary>
-        /// 選択中のボタン。INPUTやINPUTSに対応したものでなければならない
-        /// </summary>
-        ConsoleButtonString selectingButton = null;
-        ConsoleButtonString lastSelectingButton = null;
-        public ConsoleButtonString SelectingButton { get { return selectingButton; } }
-        public bool ButtonIsSelected(ConsoleButtonString button) { return selectingButton == button; }
+		/// <summary>
+		/// 選択中のボタン。INPUTやINPUTSに対応したものでなければならない
+		/// </summary>
+		ConsoleButtonString selectingButton = null;
+		ConsoleButtonString lastSelectingButton = null;
+		public ConsoleButtonString SelectingButton { get { return selectingButton; } }
+		public bool ButtonIsSelected(ConsoleButtonString button) { return selectingButton == button; }
 
-        /// <summary>
-        /// ToolTip表示したフラグ
-        /// </summary>
-        bool tooltipUsed = false;
-        /// <summary>
-        /// マウスの直下にあるテキスト。ボタンであってもよい。
-        /// ToolTip表示用。世代無視、履歴中も表示
-        /// </summary>
-        ConsoleButtonString pointingString = null;
-        ConsoleButtonString lastPointingString = null;
-        #endregion
+		/// <summary>
+		/// ToolTip表示したフラグ
+		/// </summary>
+		bool tooltipUsed = false;
+		/// <summary>
+		/// マウスの直下にあるテキスト。ボタンであってもよい。
+		/// ToolTip表示用。世代無視、履歴中も表示
+		/// </summary>
+		ConsoleButtonString pointingString = null;
+		ConsoleButtonString lastPointingString = null;
+		#endregion
 
-        #region Input & Timer系
+		#region Input & Timer系
 
-        //bool hasDefValue = false;
-        //Int64 defNum;
-        //string defStr;
+		//bool hasDefValue = false;
+		//Int64 defNum;
+		//string defStr;
 
-        private InputRequest inputReq = null;
-        public void WaitInput(InputRequest req)
-        {
+		private InputRequest inputReq = null;
+		public void WaitInput(InputRequest req)
+		{
+            CBProc.Check(ClipboardProcessor.CBTriggers.InputWait);
+
             state = ConsoleState.WaitInput;
-            inputReq = req;
-            //TODO:Timelimitが0以下だったら？
-            if (req.Timelimit > 0)
-            {
-                if (req.OneInput)
-                    window.update_lastinput();
-                setTimer();
-            }
-            //updateMousePosition();
-            //Point point = window.MainPicBox.PointToClient(Control.MousePosition);
-            //if (window.MainPicBox.ClientRectangle.Contains(point))
-            //{
-            //	PrintFlush(false);
-            //	MoveMouse(point);
-            //}
-        }
+			inputReq = req;
+			//TODO:Timelimitが0以下だったら？
+			if (req.Timelimit > 0)
+			{
+				if (req.OneInput)
+					window.update_lastinput();
+				setTimer();
+			}
+			//updateMousePosition();
+			//Point point = window.MainPicBox.PointToClient(Control.MousePosition);
+			//if (window.MainPicBox.ClientRectangle.Contains(point))
+			//{
+			//	PrintFlush(false);
+			//	MoveMouse(point);
+			//}
+		}
         //182101 PCDRP-Update:画面エフェクト機能で修正↓--------------------------
         //[自分用覚書]
         //初期実装では新規のTimerを作成して実装していたが、
@@ -511,22 +515,24 @@ namespace MinorShift.Emuera.GameView
         }
         //182101 PCDRP-Update:画面エフェクト機能で修正↑--------------------------
 
-        public void ReadAnyKey(bool anykey = false, bool stopMesskip = false)
-        {
+		public void ReadAnyKey(bool anykey = false, bool stopMesskip = false)
+		{
+            CBProc.Check(ClipboardProcessor.CBTriggers.AnyKeyWait);
+
             InputRequest req = new InputRequest();
-            if (!anykey)
-                req.InputType = InputType.EnterKey;
-            else
-                req.InputType = InputType.AnyKey;
-            req.StopMesskip = stopMesskip;
-            inputReq = req;
-            state = ConsoleState.WaitInput;
-            emuera.NeedWaitToEventComEnd = false;
-        }
+			if (!anykey)
+				req.InputType = InputType.EnterKey;
+			else
+				req.InputType = InputType.AnyKey;
+			req.StopMesskip = stopMesskip;
+			inputReq = req;
+			state = ConsoleState.WaitInput;
+			emuera.NeedWaitToEventComEnd = false;
+		}
 
 
-        Timer timer = null;
-        Int64 timerID = -1;
+		Timer timer = null;
+		Int64 timerID = -1;
         int countTime = 0;
         bool wait_timeout = false;
         bool isTimeout = false;
@@ -542,7 +548,7 @@ namespace MinorShift.Emuera.GameView
             if (inputReq.DisplayTime)
             {
                 long start = inputReq.Timelimit / 100;
-                string timeString1 = "残り ";
+				string timeString1 = "Remaining: ";
                 string timeString2 = ((double)start / 10.0).ToString();
                 PrintSingleLine(timeString1 + timeString2);
             }
@@ -640,7 +646,7 @@ namespace MinorShift.Emuera.GameView
 			if (state == ConsoleState.Running)
 			{//RunningならProcessは処理を継続するべき
 				state = ConsoleState.Error;
-                PrintError("emueraのエラー：プログラムの状態を特定できません");
+                PrintError("Emuera error: Unable to determine program status");
 			}
 			if (state == ConsoleState.Error && !noOutputLog)
 				OutputLog(Program.ExeDir + "emuera.log");
@@ -846,7 +852,7 @@ namespace MinorShift.Emuera.GameView
 			catch (System.ComponentModel.Win32Exception)
 			{
 				System.Media.SystemSounds.Hand.Play();
-				PrintError("エディタを開くことができませんでした");
+				PrintError("Failed to open the editor");
 				forceUpdateGeneration();
 			}
 			return;
@@ -938,14 +944,14 @@ namespace MinorShift.Emuera.GameView
 		{
 			if(timer.Enabled)
 			{
-				PrintError("タイマー系命令の待ち時間中はコマンドを入力できません");
+				PrintError("You input commands during wait time of timer-related instruction");
 				PrintError("");//タイマー表示処理に消されちゃうかもしれないので
 				RefreshStrings(true);
 				return;
 			}
 			if (IsInProcess)
 			{
-				PrintError("スクリプト実行中はコマンドを入力できません");
+				PrintError("You cannot input commands while script is running");
 				RefreshStrings(true);
 				return;
 			}
@@ -980,7 +986,7 @@ namespace MinorShift.Emuera.GameView
 			{
 				if (!Program.DebugMode)
 				{
-					PrintError("デバッグウインドウは-Debug引数付きで起動したときのみ使えます");
+					PrintError("The debug window can only be used when executable is started with the -Debug argument");
 					RefreshStrings(true);
 					return;
 				}
@@ -990,7 +996,7 @@ namespace MinorShift.Emuera.GameView
 			{
 				if (!Config.UseDebugCommand)
 				{
-					PrintError("デバッグコマンドを使用できない設定になっています");
+					PrintError("Debug commands cannot be used");
 					RefreshStrings(true);
 					return;
 				}
@@ -1102,9 +1108,9 @@ namespace MinorShift.Emuera.GameView
 		/// <param name="graph"></param>
 		public void OnPaint(Graphics graph)
 		{
-            //描画中にEmueraが閉じられると廃棄されたPictureBoxにアクセスしてしまったりするので
-            //OnPaintからgraphをもらった直後だから大丈夫だとは思うけど一応
-            if (!this.Enabled)
+			//描画中にEmueraが閉じられると廃棄されたPictureBoxにアクセスしてしまったりするので
+			//OnPaintからgraphをもらった直後だから大丈夫だとは思うけど一応
+			if (!this.Enabled)
 				return;
 
 			//描画命令を発行したRefresh時にすべきか、OnPaintの開始にすべきか、OnPaintの終了にするか
@@ -1122,11 +1128,11 @@ namespace MinorShift.Emuera.GameView
 			if (topLineNo < 0)
 				topLineNo = 0;
 			pointY -= (bottomLineNo - topLineNo) * Config.LineHeight;
-			if (Config.TextDrawingMode == TextDrawingMode.WINAPI)
-			{
+            if (Config.TextDrawingMode == TextDrawingMode.WINAPI)
+            {
                 //TODO:固定画像表示機能の制限事項:WINAPI時は使用不可
                 GDI.GDIStart(graph, this.bgColor);
-				GDI.FillRect(new Rectangle(0, 0, window.MainPicBox.Width, window.MainPicBox.Height));
+                GDI.FillRect(new Rectangle(0, 0, window.MainPicBox.Width, window.MainPicBox.Height));
 
                 //for (int i = bottomLineNo; i >= topLineNo; i--)
                 //{
@@ -1142,8 +1148,8 @@ namespace MinorShift.Emuera.GameView
                 GDI.GDIEnd(graph);
             }
             else
-			{
-				graph.Clear(this.bgColor);
+            {
+                graph.Clear(this.bgColor);
                 //for (int i = bottomLineNo; i >= topLineNo; i--)
                 //{
                 //	displayLineList[i].DrawTo(graph, pointY, isBackLog, true, Config.TextDrawingMode);
@@ -1153,7 +1159,8 @@ namespace MinorShift.Emuera.GameView
                 fixImgPrint.drawFixImage(topLineNo, bottomLineNo, graph, pointY, isBackLog, true);  //182101 PCDRP-Update:画像固定表示機能
 
                 //全体フェード中でバッファ済みの場合文字列出力処理は実施しない
-                if (!(fixImgPrint.EffectStatus == EffectStatus.EffectBuffered && fixImgPrint.effectTargetType == EffectTarget.Screen)) {                               //182101 PCDRP-Update:画面フェード機能で修正
+                if (!(fixImgPrint.EffectStatus == EffectStatus.EffectBuffered && fixImgPrint.effectTargetType == EffectTarget.Screen))
+                {                               //182101 PCDRP-Update:画面フェード機能で修正
                     for (int i = topLineNo; i <= bottomLineNo; i++)
                     {
                         displayLineList[i].DrawTo(graph, pointY, isBackLog, true, Config.TextDrawingMode);
@@ -1163,58 +1170,60 @@ namespace MinorShift.Emuera.GameView
                             displayLineList[i].DrawTo(fixImgPrint.allFadeBackGraph, pointY, isBackLog, true, Config.TextDrawingMode);
                         }
                         pointY += Config.LineHeight;
+                    }                                                                                   //182101 PCDRP-Update:画面フェード機能で修正
+                }
+
+                //エフェクト中の場合には状態保存用のバッファに書き込みが完了したので次回以降はそちらを使う
+                if (fixImgPrint.EffectStatus == EffectStatus.EffectStart)
+                {
+                    fixImgPrint.EffectStatus = EffectStatus.EffectBuffered;
+                }
+                //182101 PCDRP-Update:画面フェード機能で修正↓--------------------------
+                //画面全体をフェードする場合は文字列もフェードさせないと違和感が出るため
+                //描写済みのスクリーン全体に透過度を指定した矩形を表示することでフェードを表現する
+
+                //ブラシで使用するα値は0～255なので掛けている
+                //透明度を指定して画面を上書きする
+                if (screenAlpha < 1.0f)
+                {
+                    //レンダリング精度を低くして少しでも性能向上しないかな
+                    //graph.CompositingQuality = CompositingQuality.HighSpeed;
+                    int tempAlpha = 255 - (int)(screenAlpha * 255 + 0.5);
+                    //変動が大きい場合一気に255を超えてしまう場合がある
+                    if (tempAlpha > 255)
+                        tempAlpha = 255;
+                    if (Math.Sign(tempAlpha) == -1)
+                        tempAlpha = 0;
+                    Brush b = new SolidBrush(Color.FromArgb(tempAlpha, fadeColor));
+                    graph.FillRectangle(b, 0, 0, window.MainPicBox.Width, window.MainPicBox.Height);
+                    b.Dispose();
+                    //graph.CompositingQuality = CompositingQuality.Default;
+                }
+                //182101 PCDRP-Update:画面フェード機能で修正↑--------------------------
+
+                //ToolTip描画
+
+                if (lastPointingString != pointingString)
+                {
+                    if (tooltipUsed)
+                        window.ToolTip.RemoveAll();
+                    if (pointingString != null && !string.IsNullOrEmpty(pointingString.Title))
+                    {
+                        window.ToolTip.SetToolTip(window.MainPicBox, pointingString.Title);
+                        tooltipUsed = true;
                     }
-                }                                                                                   //182101 PCDRP-Update:画面フェード機能で修正
+                    lastPointingString = pointingString;
+                }
+                if (isBackLog)
+                    lastDrawnLineNo = -1;
+                else
+                    lastDrawnLineNo = lineNo;
+                lastSelectingButton = selectingButton;
+                /*デバッグ用。描画が超重い環境を想定
+                System.Threading.Thread.Sleep(50);
+                */
+                forceTextBoxColor = false;
             }
-            //エフェクト中の場合には状態保存用のバッファに書き込みが完了したので次回以降はそちらを使う
-            if (fixImgPrint.EffectStatus == EffectStatus.EffectStart)
-            {
-                fixImgPrint.EffectStatus = EffectStatus.EffectBuffered;
-            }
-            //182101 PCDRP-Update:画面フェード機能で修正↓--------------------------
-            //画面全体をフェードする場合は文字列もフェードさせないと違和感が出るため
-            //描写済みのスクリーン全体に透過度を指定した矩形を表示することでフェードを表現する
-
-            //ブラシで使用するα値は0～255なので掛けている
-            //透明度を指定して画面を上書きする
-            if (screenAlpha < 1.0f) {
-                //レンダリング精度を低くして少しでも性能向上しないかな
-                //graph.CompositingQuality = CompositingQuality.HighSpeed;
-                int tempAlpha = 255 - (int)(screenAlpha * 255 + 0.5);
-                //変動が大きい場合一気に255を超えてしまう場合がある
-                if (tempAlpha > 255)
-                    tempAlpha = 255;
-                if (Math.Sign(tempAlpha) == -1)
-                    tempAlpha = 0;
-                Brush b = new SolidBrush(Color.FromArgb(tempAlpha, fadeColor));
-                graph.FillRectangle(b, 0, 0, window.MainPicBox.Width, window.MainPicBox.Height);
-                b.Dispose();
-                //graph.CompositingQuality = CompositingQuality.Default;
-            }
-            //182101 PCDRP-Update:画面フェード機能で修正↑--------------------------
-
-            //ToolTip描画
-
-            if (lastPointingString != pointingString)
-			{
-				if (tooltipUsed)
-					window.ToolTip.RemoveAll();
-				if (pointingString != null && !string.IsNullOrEmpty(pointingString.Title))
-				{
-					window.ToolTip.SetToolTip(window.MainPicBox, pointingString.Title);
-					tooltipUsed = true;
-				}
-				lastPointingString = pointingString;
-			}
-			if (isBackLog)
-				lastDrawnLineNo = -1;
-			else
-				lastDrawnLineNo = lineNo;
-			lastSelectingButton = selectingButton;
-			/*デバッグ用。描画が超重い環境を想定
-			System.Threading.Thread.Sleep(50);
-			*/
-			forceTextBoxColor = false;
 		}
 
 		public void SetToolTipColor(Color foreColor, Color backColor)
@@ -1255,7 +1264,7 @@ namespace MinorShift.Emuera.GameView
 			//	return null;
 			StringBuilder builder = new StringBuilder("");
 			LogicalLine line = emuera.GetScaningLine();
-			builder.AppendLine("*実行中の行");
+			builder.AppendLine("*Processing");
 			if ((line == null) || (line.Position == null))
 			{
 				builder.AppendLine("ファイル名:なし");
@@ -1264,11 +1273,11 @@ namespace MinorShift.Emuera.GameView
 			}
 			else
 			{
-				builder.AppendLine("ファイル名:" + line.Position.Filename);
-				builder.AppendLine("行番号:" + line.Position.LineNo.ToString() + " 関数名:" + line.ParentLabelLine.LabelName);
+				builder.AppendLine("File:" + line.Position.Filename);
+				builder.AppendLine("Line:" + line.Position.LineNo.ToString() + "  Function:" + line.ParentLabelLine.LabelName);
 				builder.AppendLine("");
 			}
-			builder.AppendLine("*スタックトレース");
+			builder.AppendLine("*Function call stack");
 			for (int i = dTraceLogList.Count - 1; i >= 0; i--)
 			{
 				builder.AppendLine(dTraceLogList[i]);
@@ -1357,7 +1366,7 @@ namespace MinorShift.Emuera.GameView
 					WordCollection wc = LexicalAnalyzer.Analyse(new StringStream(com), LexEndWith.EoL, LexAnalyzeFlag.None);
 					IOperandTerm term = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.EoL);
 					if (term == null)
-						throw new CodeEE("解釈不能なコードです");
+						throw new CodeEE("An uninterpretable code");
 					if (term.GetOperandType() == typeof(Int64))
 					{
 						if (outputDebugConsole)
@@ -1375,23 +1384,23 @@ namespace MinorShift.Emuera.GameView
 					line = LogicalLineParser.ParseLine(com, null);
 				}
 				if (line == null)
-					throw new CodeEE("解釈不能なコードです");
+					throw new CodeEE("An uninterpretable code");
 				if (line is InvalidLine)
 					throw new CodeEE(line.ErrMes);
 				if (!(line is InstructionLine))
-					throw new CodeEE("デバッグコマンドで使用できるのは代入文か命令文だけです");
+					throw new CodeEE("Debug commands can only use assignment statements or imperative statements");
 				InstructionLine func = (InstructionLine)line;
 				if (func.Function.IsFlowContorol())
-					throw new CodeEE("フロー制御命令は使用できません");
+					throw new CodeEE("Flow control instructions cannot be used");
 				//__METHOD_SAFE__をみるならいらないかも
 				if (func.Function.IsWaitInput())
-					throw new CodeEE(func.Function.Name + "命令は使用できません");
+					throw new CodeEE(func.Function.Name + "Instructions cannot be used");
 				//1750 __METHOD_SAFE__とほぼ条件同じだよねってことで
 				if (!func.Function.IsMethodSafe())
-					throw new CodeEE(func.Function.Name + "命令は使用できません");
+					throw new CodeEE(func.Function.Name + "Instructions cannot be used");
 				//1756 SIFの次に来てはいけないものはここでも不可。
 				if (func.Function.IsPartial())
-					throw new CodeEE(func.Function.Name + "命令は使用できません");
+					throw new CodeEE(func.Function.Name + "Instructions cannot be used");
 				switch (func.FunctionCode)
 				{//取りこぼし
 					//逆にOUTPUTLOG、QUITはDebugCommandの前に捕まえる
@@ -1399,7 +1408,7 @@ namespace MinorShift.Emuera.GameView
 					case FunctionCode.UPCHECK:
 					case FunctionCode.CUPCHECK:
 					case FunctionCode.SAVEDATA:
-						throw new CodeEE(func.Function.Name + "命令は使用できません");
+						throw new CodeEE(func.Function.Name + "Instructions cannot be used");
 				}
 				ArgumentParser.SetArgumentTo(func);
 				if (func.IsError)
@@ -1570,7 +1579,7 @@ namespace MinorShift.Emuera.GameView
 		{
 			//if (state == ConsoleState.Error)
 			//{
-			//    MessageBox.Show("エラー発生時はこの機能は使えません");
+			//    MessageBox.Show("This function cannot be used when an error occurs");
 			//}
             forceStopTimer();
 			ClearDisplay();
@@ -1592,12 +1601,12 @@ namespace MinorShift.Emuera.GameView
 		{
 			if (state == ConsoleState.Error)
 			{
-				MessageBox.Show("エラー発生時はこの機能は使えません");
+				MessageBox.Show("This function cannot be used when an error occurs");
 				return;
 			}
 			if (state == ConsoleState.Initializing)
 			{
-				MessageBox.Show("初期化中はこの機能は使えません");
+				MessageBox.Show("This function cannot be used during initialization");
 				return;
 			}
             bool notRedraw = false;
@@ -1614,11 +1623,11 @@ namespace MinorShift.Emuera.GameView
             prevState = state;
 			prevReq = inputReq;
 			state = ConsoleState.Initializing;
-			PrintSingleLine("ERB再読み込み中……", true);
+			PrintSingleLine("Reloading ERB files...", true);
 			force_temporary = true;
 			emuera.ReloadErb();
 			force_temporary = false;
-            PrintSingleLine("再読み込み完了", true);
+            PrintSingleLine("Reload has been completed", true);
 			RefreshStrings(true);
             //強制的にボタン世代が切り替わるのを防ぐ
             updatedGeneration = true;
@@ -1642,12 +1651,12 @@ namespace MinorShift.Emuera.GameView
 		{
 			if (state == ConsoleState.Error)
 			{
-				MessageBox.Show("エラー発生時はこの機能は使えません");
+				MessageBox.Show("This function cannot be used when an error occurs");
 				return;
 			}
 			if (state == ConsoleState.Initializing)
 			{
-				MessageBox.Show("初期化中はこの機能は使えません");
+				MessageBox.Show("This function cannot be used during initialization");
 				return;
 			}
             bool notRedraw = false;
@@ -1664,11 +1673,11 @@ namespace MinorShift.Emuera.GameView
 			prevState = state;
 			prevReq = inputReq;
 			state = ConsoleState.Initializing;
-            PrintSingleLine("ERB再読み込み中……", true);
+            PrintSingleLine("Reloading ERB files...", true);
 			force_temporary = true;
 			emuera.ReloadPartialErb(path);
 			force_temporary = false;
-            PrintSingleLine("再読み込み完了", true);
+            PrintSingleLine("Reload has been completed", true);
 			RefreshStrings(true);
             //強制的にボタン世代が切り替わるのを防ぐ
             updatedGeneration = true;
@@ -1680,12 +1689,12 @@ namespace MinorShift.Emuera.GameView
 		{
             if (state == ConsoleState.Error)
 			{
-				MessageBox.Show("エラー発生時はこの機能は使えません");
+				MessageBox.Show("This function cannot be used when an error occurs");
 				return;
 			}
 			if (state == ConsoleState.Initializing)
 			{
-				MessageBox.Show("初期化中はこの機能は使えません");
+				MessageBox.Show("This function cannot be used during initialization");
 				return;
 			}
             if (timer.Enabled)
@@ -1710,11 +1719,11 @@ namespace MinorShift.Emuera.GameView
 			prevState = state;
 			prevReq = inputReq;
 			state = ConsoleState.Initializing;
-            PrintSingleLine("ERB再読み込み中……", true);
+            PrintSingleLine("Reloading ERB files...", true);
 			force_temporary = true;
             emuera.ReloadPartialErb(paths);
 			force_temporary = false;
-            PrintSingleLine("再読み込み完了", true);
+            PrintSingleLine("Reload has been completed", true);
 			RefreshStrings(true);
             //強制的にボタン世代が切り替わるのを防ぐ
             updatedGeneration = true;

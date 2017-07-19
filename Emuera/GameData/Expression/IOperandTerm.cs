@@ -20,11 +20,11 @@ namespace MinorShift.Emuera.GameData.Expression
         {
             return 0;
         }
-        public virtual string GetStrValue(ExpressionMediator exm)
+        public virtual string GetStrValue(ExpressionMediator exm, bool translate=false)
         {
             return "";
-        }
-        public virtual SingleTerm GetValue(ExpressionMediator exm)
+        } 
+        public virtual SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
         {
             if (type == typeof(Int64))
                 return new SingleTerm(0);
@@ -45,7 +45,7 @@ namespace MinorShift.Emuera.GameData.Expression
 		/// 定数を解体して可能ならSingleTerm化する
 		/// defineの都合上、2回以上呼ばれる可能性がある
 		/// </summary>
-        public virtual IOperandTerm Restructure(ExpressionMediator exm)
+        public virtual IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
         {
 			return this;
         }

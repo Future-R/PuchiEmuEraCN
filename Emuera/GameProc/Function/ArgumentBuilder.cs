@@ -24,7 +24,7 @@ namespace MinorShift.Emuera.GameProc.Function
 		}
 		protected void warn(string mes, InstructionLine line, int level, bool isBackComp)
 		{
-			mes = line.Function.Name + "命令:" + mes;
+			mes = line.Function.Name + " Instruction:" + mes;
 			bool isError = level >= 2;
 			if (isError)
 			{
@@ -49,19 +49,19 @@ namespace MinorShift.Emuera.GameProc.Function
 		{
 			if (arguments == null)
 			{
-				warn("引数がありません", line, 2, false);
+				warn("Missing argument", line, 2, false);
 				return false;
 			}
 			if ( arguments.Length < minArg || 
 				((arguments.Length < argumentTypeArray.Length) && (minArg < 0)) )
 			{
-				warn("引数が足りません", line, 2, false);
+				warn("Not enough arguments", line, 2, false);
 				return false;
 			}
 			int length = arguments.Length;
 			if ((arguments.Length > argumentTypeArray.Length)&&(!argAny))
 			{
-				warn("引数が多すぎます", line, 1, false);
+				warn("Too many arguments", line, 1, false);
 				length = argumentTypeArray.Length;
 			}
 			for (int i = 0; i < length; i++)
@@ -77,12 +77,12 @@ namespace MinorShift.Emuera.GameProc.Function
 				{
 					if (allowType == null)
 						continue;
-					warn("第" + (i + 1).ToString() + "引数を認識できません", line, 2, false);
+					warn("Argument number " + (i + 1).ToString() + ": unable to recognize argument", line, 2, false);
 					return false;
 				}
 				if ((allowType != typeof(void)) && (allowType != arguments[i].GetOperandType()))
 				{
-					warn("第" + (i + 1).ToString() + "引数の型が正しくありません", line, 2, false);
+					warn("Argument number " + (i + 1).ToString() + ": argument type is incorrect", line, 2, false);
 					return false;
 				}
 			}
@@ -211,7 +211,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				for(int i = 0; i< args.Length;i++)
 				{
 					if(args[i] == null)
-						{warn("引数を省略することはできません", line, 2, false); return null;}
+						{warn("Argument cannot be omitted", line, 2, false); return null;}
 					else
 						args[i] = args[i].Restructure(exm);
 				}
@@ -227,7 +227,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				WordCollection wc = LexicalAnalyzer.Analyse(st, LexEndWith.Comma, LexAnalyzeFlag.None);
 				st.ShiftNext();
 				if (st.EOS)
-					{warn("引数が足りません", line, 2, false); return null;}
+					{warn("Not enough arguments", line, 2, false); return null;}
 				double d = 0.0;
 				try
 				{
@@ -235,23 +235,23 @@ namespace MinorShift.Emuera.GameProc.Function
 					d = LexicalAnalyzer.ReadDouble(st);
 					LexicalAnalyzer.SkipWhiteSpace(st);
 					if (!st.EOS)
-						warn("引数が多すぎます", line, 1, false);
+						warn("Too many arguments", line, 1, false);
 				}
 				catch
 				{
-					warn("第２引数が実数値ではありません（常に0と解釈されます）", line, 1, false);
+					warn("The second argument is not a real number (it is always interpreted as 0)", line, 1, false);
 					d = 0.0;
 				}
 				IOperandTerm term = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.EoL);
 				if (term == null)
-				{ warn("書式が間違っています", line, 2, false); return null; }
+				{ warn("The format is wrong", line, 2, false); return null; }
 				VariableTerm varTerm = term.Restructure(exm) as VariableTerm;
 				if (varTerm == null)
-				{ warn("第１引数に変数以外を指定することはできません", line, 2, false); return null; }
+				{ warn("You cannot specify anything other than variables for the first argument", line, 2, false); return null; }
 				else if (varTerm.IsString)
-				{ warn("第１引数を文字列変数にすることはできません", line, 2, false); return null; }
+				{ warn("The first argument cannot be a string variable", line, 2, false); return null; }
 				else if (varTerm.Identifier.IsConst)
-				{ warn("第１引数に変更できない変数を指定することはできません", line, 2, false); return null; }
+				{ warn("It is not possible to specify a variable that cannot be changed as the first argument", line, 2, false); return null; }
 				return new SpTimesArgument(varTerm, d);
 			}
 		}
@@ -274,7 +274,7 @@ namespace MinorShift.Emuera.GameProc.Function
 						ret.ConstInt = 0;
 						return ret;
 					}
-					warn("引数が設定されていません", line, 2, false);
+					warn("Argument is not set", line, 2, false);
 					return null;
 				}
 				while (true)
@@ -289,7 +289,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					LexicalAnalyzer.SkipHalfSpace(st);
 					if (st.EOS)
 					{
-					    warn("\',\'の後ろに引数がありません。", line, 1, false);
+					    warn("\',\' doesn't have an argument after it", line, 1, false);
 					    break;
 					}
 				}
@@ -304,7 +304,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				StringStream st = line.PopArgumentPrimitive();
 				LexicalAnalyzer.SkipWhiteSpace(st);
 				if (!st.EOS)
-					warn("引数は不要です", line, 1, false);
+					warn("Argument is not required", line, 1, false);
 				return new VoidArgument();
 			}
 		}
@@ -324,7 +324,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				{
 					if (!nullable)
 					{
-						warn("引数が設定されていません", line, 2, false);
+						warn("Argument is not set", line, 2, false);
 						return null;
 					}
 					rowStr = "";
@@ -367,7 +367,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				{
 					if(!nullable)
 					{
-						warn("引数が設定されていません", line, 2, false);
+						warn("Argument is not set", line, 2, false);
 						return null;
 					}
 					//if (line.FunctionCode == FunctionCode.PRINTFORML)
@@ -402,7 +402,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				string idStr = iw.Code;
 				VariableToken id = GlobalStatic.IdentifierDictionary.GetVariableToken(idStr, null, true);
 				if (id == null)
-				{ warn("第１引数に変数以外を指定することはできません", line, 2, false); return null; }
+				{ warn("You cannot specify anything other than variables for the first argument", line, 2, false); return null; }
 				else if ((!id.IsArray1D && !id.IsArray2D && !id.IsArray3D) || (id.Code == VariableCode.RAND))
 				{ warn("第１引数に配列でない変数を指定することはできません", line, 2, false); return null; }
 				LexicalAnalyzer.SkipWhiteSpace(st);
@@ -434,18 +434,18 @@ namespace MinorShift.Emuera.GameProc.Function
 						order = SortOrder.DESENDING;
 					wc.ShiftNext();
 					if (!wc.EOL)
-						warn("引数が多すぎます", line, 1, false);
+						warn("Too many arguments", line, 1, false);
 				}
 				else
 				{
 					IOperandTerm term = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.Comma);
 					if (term == null)
-					{ warn("書式が間違っています", line, 2, false); return null; }
+					{ warn("The format is wrong", line, 2, false); return null; }
 					varTerm = term.Restructure(exm) as VariableTerm;
 					if (varTerm == null)
-					{ warn("第１引数に変数以外を指定することはできません", line, 2, false); return null; }
+					{ warn("You cannot specify anything other than variables for the first argument", line, 2, false); return null; }
 					else if (!varTerm.Identifier.IsCharacterData)
-					{ warn("第１引数はキャラクタ変数でなければなりません", line, 2, false); return null; }
+					{ warn("The first argument must be a character variable", line, 2, false); return null; }
 					wc.ShiftNext();
 					if (!wc.EOL)
 					{
@@ -457,10 +457,10 @@ namespace MinorShift.Emuera.GameProc.Function
 								order = SortOrder.DESENDING;
 							wc.ShiftNext();
 							if (!wc.EOL)
-								warn("引数が多すぎます", line, 1, false);
+								warn("Too many arguments", line, 1, false);
 						}
 						else
-						{ warn("書式が間違っています", line, 2, false); return null; }
+						{ warn("The format is wrong", line, 2, false); return null; }
 					}
 				}
 				return new SpSortcharaArgument(varTerm, order);
@@ -478,20 +478,20 @@ namespace MinorShift.Emuera.GameProc.Function
 
                 if (wc.EOL)
                 {
-                    warn("書式が間違っています", line, 2, false); return null;
+                    warn("The format is wrong", line, 2, false); return null;
                 }
 
                 VariableTerm varTerm;
                 IOperandTerm term = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.Comma);
                 if (term == null)
-                { warn("書式が間違っています", line, 2, false); return null; }
+                { warn("The format is wrong", line, 2, false); return null; }
                 varTerm = term.Restructure(exm) as VariableTerm;
                 if (varTerm == null)
-                { warn("第１引数に変数以外を指定することはできません", line, 2, false); return null; }
+                { warn("You cannot specify anything other than variables for the first argument", line, 2, false); return null; }
                 else if (varTerm.Identifier.IsConst)
-				{ warn("第１引数が変更できない変数です", line, 2, false); return null; }
+				{ warn("The first argument cannot be changed", line, 2, false); return null; }
                 if (!varTerm.Identifier.IsArray1D)
-                { warn("第１引数に１次元配列もしくは配列型キャラクタ変数以外を指定することはできません", line, 2, false); return null; }
+                { warn("You cannot specify a non-one-dimensional array or array type character variable as the first argument", line, 2, false); return null; }
 
                 wc.ShiftNext();
                 IdentifierWord id = wc.Current as IdentifierWord;
@@ -512,20 +512,20 @@ namespace MinorShift.Emuera.GameProc.Function
                     {
                         term3 = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.Comma);
                         if (term3 == null)
-                        { warn("第３引数が解釈出来ません", line, 2, false); return null; }
+                        { warn("The third argument cannot be interpreted", line, 2, false); return null; }
                         if (!term3.IsInteger)
-                        { warn("第３引数が数値ではありません", line, 2, false); return null; }
+                        { warn("The third argument is not a number", line, 2, false); return null; }
                         wc.ShiftNext();
                         if (!wc.EOL)
                         {
                             term4 = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.Comma);
                             if (term4 == null)
-                            { warn("第４引数が解釈出来ません", line, 2, false); return null; }
+                            { warn("The fourth argument cannot be interpreted", line, 2, false); return null; }
                             if (!term4.IsInteger)
-                            { warn("第４引数が数値ではありません", line, 2, false); return null; }
+                            { warn("The fourth argument is not a number", line, 2, false); return null; }
                             wc.ShiftNext();
                             if (!wc.EOL)
-                                warn("引数が多すぎます", line, 1, false);
+                                warn("Too many arguments", line, 1, false);
                         }
                     }
                 }
@@ -581,7 +581,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					else
 						args = ExpressionParser.ReduceArguments(wc, ArgsEndWith.EoL, false);
 					if (!wc.EOL)
-					{ warn("書式が間違っています", line, 2, false); return null; }
+					{ warn("The format is wrong", line, 2, false); return null; }
 				}
 				if (subNames == null)
 					subNames = new IOperandTerm[0];
@@ -604,7 +604,7 @@ namespace MinorShift.Emuera.GameProc.Function
                     ret.ConstStr = funcname.GetStrValue(null);
                     if (ret.ConstStr == "")
                     {
-                        warn("関数名が指定されていません", line, 2, false);
+                        warn("Function name is not specified", line, 2, false);
                         return null;
                     }
                 }
@@ -619,7 +619,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				WordCollection wc = popWords(line);
 				CaseExpression[] args = ExpressionParser.ReduceCaseExpressions(wc);
 				if ((!wc.EOL) || (args.Length == 0))
-				{ warn("書式が間違っています", line, 2, false); return null; }
+				{ warn("The format is wrong", line, 2, false); return null; }
 				for(int i = 0; i < args.Length; i++)
 					args[i].Reduce(exm);
 				return new CaseArgument(args);
@@ -634,18 +634,18 @@ namespace MinorShift.Emuera.GameProc.Function
 				IOperandTerm[] destTerms = ExpressionParser.ReduceArguments(destWc, ArgsEndWith.EoL, false);
 				SpSetArgument ret = null;
 				if ((destTerms.Length == 0) || (destTerms[0] == null))
-				{ assignwarn("代入文の左辺の読み取りに失敗しました", line, 2, false); return null; }
+				{ assignwarn("Failed to read the left side of the assignment statement", line, 2, false); return null; }
 				if (destTerms.Length != 1)
-					{assignwarn("代入文の左辺に余分な','があります", line, 2, false); return null;}
+					{assignwarn("Left side of the assignment statement has an extra ','", line, 2, false); return null;}
 				VariableTerm varTerm = destTerms[0] as VariableTerm;
 				if (varTerm == null)
 				{//
-					assignwarn("代入文の左辺に変数以外を指定することはできません", line, 2, false);
+					assignwarn("You cannot specify anything other than variables on the left side of the assignment statement", line, 2, false);
 					return null;
 				}
 				else if (varTerm.Identifier.IsConst)
 				{
-					assignwarn("代入文の左辺に変更できない変数を指定することはできません", line, 2, false);
+					assignwarn("It is not possible to specify a variable that cannot be changed on the left side of the assignment statement", line, 2, false);
 					return null;
 				}
 				varTerm.Restructure(exm);
@@ -841,7 +841,7 @@ namespace MinorShift.Emuera.GameProc.Function
                 StrFormWord sfwt = LexicalAnalyzer.AnalyseFormattedString(st, FormStrEndWith.EoL, false);
                 if (!st.EOS)
                 {
-                    warn("引数が多すぎます", line, 1, false);
+                    warn("Too many arguments", line, 1, false);
                 }
                 IOperandTerm term = ExpressionParser.ToStrFormTerm(sfwt);
                 term = term.Restructure(exm);
@@ -892,9 +892,9 @@ namespace MinorShift.Emuera.GameProc.Function
 					if (!nullable)
 					{
 						if (line.Function.IsExtended())
-							warn("省略できない引数が省略されています。Emueraは0を補います", line, 1, false);
+							warn("Arguments that cannot be omitted were omitted.\nEmuera will add 0.", line, 1, false);
 						else
-							warn("省略できない引数が省略されています。Emueraは0を補いますがeramakerの動作は不定です", line, 1, false);
+							warn("Arguments that cannot be omitted were omitted.\nEmuera adds 0, but the behavior of eramaker is undefined.", line, 1, false);
 					}
 				}
 				else
@@ -906,7 +906,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				{
 					if ((term is SingleTerm) && (term.GetIntValue(null) <= 0L))
 					{
-						warn("0回以下のREPEATです。(eramakerではエラーになります)", line, 0, true);
+						warn("REPEAT of 0 times or less has been detected (eramaker will throw an error)", line, 0, true);
 					}
 					VariableToken count = GlobalStatic.VariableData.GetSystemVariableToken("COUNT");
 					VariableTerm repCount = new VariableTerm(count, new IOperandTerm[] { new SingleTerm(0) });
@@ -922,12 +922,12 @@ namespace MinorShift.Emuera.GameProc.Function
 					if (line.FunctionCode == FunctionCode.CLEARLINE)
 					{
 						if (i <= 0L)
-							warn("引数に0以下の値が渡されています(この行は何もしません)", line, 1, false);
+							warn("A value less than or equal to 0 is passed as an argument (this line does nothing)", line, 1, false);
 					}
 					else if (line.FunctionCode == FunctionCode.FONTSTYLE)
 					{
 						if (i < 0L)
-							warn("引数に負の値が渡されています(結果は不定です)", line, 1, false);
+							warn("A negative value is passed as an argument (the result is undefined)", line, 1, false);
 					}
 				}
 				return ret;
@@ -960,7 +960,7 @@ namespace MinorShift.Emuera.GameProc.Function
 						ret.ConstInt = 0;
 						return ret;
 					}
-					warn("引数が設定されていません", line, 2, false);
+					warn("Argument is not set", line, 2, false);
 					return null;
 				}
                 else if (terms.Length == 1)
@@ -977,14 +977,14 @@ namespace MinorShift.Emuera.GameProc.Function
                     {
                         //定数式は定数化してしまうので現行システムでは見つけられない
                         if (terms[0] is VariableTerm)
-                            warn("RETURNの引数に変数が渡されています(eramaker：常に0を返します)", line, 0, true);
+                            warn("Variable is passed as argument to RETURN (eramaker: Always returns 0)", line, 0, true);
                         else
-                            warn("RETURNの引数に数式が渡されています(eramaker：Emueraとは異なる値を返します)", line, 0, true);
+                            warn("A formula is passed as an argument to RETURN (eramaker: Emuera returns a different value)", line, 0, true);
                     }
                 }
                 else
                 {
-                    warn(line.Function.Name + "の引数に複数の値が与えられています(eramaker：非対応です)", line, 0, true);
+                    warn(line.Function.Name + ": The arguments are given to more than one value. (eramaker: Not supported)", line, 0, true);
                 }
 				return ret;
 			}
@@ -1152,7 +1152,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				if (varTerm == null)
 					return null;
 				if (varTerm.Identifier.IsCharacterData)
-				{ warn("第1引数にキャラクタ変数を指定することはできません", line, 2, false); return null; }
+				{ warn("The character variable cannot be specified as the first argument", line, 2, false); return null; }
 
 				IOperandTerm start = terms[1];
 				IOperandTerm end = terms[2];
@@ -1164,7 +1164,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				else
 					step = new SingleTerm(1);
 				if (!start.IsInteger)
-				{ warn("第2引数の型が違います", line, 2, false); return null; }
+				{ warn("The type of the second argument is different", line, 2, false); return null; }
 				return new SpForNextArgment(varTerm, start, end, step);
 			}
 		}
@@ -1209,7 +1209,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					return null;
 				if (x.GetOperandType() != y.GetOperandType())
 				{
-					warn("引数の型が異なります", line, 2, false);
+					warn("Argument type is different", line, 2, false);
 					return null;
 				}
 				return new SpSwapVarArgument(x, y);
@@ -1290,7 +1290,7 @@ namespace MinorShift.Emuera.GameProc.Function
                         Int64 bit = ((SingleTerm)termList[i]).Int;
                         if ((bit < 0) || (bit > 63))
                         {
-                            warn("第" + Strings.StrConv((i + 2).ToString(), VbStrConv.Wide, Config.Language) + "引数(" + bit.ToString() + ")が範囲(０～６３)を超えています", line, 2, false);
+                            warn("Argument number " + Strings.StrConv((i + 2).ToString(), VbStrConv.Wide, Config.Language) + " argument (" + bit.ToString() + ") is outside the range (0 to 63)", line, 2, false);
                             return null;
                         }
                     }
@@ -1316,7 +1316,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					return null;
                 if (varTerm.Identifier.IsConst)
                 {
-					warn("値を変更できない変数" + varTerm.Identifier.Name + "が指定されました", line, 2, false);
+					warn("A variable that cannot change its value " + varTerm.Identifier.Name + " has a specified value", line, 2, false);
                     return null;
                 }
 
@@ -1399,10 +1399,10 @@ namespace MinorShift.Emuera.GameProc.Function
 					{ warn("文字列" + index.GetStrValue(null) + "は変数" + varTerm.Identifier.Name + "の要素ではありません", line, 2, false); return null; }
 				}
 				if (terms.Length > 3 && !varTerm.Identifier.IsArray1D)
-					warn("第４引数以降は1次元配列以外では無視されます", line, 1, false);
+					warn("The fourth and subsequent arguments are ignored except for one-dimensional arrays", line, 1, false);
 				if (term.GetOperandType() != varTerm.GetOperandType())
 				{
-					warn("２つの引数の型が一致していません", line, 2, false);
+					warn("The types of the two arguments do not match", line, 2, false);
 					return null;
 				}
 				return new SpCVarSetArgument(varTerm, index, term, term4, term5);
@@ -1438,7 +1438,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				if (!checkArgumentType(line, exm, terms))
 					return null;
                 if (terms.Length == 2)
-                { warn("SETCOLORの引数の数が不正です(SETCOLORの引数は1個もしくは3個です)", line, 2, false); return null; }
+                { warn("The number of arguments of SETCOLOR is invalid (SETCOLOR takes only 1 or 3 arguments)", line, 2, false); return null; }
                 SpColorArgument arg = null;
                 if (terms.Length == 1)
                 {
@@ -1478,7 +1478,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				if (x == null)
 					return null;
 				if (!x.Identifier.IsArray1D && !x.Identifier.IsArray2D && !x.Identifier.IsArray3D)
-				{ warn("第３引数は配列変数でなければなりません", line, 2, false); return null; }
+				{ warn("The third argument must be an array variable", line, 2, false); return null; }
                 VariableTerm term = (terms.Length >= 4) ? getChangeableVariable(terms, 4, line) : new VariableTerm(GlobalStatic.VariableData.GetSystemVariableToken("RESULT"), new IOperandTerm[]{new SingleTerm(0)});
 				return new SpSplitArgument(terms[0], terms[1], x.Identifier, term);
 			}
@@ -1582,7 +1582,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				if (line.FunctionCode == FunctionCode.ARRAYSHIFT)
 				{
 					if (terms[0].GetOperandType() != terms[2].GetOperandType())
-					{ warn("第１引数と第３引数の型が違います", line, 2, false); return null; }
+					{ warn("First and third argument types are different", line, 2, false); return null; }
 				}
 				IOperandTerm term4 = terms.Length >= 4 ? terms[3] : new SingleTerm(0);
 				IOperandTerm term5 = terms.Length >= 5 ? terms[4] : null;
@@ -1665,16 +1665,16 @@ namespace MinorShift.Emuera.GameProc.Function
 						continue;
 					Int64 iValue = termList[i].GetIntValue(null);
 					if (iValue < 0)
-					{ warn("キャラ登録番号は正の値でなければなりません", line, 2, false); return null; }
+					{ warn("Character registration number must be a positive value", line, 2, false); return null; }
 					if (iValue > Int32.MaxValue)
-					{ warn("キャラ登録番号が32bit符号付整数の上限を超えています", line, 2, false); return null; }
+					{ warn("Character registration number exceeds the upper limit of the 32 bit signed integer", line, 2, false); return null; }
 					for (int j = i + 1; j < termList.Count; j++)
 					{
 						if (!(termList[j] is SingleTerm))
 							continue;
 						if (iValue == termList[j].GetIntValue(null))
 						{
-							warn("キャラ登録番号" + iValue.ToString() + "を二度以上保存しようとしています", line, 1, false);
+							warn("Character registration number " + iValue.ToString() + " is being saved more than once", line, 1, false);
 							return null;
 						}
 					}
@@ -1698,7 +1698,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				IdentifierWord id = wc.Current as IdentifierWord;
 				wc.ShiftNext();
 				if (id == null || wc.Current.Type != ',')
-				{ warn("書式が間違っています", line, 2, false); return null; }
+				{ warn("The format is wrong", line, 2, false); return null; }
 				wc.ShiftNext();
 				IOperandTerm name = null;
 				IdentifierWord id2 = null;
@@ -1707,7 +1707,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				{
 					name = ExpressionParser.ReduceExpressionTerm(wc, TermEndWith.EoL);
 					if (name == null || name.IsInteger || !wc.EOL)
-					{ warn("書式が間違っています", line, 2, false); return null; }
+					{ warn("The format is wrong", line, 2, false); return null; }
 					name = name.Restructure(exm);
 					if (name is SingleTerm)
 						srcCode = name.GetStrValue(exm);
@@ -1717,7 +1717,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					id2 = wc.Current as IdentifierWord;
 					wc.ShiftNext();
 					if (id2 == null || !wc.EOL)
-					{ warn("書式が間違っています", line, 2, false); return null; }
+					{ warn("The format is wrong", line, 2, false); return null; }
 					srcCode = id2.Code;
 				}
 				UserDefinedRefMethod refm = GlobalStatic.IdentifierDictionary.GetRefMethod(id.Code);
@@ -1726,7 +1726,7 @@ namespace MinorShift.Emuera.GameProc.Function
 				{
 					VariableToken token = GlobalStatic.IdentifierDictionary.GetVariableToken(id.Code, null, true);
 					if (token == null || !token.IsReference)
-					{ warn("第一引数は関数参照か参照型変数でなければなりません", line, 2, false); return null; }
+					{ warn("The first argument must be a function reference or a reference type variable", line, 2, false); return null; }
 					refVar = (ReferenceToken)token;
 				}
 
@@ -1741,9 +1741,9 @@ namespace MinorShift.Emuera.GameProc.Function
 					}
 					FunctionLabelLine label = GlobalStatic.LabelDictionary.GetNonEventLabel(srcCode);
 					if (label == null)
-					{ warn("式中関数" + srcCode + "が見つかりません", line, 2, false); return null; }
+					{ warn("Function " + srcCode + " is missing", line, 2, false); return null; }
 					if (!label.IsMethod)
-					{ warn("#FUNCTION(S)属性を持たない関数" + srcCode + "は参照できません", line, 2, false); return null; }
+					{ warn("Cannot refer to functions without #FUNCTION(S) attribute" + srcCode, line, 2, false); return null; }
 					CalledFunction called = CalledFunction.CreateCalledFunctionMethod(label, label.LabelName);
 					return new RefArgument(refm, called);
 				}
@@ -1753,7 +1753,7 @@ namespace MinorShift.Emuera.GameProc.Function
 						return new RefArgument(refVar, name);
 					VariableToken srcVar = GlobalStatic.IdentifierDictionary.GetVariableToken(srcCode, null, true);
 					if (srcVar == null)
-					{ warn("変数" + srcCode + "が見つかりません", line, 2, false); return null; }
+					{ warn("Variable " + srcCode + " is missing", line, 2, false); return null; }
 					return new RefArgument(refVar, srcVar);
 				}
 			}

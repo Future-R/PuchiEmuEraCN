@@ -121,7 +121,7 @@ namespace MinorShift.Emuera.GameData.Function
                     return name + "関数の2番目の変数が数値ではありません";
                 return null;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 long x = arguments[0].GetIntValue(exm);
 				long y = (arguments.Length > 1 && arguments[1] != null) ? arguments[1].GetIntValue(exm) : 0;
@@ -159,7 +159,7 @@ namespace MinorShift.Emuera.GameData.Function
                     return name + "関数の3番目の変数が数値ではありません";
                 return null;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 long x = arguments[0].GetIntValue(exm);
                 long y = arguments[1].GetIntValue(exm);
@@ -352,6 +352,7 @@ namespace MinorShift.Emuera.GameData.Function
                 if (arguments[0] is SingleTerm)
                 {
                     string varName = ((SingleTerm)arguments[0]).Str;
+                    if (varName == "PARAM") ((SingleTerm)arguments[0]).Str = varName = "PALAM"; // JVN: Uses added setter to change PARAM to PALAM internally
                     if (GlobalStatic.IdentifierDictionary.GetVariableToken(varName, null, true) == null)
                         return name + "関数の1番目の引数が変数名ではありません";
                 }
@@ -630,7 +631,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { };
                 CanRestructure = false;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 return (GlobalStatic.Console.StringStyle.Fontname);
             }
@@ -644,7 +645,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(long), typeof(long), typeof(long) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 long var = arguments[0].GetIntValue(exm);
                 long max = arguments[1].GetIntValue(exm);
@@ -661,7 +662,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { };
                 CanRestructure = false;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 if (exm.Console.Alignment == GameView.DisplayLineAlignment.LEFT)
                     return "LEFT";
@@ -757,7 +758,7 @@ namespace MinorShift.Emuera.GameData.Function
 					return name + "関数の1番目の引数が関数参照ではありません";
 				return null;
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				return ((UserDefinedRefMethodNoArgTerm)arguments[0]).GetRefName();
 			}
@@ -788,7 +789,7 @@ namespace MinorShift.Emuera.GameData.Function
                     return name + "関数の2番目の引数の型が正しくありません";
                 return null;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 long money = arguments[0].GetIntValue(exm);
                 if ((arguments.Length < 2) || (arguments[1] == null))
@@ -878,7 +879,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { };
                 CanRestructure = false;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 return (DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
             }
@@ -1953,7 +1954,9 @@ namespace MinorShift.Emuera.GameData.Function
             }
             public override Int64 GetIntValue(ExpressionMediator exm, IOperandTerm[] arguments)
             {
-                string str = arguments[0].GetStrValue(exm);
+                string str = arguments[0].GetStrValue(exm, true); // JVN: Return TR string's length when necessary
+				str = Translation.translate(str, "ALL", true); //Bartoum : Check if it's not present in all (Ex: Names in gvt for Pedo)
+				//Translation.isStrlens = false;
                 return (LangManager.GetStrlenLang(str));
             }
         }
@@ -1968,7 +1971,8 @@ namespace MinorShift.Emuera.GameData.Function
             }
             public override Int64 GetIntValue(ExpressionMediator exm, IOperandTerm[] arguments)
             {
-                string str = arguments[0].GetStrValue(exm);
+                string str = arguments[0].GetStrValue(exm, true); // JVN: Return TR string's length when necessary
+				str = Translation.translate(str, "ALL", true); //Bartoum : Check if it's not present in all (Ex: Names in gvt for Pedo)
                 return (str.Length);
             }
         }
@@ -2001,7 +2005,7 @@ namespace MinorShift.Emuera.GameData.Function
                     return name + "関数の3番目の引数の型が正しくありません";
                 return null;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 string str = arguments[0].GetStrValue(exm);
                 int start = 0;
@@ -2043,7 +2047,7 @@ namespace MinorShift.Emuera.GameData.Function
                     return name + "関数の3番目の引数の型が正しくありません";
                 return null;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 string str = arguments[0].GetStrValue(exm);
                 int start = 0;
@@ -2177,7 +2181,7 @@ namespace MinorShift.Emuera.GameData.Function
                     return name + "関数の2番目の引数の型が正しくありません";
                 return null;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 Int64 i = arguments[0].GetIntValue(exm);
                 if ((arguments.Length < 2) || (arguments[1] == null))
@@ -2266,9 +2270,9 @@ namespace MinorShift.Emuera.GameData.Function
                 strType = type;
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
-                string str = arguments[0].GetStrValue(exm);
+                string str = arguments[0].GetStrValue(exm, tryTranslate);
                 if (str == null || str == "")
                     return ("");
                 switch (strType)
@@ -2302,25 +2306,26 @@ namespace MinorShift.Emuera.GameData.Function
 
         private sealed class ReplaceMethod : FunctionMethod
         {
+            //Bartoum : Replace method
             public ReplaceMethod()
             {
                 ReturnType = typeof(string);
                 argumentTypeArray = new Type[] { typeof(string), typeof(string), typeof(string) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
-                string baseString = arguments[0].GetStrValue(exm);
+                string baseString = arguments[0].GetStrValue(exm, tryTranslate);
                 Regex reg;
                 try
                 {
-                    reg = new Regex(arguments[1].GetStrValue(exm));
+                    reg = new Regex(arguments[1].GetStrValue(exm, tryTranslate));
                 }
                 catch (ArgumentException e)
                 {
                     throw new CodeEE("第２引数が正規表現として不正です：" + e.Message);
                 }
-                return (reg.Replace(baseString, arguments[2].GetStrValue(exm)));
+                return (reg.Replace(baseString, arguments[2].GetStrValue(exm, tryTranslate)));
             }
         }
 
@@ -2332,7 +2337,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(Int64) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 Int64 i = arguments[0].GetIntValue(exm);
                 if ((i < 0) || (i > 0xFFFF))
@@ -2371,7 +2376,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(Int64), typeof(Int64) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 Int64 toBase = arguments[1].GetIntValue(exm);
                 if ((toBase != 2) && (toBase != 8) && (toBase != 10) && (toBase != 16))
@@ -2428,7 +2433,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(string) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 return Regex.Escape(arguments[0].GetStrValue(exm));
             }
@@ -2479,7 +2484,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(string), typeof(Int64) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
             {
                 string str = arguments[0].GetStrValue(exm);
                 Int64 pos = arguments[1].GetIntValue(exm);
@@ -2497,7 +2502,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(string) };
                 CanRestructure = true;
             }
-            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
                 string str = arguments[0].GetStrValue(exm);
 				if (string.IsNullOrEmpty(str))
@@ -2514,15 +2519,15 @@ namespace MinorShift.Emuera.GameData.Function
 				argumentTypeArray = new Type[] { typeof(string) };
 				CanRestructure = true;
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
-				string str = arguments[0].GetStrValue(exm);
+				string str = arguments[0].GetStrValue(exm, tryTranslate);
 				string destStr = str;
 				try
 				{
 					StrFormWord wt = LexicalAnalyzer.AnalyseFormattedString(new StringStream(str), FormStrEndWith.EoL, false);
 					StrForm strForm = StrForm.FromWordToken(wt);
-					destStr = strForm.GetString(exm);
+					destStr = strForm.GetString(exm, tryTranslate);
 				}
 				catch(CodeEE e)
 				{
@@ -2574,7 +2579,7 @@ namespace MinorShift.Emuera.GameData.Function
 					throw new CodeEE(funcname + "関数:型が違います（GETCONFIGS関数を使用してください）");
 				return term.Int;
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				if(ReturnType != typeof(string))
 					throw new ExeEE(funcname + "関数:不正な呼び出し");
@@ -2608,7 +2613,7 @@ namespace MinorShift.Emuera.GameData.Function
 					return name + "関数の1番目の引数の型が正しくありません";
 				return null;
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				Int64 lineNo = 0;
 				if (arguments.Length > 0)
@@ -2618,7 +2623,8 @@ namespace MinorShift.Emuera.GameData.Function
 				ConsoleDisplayLine[] dispLines = exm.Console.GetDisplayLines(lineNo);
 				if (dispLines == null)
 					return "";
-				return HtmlManager.DisplayLine2Html(dispLines, true);
+
+                return HtmlManager.DisplayLine2Html(dispLines, true);
 			}
 		}
 
@@ -2631,7 +2637,7 @@ namespace MinorShift.Emuera.GameData.Function
 				CanRestructure = false;
 			}
 
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				ConsoleDisplayLine[] dispLines = exm.Console.PopDisplayingLines();
 				if (dispLines == null)
@@ -2648,7 +2654,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(string) };
 				CanRestructure = false;
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				return HtmlManager.Html2PlainText(arguments[0].GetStrValue(exm));
 			}
@@ -2661,7 +2667,7 @@ namespace MinorShift.Emuera.GameData.Function
                 argumentTypeArray = new Type[] { typeof(string) };
 				CanRestructure = false;
 			}
-			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments)
+			public override string GetStrValue(ExpressionMediator exm, IOperandTerm[] arguments, bool tryTranslate = false)
 			{
 				return HtmlManager.Escape(arguments[0].GetStrValue(exm));
 			}

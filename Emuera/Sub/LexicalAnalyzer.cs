@@ -5,6 +5,7 @@ using MinorShift.Emuera.GameData.Expression;
 using MinorShift.Emuera.GameData;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace MinorShift.Emuera.Sub
 {
@@ -283,6 +284,9 @@ namespace MinorShift.Emuera.Sub
 				char c = st.Current;
 				if (char.IsDigit(c) || (c == '.'))
 				{
+                    if ((c == '.') && (NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator == ","))
+                            st.Replace(st.CurrentPosition, 1, ",");
+
 					st.ShiftNext();
 					continue;
 				}

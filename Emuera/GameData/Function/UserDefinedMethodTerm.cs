@@ -22,14 +22,14 @@ namespace MinorShift.Emuera.GameData.Function
 				return 0;
 			return term.Int;
 		}
-		public override string GetStrValue(ExpressionMediator exm)
+		public override string GetStrValue(ExpressionMediator exm, bool translate=false)
 		{
-			SingleTerm term = exm.Process.GetValue(this);
+			SingleTerm term = exm.Process.GetValue(this, translate);
 			if (term == null)
 				return "";
 			return term.Str;
 		}
-		public override SingleTerm GetValue(ExpressionMediator exm)
+		public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
 		{
 			SingleTerm term = exm.Process.GetValue(this);
 			if (term == null)
@@ -69,7 +69,7 @@ namespace MinorShift.Emuera.GameData.Function
 		private readonly UserDefinedFunctionArgument argment;
 		private readonly CalledFunction called;
 
-		public override IOperandTerm Restructure(ExpressionMediator exm)
+		public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			Argument.Restructure(exm);
 			return this;
@@ -111,7 +111,7 @@ namespace MinorShift.Emuera.GameData.Function
 			}
 		}
 
-		public override IOperandTerm Restructure(ExpressionMediator exm)
+		public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			for (int i = 0; i < srcArgs.Length; i++)
 			{
@@ -146,11 +146,11 @@ namespace MinorShift.Emuera.GameData.Function
 		}
 		public override long GetIntValue(ExpressionMediator exm)
 		{ throw new CodeEE("引数のない関数参照" + reffunc.Name + "を呼び出しました"); }
-		public override string GetStrValue(ExpressionMediator exm)
+		public override string GetStrValue(ExpressionMediator exm, bool translate=false)
 		{ throw new CodeEE("引数のない関数参照" + reffunc.Name + "を呼び出しました"); }
-		public override SingleTerm GetValue(ExpressionMediator exm)
+		public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
 		{ throw new CodeEE("引数のない関数参照" + reffunc.Name + "を呼び出しました"); }
-		public override IOperandTerm Restructure(ExpressionMediator exm)
+		public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			return this;
 		}

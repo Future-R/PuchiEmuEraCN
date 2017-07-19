@@ -4,6 +4,7 @@ using System.Text;
 using MinorShift.Emuera.Sub;
 using MinorShift.Emuera.GameProc;
 using MinorShift.Emuera.GameData.Expression;
+using MinorShift.Emuera.GameData.Variable;
 
 using System.Windows.Forms;
 
@@ -60,14 +61,15 @@ namespace MinorShift.Emuera.GameData.Variable
 				throw;
 			}
 		}
-		public override string GetStrValue(ExpressionMediator exm)
+		//, bool tl = false
+		public override string GetStrValue(ExpressionMediator exm, bool translate=false)
 		{
 			try
 			{
 				if (!allArgIsConst)
 					for (int i = 0; i < arguments.Length; i++)
 						transporter[i] = arguments[i].GetIntValue(exm);
-				string ret = Identifier.GetStrValue(exm, transporter);
+				string ret = Identifier.GetStrValue(exm, transporter, translate);
 				if (ret == null)
 					return "";
 				return ret;
@@ -79,6 +81,7 @@ namespace MinorShift.Emuera.GameData.Variable
 				throw;
 			}
 		}
+
 		public virtual void SetValue(Int64 value, ExpressionMediator exm)
 		{
 			try
@@ -167,12 +170,12 @@ namespace MinorShift.Emuera.GameData.Variable
 				throw;
 			}
 		}
-		public override SingleTerm GetValue(ExpressionMediator exm)
+		public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
 		{
 			if (Identifier.VariableType == typeof(Int64))
 				return new SingleTerm(GetIntValue(exm));
 			else
-				return new SingleTerm(GetStrValue(exm));
+				return new SingleTerm(GetStrValue(exm, tryTranslate));
 		}
 		public virtual void SetValue(SingleTerm value, ExpressionMediator exm)
 		{
@@ -222,7 +225,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			return fp;
 		}
 
-		public override IOperandTerm Restructure(ExpressionMediator exm)
+		public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			bool[] canCheck = new bool[arguments.Length];
 			allArgIsConst = true;
@@ -250,7 +253,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			if (!Identifier.IsReference)
 				Identifier.CheckElement(transporter, canCheck);
 			if ((Identifier.CanRestructure) && (allArgIsConst))
-				return GetValue(exm);
+				return GetValue(exm, tryTranslate);//We pass the bool by here REEEEEEEEEEEEEEEEE
 			else if (allArgIsConst)
 				return new FixedVariableTerm(Identifier, transporter);
 			return this;
@@ -328,11 +331,12 @@ namespace MinorShift.Emuera.GameData.Variable
 				throw;
 			}
         }
-        public override string GetStrValue(ExpressionMediator exm)
+		//, bool tl = false
+        public override string GetStrValue(ExpressionMediator exm, bool translate=false)
         {
 			try
 			{
-				string ret = Identifier.GetStrValue(exm, transporter);
+				string ret = Identifier.GetStrValue(exm, transporter, translate);
 				if (ret == null)
 					return "";
 				return ret;
@@ -386,7 +390,7 @@ namespace MinorShift.Emuera.GameData.Variable
 			}
         }
         
-        public override IOperandTerm Restructure(ExpressionMediator exm)
+        public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
         {
 			if (Identifier.CanRestructure)
 				return GetValue(exm);
@@ -413,7 +417,7 @@ namespace MinorShift.Emuera.GameData.Variable
 		}
 		public override Int64 GetIntValue(ExpressionMediator exm)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
-		public override string GetStrValue(ExpressionMediator exm)
+		public override string GetStrValue(ExpressionMediator exm, bool translate=false)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
 		public override void SetValue(Int64 value, ExpressionMediator exm)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
@@ -425,7 +429,7 @@ namespace MinorShift.Emuera.GameData.Variable
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
 		public override Int64 PlusValue(Int64 value, ExpressionMediator exm)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
-		public override SingleTerm GetValue(ExpressionMediator exm)
+		public override SingleTerm GetValue(ExpressionMediator exm, bool tryTranslate =false)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
 		public override void SetValue(SingleTerm value, ExpressionMediator exm)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
@@ -434,7 +438,7 @@ namespace MinorShift.Emuera.GameData.Variable
 		public override FixedVariableTerm GetFixedVariableTerm(ExpressionMediator exm)
 		{ throw new CodeEE("変数" + Identifier.Name + "に必要な引数が不足しています"); }
 
-		public override IOperandTerm Restructure(ExpressionMediator exm)
+		public override IOperandTerm Restructure(ExpressionMediator exm, bool tryTranslate=false)
 		{
 			return this;
 		}

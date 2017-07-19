@@ -27,7 +27,7 @@ namespace MinorShift.Emuera
 		private ConfigData() { setDefault(); }
 
 		//適当に大き目の配列を作っておく。
-		private AConfigItem[] configArray = new AConfigItem[80];     //182101 PCDRP-Update:足りなくなったので70→80に変更
+		private AConfigItem[] configArray = new AConfigItem[94];     //182101 PCDRP-Update:足りなくなったので70→80に変更
         private AConfigItem[] replaceArray = new AConfigItem[50];
 		private AConfigItem[] debugArray = new AConfigItem[20];
 
@@ -54,8 +54,8 @@ namespace MinorShift.Emuera
 			configArray[i++] = new ConfigItem<bool>(ConfigCode.WindowMaximixed, "起動時にウィンドウを最大化する", false);
 			configArray[i++] = new ConfigItem<int>(ConfigCode.MaxLog, "履歴ログの行数", 5000);
 			configArray[i++] = new ConfigItem<int>(ConfigCode.PrintCPerLine, "PRINTCを並べる数", 3);
-            configArray[i++] = new ConfigItem<int>(ConfigCode.PrintCLength, "PRINTCの文字数", 25);
-            configArray[i++] = new ConfigItem<string>(ConfigCode.FontName, "フォント名", "ＭＳ ゴシック");
+			configArray[i++] = new ConfigItem<int>(ConfigCode.PrintCLength, "PRINTCの文字数", 25);
+			configArray[i++] = new ConfigItem<string>(ConfigCode.FontName, "フォント名", "ＭＳ ゴシック");
 			configArray[i++] = new ConfigItem<int>(ConfigCode.FontSize, "フォントサイズ", 18);
 			configArray[i++] = new ConfigItem<int>(ConfigCode.LineHeight, "一行の高さ", 19);
 			configArray[i++] = new ConfigItem<Color>(ConfigCode.ForeColor, "文字色", Color.FromArgb(192, 192, 192));//LIGHTGRAY
@@ -114,6 +114,22 @@ namespace MinorShift.Emuera
             configArray[i++] = new ConfigItem<int>(ConfigCode.ScreenEffectInterval, "画面エフェクト機能の画面更新間隔", 20);        //182101 PCDRP-Update エフェクト機能
             configArray[i++] = new ConfigItem<Color>(ConfigCode.EdgeColor, "フォント縁取り色", Color.FromArgb(0, 0, 0));//黒
 
+			configArray[i++] = new ConfigItem<bool>(ConfigCode.CBUseClipboard, "Clipboard- Copy text to Clipboard during Game", true);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBIgnoreTags, "Clipboard- ignore <> tags in text", false);
+            configArray[i++] = new ConfigItem<string>(ConfigCode.CBReplaceTags, "Clipboard- Replace <> with this", ".");
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBNewLinesOnly, "Clipboard- Show new lines only", true);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBClearBuffer, "Clipboard- Clear Buffer when game clears screen", false);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBTriggerLeftClick, "Clipboard- LeftClick Trigger", true);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBTriggerMiddleClick, "Clipboard- MiddleClick Trigger", false);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBTriggerDoubleLeftClick, "Clipboard- Double Left Click Trigger", false);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBTriggerAnyKeyWait, "Clipboard- AnyKey Wait Trigger ", false);
+            configArray[i++] = new ConfigItem<bool>(ConfigCode.CBTriggerInputWait, "Clipboard- Wait for Input Trigger", true);
+            configArray[i++] = new ConfigItem<int>(ConfigCode.CBMaxCB, "Clipboard- Length of Clipboard", 25);
+            configArray[i++] = new ConfigItem<int>(ConfigCode.CBBufferSize, "Clipboard- Buffer Size", 300);
+            configArray[i++] = new ConfigItem<int>(ConfigCode.CBScrollCount, "Clipboard- Scrolled Lines per Key", 5);
+            configArray[i++] = new ConfigItem<int>(ConfigCode.CBMinTimer, "Clipboard- min time between pastes", 800);
+
+
             i = 0;
 			debugArray[i++] = new ConfigItem<bool>(ConfigCode.DebugShowWindow, "起動時にデバッグウインドウを表示する", true);
 			debugArray[i++] = new ConfigItem<bool>(ConfigCode.DebugWindowTopMost, "デバッグウインドウを最前面に表示する", true);
@@ -131,8 +147,8 @@ namespace MinorShift.Emuera
 			replaceArray[i++] = new ConfigItem<string>(ConfigCode.DrawLineString, "DRAWLINE文字", "-");
 			replaceArray[i++] = new ConfigItem<char>(ConfigCode.BarChar1, "BAR文字1", '*');
 			replaceArray[i++] = new ConfigItem<char>(ConfigCode.BarChar2, "BAR文字2", '.');
-			replaceArray[i++] = new ConfigItem<string>(ConfigCode.TitleMenuString0, "システムメニュー0", "最初からはじめる");
-			replaceArray[i++] = new ConfigItem<string>(ConfigCode.TitleMenuString1, "システムメニュー1", "ロードしてはじめる");
+			replaceArray[i++] = new ConfigItem<string>(ConfigCode.TitleMenuString0, "システムメニュー0", "Start a game");
+			replaceArray[i++] = new ConfigItem<string>(ConfigCode.TitleMenuString1, "システムメニュー1", "Load a save");
 			replaceArray[i++] = new ConfigItem<int>(ConfigCode.ComAbleDefault, "COM_ABLE初期値", 1);
 			replaceArray[i++] = new ConfigItem<List<Int64>>(ConfigCode.StainDefault, "汚れの初期値", new List<Int64>(new Int64[] { 0, 0, 2, 1, 8 }));
 			replaceArray[i++] = new ConfigItem<string>(ConfigCode.TimeupLabel, "時間切れ表示", "時間切れ");

@@ -154,7 +154,7 @@ namespace MinorShift.Emuera
 				//GC.Collect();
 				Reboot = false;
 				ConfigData.Instance.LoadConfig();
-            }
+			}
 		}
 
 		/// <summary>
