@@ -551,6 +551,12 @@ namespace MinorShift.Emuera
             this.実行.Size = new System.Drawing.Size(119, 22);
             this.実行.Text = "Execute";
             this.実行.Click += new System.EventHandler(this.実行_Click);
+            //
+            // toolTipButton
+            //
+            this.toolTipButton.AutoPopDelay = 30000;
+            this.toolTipButton.InitialDelay = 500;
+            this.toolTipButton.ReshowDelay = 100;
             // 
             // timerKeyMacroChanged
             // 
