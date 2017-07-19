@@ -92,7 +92,7 @@
             this.colorBoxSelecting = new MinorShift.Emuera.Forms.ColorBox();
             this.colorBoxFG = new MinorShift.Emuera.Forms.ColorBox();
             this.colorBoxBG = new MinorShift.Emuera.Forms.ColorBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageClipboard = new System.Windows.Forms.TabPage();
             this.checkBoxCBTriggerMiddleClick = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
             this.checkBoxCBClearBuffer = new System.Windows.Forms.CheckBox();
@@ -187,7 +187,7 @@
 			this.tabPageFont.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-            this.tabPage1.SuspendLayout();
+            this.tabPageClipboard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBScrollCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBMinTimer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBBufferSize)).BeginInit();
@@ -234,7 +234,8 @@
 			this.tabControl.Controls.Add(this.tabPageView);
 			this.tabControl.Controls.Add(this.tabPageWindow);
 			this.tabControl.Controls.Add(this.tabPageFont);
-			this.tabControl.Controls.Add(this.tabPageSystem);
+            this.tabControl.Controls.Add(this.tabPageClipboard);
+            this.tabControl.Controls.Add(this.tabPageSystem);
 			this.tabControl.Controls.Add(this.tabPageSystem2);
 			this.tabControl.Controls.Add(this.tabPageCompati);
 			this.tabControl.Controls.Add(this.tabPageDebug);
@@ -816,35 +817,35 @@
             this.colorBoxBG.Size = new System.Drawing.Size(215, 33);
             this.colorBoxBG.TabIndex = 0;
             // 
-            // tabPage1
+            // tabPageClipboard
             // 
-            this.tabPage1.Controls.Add(this.checkBoxCBTriggerMiddleClick);
-            this.tabPage1.Controls.Add(this.label32);
-            this.tabPage1.Controls.Add(this.checkBoxCBClearBuffer);
-            this.tabPage1.Controls.Add(this.checkBoxCBNewLinesOnly);
-            this.tabPage1.Controls.Add(this.checkBoxCBTriggerDoubleLeftClick);
-            this.tabPage1.Controls.Add(this.label31);
-            this.tabPage1.Controls.Add(this.numericUpDownCBScrollCount);
-            this.tabPage1.Controls.Add(this.label29);
-            this.tabPage1.Controls.Add(this.textBoxCBReplaceTags);
-            this.tabPage1.Controls.Add(this.label28);
-            this.tabPage1.Controls.Add(this.numericUpDownCBMinTimer);
-            this.tabPage1.Controls.Add(this.checkBoxCBTriggerInputWait);
-            this.tabPage1.Controls.Add(this.checkBoxCBTriggerAnyKeyWait);
-            this.tabPage1.Controls.Add(this.checkBoxCBTriggerLeftClick);
-            this.tabPage1.Controls.Add(this.label27);
-            this.tabPage1.Controls.Add(this.label26);
-            this.tabPage1.Controls.Add(this.label25);
-            this.tabPage1.Controls.Add(this.numericUpDownCBBufferSize);
-            this.tabPage1.Controls.Add(this.numericUpDownCBMaxCB);
-            this.tabPage1.Controls.Add(this.checkBoxCBIgnoreTags);
-            this.tabPage1.Controls.Add(this.checkBoxCBuseCB);
-            this.tabPage1.Location = new System.Drawing.Point(4, 40);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(308, 357);
-            this.tabPage1.TabIndex = 10;
-            this.tabPage1.Text = "Clipboard";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBTriggerMiddleClick);
+            this.tabPageClipboard.Controls.Add(this.label32);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBClearBuffer);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBNewLinesOnly);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBTriggerDoubleLeftClick);
+            this.tabPageClipboard.Controls.Add(this.label31);
+            this.tabPageClipboard.Controls.Add(this.numericUpDownCBScrollCount);
+            this.tabPageClipboard.Controls.Add(this.label29);
+            this.tabPageClipboard.Controls.Add(this.textBoxCBReplaceTags);
+            this.tabPageClipboard.Controls.Add(this.label28);
+            this.tabPageClipboard.Controls.Add(this.numericUpDownCBMinTimer);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBTriggerInputWait);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBTriggerAnyKeyWait);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBTriggerLeftClick);
+            this.tabPageClipboard.Controls.Add(this.label27);
+            this.tabPageClipboard.Controls.Add(this.label26);
+            this.tabPageClipboard.Controls.Add(this.label25);
+            this.tabPageClipboard.Controls.Add(this.numericUpDownCBBufferSize);
+            this.tabPageClipboard.Controls.Add(this.numericUpDownCBMaxCB);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBIgnoreTags);
+            this.tabPageClipboard.Controls.Add(this.checkBoxCBuseCB);
+            this.tabPageClipboard.Location = new System.Drawing.Point(4, 40);
+            this.tabPageClipboard.Name = "tabPageClipboard";
+            this.tabPageClipboard.Size = new System.Drawing.Size(308, 357);
+            this.tabPageClipboard.TabIndex = 10;
+            this.tabPageClipboard.Text = "Clipboard";
+            this.tabPageClipboard.UseVisualStyleBackColor = true;
             // 
             // checkBoxCBTriggerMiddleClick
             // 
@@ -1697,8 +1698,8 @@
 			this.tabPageFont.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabPageClipboard.ResumeLayout(false);
+            this.tabPageClipboard.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBScrollCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBMinTimer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCBBufferSize)).EndInit();
@@ -1830,7 +1831,7 @@
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.CheckBox checkBox9;
 		private System.Windows.Forms.CheckBox checkBox29;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPageClipboard;
         private System.Windows.Forms.CheckBox checkBoxCBIgnoreTags;
         private System.Windows.Forms.CheckBox checkBoxCBuseCB;
         private System.Windows.Forms.NumericUpDown numericUpDownCBMaxCB;
