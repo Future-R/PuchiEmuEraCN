@@ -5,7 +5,7 @@ namespace MinorShift.Emuera.GameView
 {
     public static class PrintEdgeFont
     {
-        public static bool edgeEnabled = false;
+        public static bool edgeEnabled = true; // Sworve: feels hacky but seems to make things work as intended
         public static void DrawString(Graphics graph, string Str,Color color, int PointX, int pointY)
         {
 			//アンチエリアス
