@@ -231,9 +231,9 @@ namespace MinorShift.Emuera.GameProc
                                 // 1.52a改変部分　（単位の差し替えおよび前置、後置に対応）
                                 printStr = Translation.translate(printStr, "Item", true);
                                 if (Config.MoneyFirst)
-									exm.Console.PrintC(string.Format("[{2}] {0}({3}{1})", printStr, price, i, Config.MoneyLabel), false);
-								else
-									exm.Console.PrintC(string.Format("[{2}] {0}({1}{3})", printStr, price, i, Config.MoneyLabel), false);
+                                    printStr = string.Format("[{2}] {0}({3}{1})", printStr, price, i, Config.MoneyLabel);
+                                else
+                                    printStr = string.Format("[{2}] {0}({1}{3})", printStr, price, i, Config.MoneyLabel);
 
                                 printStr= printStr.PadRight(Config.PrintCShopLength - (Encoding.GetEncoding("Shift_JIS").GetByteCount(printStr) - printStr.Length));
                                 //182101 PCDRP-Update:SHOPだけ文字数が違い過ぎるので個別対応↑------
