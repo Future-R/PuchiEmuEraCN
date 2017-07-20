@@ -283,6 +283,7 @@ namespace MinorShift.Emuera
             // 
             // AutoVerbMenu
             // 
+            this.AutoVerbMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.AutoVerbMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.マクロToolStripMenuItem,
             this.マクログループToolStripMenuItem,

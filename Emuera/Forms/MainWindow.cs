@@ -44,7 +44,7 @@ namespace MinorShift.Emuera
             openFileDialog.Multiselect = true;
             openFileDialog.RestoreDirectory = true;
             
-           string Emuera_verInfo = "Emuera Ver. " + emueraVer.FileVersion.Remove(5);
+           string Emuera_verInfo = "PuchiEmuera Ver. " + emueraVer.FileVersion.Remove(5);
             if (emueraVer.FileBuildPart > 0)
                 Emuera_verInfo += "+v" + emueraVer.FileBuildPart.ToString() + ((emueraVer.FilePrivatePart > 0) ? "." + emueraVer.FilePrivatePart.ToString() : "");
             Emuera_verInfo += " Anchor V1.25";
