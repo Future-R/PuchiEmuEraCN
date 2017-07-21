@@ -352,6 +352,7 @@ namespace MinorShift.Emuera.GameProc.Function
 
 		TOOLTIP_SETCOLOR,
 		TOOLTIP_SETDELAY,
+        TOOLTIP_SETDURATION,
 
 		PRINT_IMG,
 		PRINT_RECT,

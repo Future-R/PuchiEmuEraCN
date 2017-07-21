@@ -455,7 +455,8 @@ namespace MinorShift.Emuera.GameData.Variable
 				object array = null;
 				if (nameAndType.Key != null)
 				{
-					vToken = GlobalStatic.IdentifierDictionary.GetVariableToken(nameAndType.Key, null, false);
+                    if (!GlobalStatic.IdentifierDictionary.getVarTokenIsForbid(nameAndType.Key))
+                        vToken = GlobalStatic.IdentifierDictionary.GetVariableToken(nameAndType.Key, null, false);
 					if (userDefineData)
 					{
 						if (vToken == null || !vToken.IsSavedata || !vToken.IsCharacterData || !(vToken is UserDefinedCharaVariableToken))
@@ -466,7 +467,8 @@ namespace MinorShift.Emuera.GameData.Variable
 					}
 					else
 					{
-						codeInt = (int)VariableCode.__LOWERCASE__ & (int)vToken.Code;
+                        if (vToken != null)
+                            codeInt = (int)VariableCode.__LOWERCASE__ & (int)vToken.Code;
 						array = null;
 					}
 				}

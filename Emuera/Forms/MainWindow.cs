@@ -27,10 +27,10 @@ namespace MinorShift.Emuera
 
 			((EraPictureBox)mainPicBox).SetStyle();
 			initControlSizeAndLocation();
-
 			richTextBox1.ForeColor = Config.ForeColor;
 			richTextBox1.BackColor = Config.BackColor;
-			mainPicBox.BackColor = Config.BackColor;//これは実際には使用されないはず
+            mainPicBox.BackColor = Config.BackColor;//これは実際には使用されないはず
+            
 			this.BackColor = Config.BackColor;
 
 			richTextBox1.Font = Config.Font;
@@ -631,7 +631,6 @@ namespace MinorShift.Emuera
             if (Config.UseMouse)
 				console.LeaveMouse();
 		}
-
 
 		private void コンフィグCToolStripMenuItem_Click(object sender, EventArgs e)
 		{

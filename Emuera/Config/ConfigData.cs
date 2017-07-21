@@ -418,6 +418,19 @@ namespace MinorShift.Emuera
 			return true;
 		}
 
+        public bool ReLoadConfig()
+        {
+            //_fixed.configの中身が変わった場合、非固定になったものが保持されてしまうので、ここで一旦すべて解除
+            foreach (AConfigItem item in configArray)
+            {
+                if (item == null)
+                    continue;
+                if (item.Fixed)
+                    item.Fixed = false;
+            }
+            LoadConfig();
+            return true;
+        }
 
 		public bool LoadConfig()
 		{
@@ -506,6 +519,11 @@ namespace MinorShift.Emuera
 							((ConfigItem<string>)item).Value = tokens[1];
 							continue;
 						}
+                        if (item.Code == ConfigCode.MaxLog)
+                        {
+                            //解析モード時はここを上書きして十分な長さを確保する
+                            tokens[1] = "10000";
+                        }
 						if ((item.TryParse(tokens[1])) && (fix))
 							item.Fixed = true;
 					}

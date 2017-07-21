@@ -380,6 +380,7 @@ namespace MinorShift.Emuera.GameProc.Function
 			
 			addFunction(FunctionCode.TOOLTIP_SETCOLOR, new TOOLTIP_SETCOLOR_Instruction());
 			addFunction(FunctionCode.TOOLTIP_SETDELAY, new TOOLTIP_SETDELAY_Instruction());
+            addFunction(FunctionCode.TOOLTIP_SETDURATION, new TOOLTIP_SETDURATION_Instruction());
 
 			#region 式中関数の引数違い
 			addFunction(FunctionCode.VARSIZE, argb[FunctionArgType.SP_VAR], METHOD_SAFE | EXTENDED);//動作が違うのでMETHOD化できない

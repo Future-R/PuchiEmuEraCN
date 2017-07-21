@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using System.IO;
 using MinorShift._Library;
 using MinorShift.Emuera.Sub;
-using MinorShift.Emuera.GameData;
+//using MinorShift.Emuera.GameData;
 using MinorShift.Emuera.GameProc;
-using System.Drawing.Imaging;
+//using System.Drawing.Imaging;
 using MinorShift.Emuera.Forms;
 using MinorShift.Emuera.GameData.Expression;
 using MinorShift.Emuera.GameProc.Function;
@@ -1224,6 +1224,29 @@ namespace MinorShift.Emuera.GameView
                 */
                 forceTextBoxColor = false;
             }
+			if (lastPointingString != pointingString)
+			{
+				if (tooltipUsed)
+					window.ToolTip.RemoveAll();
+				if (pointingString != null && !string.IsNullOrEmpty(pointingString.Title))
+				{
+                    if (tooltip_duration == 0)
+                        window.ToolTip.SetToolTip(window.MainPicBox, pointingString.Title);
+                    else
+                        window.ToolTip.Show(pointingString.Title, window.MainPicBox, tooltip_duration);
+					tooltipUsed = true;
+				}
+				lastPointingString = pointingString;
+			}
+			if (isBackLog)
+				lastDrawnLineNo = -1;
+			else
+				lastDrawnLineNo = lineNo;
+			lastSelectingButton = selectingButton;
+			/*デバッグ用。描画が超重い環境を想定
+			System.Threading.Thread.Sleep(50);
+			*/
+			forceTextBoxColor = false;
 		}
 
 		public void SetToolTipColor(Color foreColor, Color backColor)
@@ -1237,22 +1260,28 @@ namespace MinorShift.Emuera.GameView
 			window.ToolTip.InitialDelay = delay;
 		}
 
+        int tooltip_duration = 0;
+        public void SetToolTipDuration(int duration)
+        {
+            tooltip_duration = duration;
+        }
 
-		//private Graphics getGraphics()
-		//{
-		//	//消したいが怖いので残し
-		//	if (!window.Created)
-		//		throw new ExeEE("存在しないウィンドウにアクセスした");
-		//	//if (Config.UseImageBuffer)
-		//	//	return Graphics.FromImage(window.MainPicBox.Image);
-		//	//else
-		//		return window.MainPicBox.CreateGraphics();
-		//}
 
-		#endregion
+        //private Graphics getGraphics()
+        //{
+        //	//消したいが怖いので残し
+        //	if (!window.Created)
+        //		throw new ExeEE("存在しないウィンドウにアクセスした");
+        //	//if (Config.UseImageBuffer)
+        //	//	return Graphics.FromImage(window.MainPicBox.Image);
+        //	//else
+        //		return window.MainPicBox.CreateGraphics();
+        //}
 
-		#region DebugMode系
-		DebugDialog dd = null;
+        #endregion
+
+        #region DebugMode系
+        DebugDialog dd = null;
 		public DebugDialog DebugDialog { get { return dd; } }
 		StringBuilder dConsoleLog = new StringBuilder("");
 		public string DebugConsoleLog { get { return dConsoleLog.ToString(); } }

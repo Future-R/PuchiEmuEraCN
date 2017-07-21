@@ -56,5 +56,10 @@ namespace MinorShift.Emuera.Content
 			Bitmap.Dispose();
 			Bitmap = null;
 		}
+
+        ~BaseImage()
+        {
+            Dispose();
+        }
 	}
 }

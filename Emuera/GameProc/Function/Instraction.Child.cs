@@ -115,6 +115,8 @@ namespace MinorShift.Emuera.GameProc.Function
 				//A lot of function have tryTranslate or translate in their signatures
 				//This was added in the goal to know when translating is required or not.
 				
+                if (GlobalStatic.Process.SkipPrint)
+                    return;
 				exm.Console.UseUserStyle = true;
 				exm.Console.UseSetColorStyle = !func.Function.IsPrintDFunction();
 				string str = null;
@@ -198,7 +200,9 @@ namespace MinorShift.Emuera.GameProc.Function
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
-				exm.Console.UseUserStyle = true;
+                if (GlobalStatic.Process.SkipPrint)
+                    return;
+                exm.Console.UseUserStyle = true;
 				exm.Console.UseSetColorStyle = !func.Function.IsPrintDFunction();
 				//表示データが空なら何もしないで飛ぶ
 				if (func.dataList.Count == 0)
@@ -256,7 +260,9 @@ namespace MinorShift.Emuera.GameProc.Function
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
-				string str = null;
+                if (GlobalStatic.Process.SkipPrint)
+                    return;
+                string str = null;
 				if (func.Argument.IsConst)
 					str = func.Argument.ConstStr;
 				else
@@ -303,7 +309,9 @@ namespace MinorShift.Emuera.GameProc.Function
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
-				string str = null;
+                if (GlobalStatic.Process.SkipPrint)
+                    return;
+                string str = null;
 				if (func.Argument.IsConst)
 					str = func.Argument.ConstStr;
 				else
@@ -322,10 +330,12 @@ namespace MinorShift.Emuera.GameProc.Function
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
-				ExpressionArrayArgument intExpArg = (ExpressionArrayArgument)func.Argument;
+                if (GlobalStatic.Process.SkipPrint)
+                    return;
+                ExpressionArrayArgument intExpArg = (ExpressionArrayArgument)func.Argument;
 				int[] param = new int[intExpArg.TermList.Length];
 				for (int i = 0; i < intExpArg.TermList.Length; i++)
-					param[i] = FunctionIdentifier.toUInt32inArg(intExpArg.TermList[i].GetIntValue(exm), "DELDATA", i + 1);
+					param[i] = FunctionIdentifier.toUInt32inArg(intExpArg.TermList[i].GetIntValue(exm), "PRINT_RECT", i + 1);
 
 				exm.Console.PrintShape("rect", param);
 			}
@@ -341,12 +351,14 @@ namespace MinorShift.Emuera.GameProc.Function
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
 			{
-				Int64 param;
+                if (GlobalStatic.Process.SkipPrint)
+                    return;
+                Int64 param;
 				if (func.Argument.IsConst)
 					param = func.Argument.ConstInt;
 				else
 					param = ((ExpressionArgument)func.Argument).Term.GetIntValue(exm);
-				int param32 = FunctionIdentifier.toUInt32inArg(param, "DELDATA", 1);
+				int param32 = FunctionIdentifier.toUInt32inArg(param, "PRINT_SPACE", 1);
 				exm.Console.PrintShape("space", new int[] { param32 });
 			}
 		}
@@ -1752,11 +1764,35 @@ namespace MinorShift.Emuera.GameProc.Function
         }
 		//182101 PCDRP-Update:画面エフェクト機能で修正↑--------------------------
 
-		#endregion
+        private sealed class TOOLTIP_SETDURATION_Instruction : AbstractInstruction
+        {
+            public TOOLTIP_SETDURATION_Instruction()
+            {
+                ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.INT_EXPRESSION);
+                flag = METHOD_SAFE | EXTENDED;
+            }
+            public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
+            {
+                ExpressionArgument arg = (ExpressionArgument)func.Argument;
+                long duration = 0;
+                if (arg.IsConst)
+                    duration = arg.ConstInt;
+                else
+                    duration = arg.Term.GetIntValue(exm);
+                if (duration < 0 || duration > int.MaxValue)
+                    throw new CodeEE("引数の値が適切な範囲外です");
+                if (duration > short.MaxValue)
+                    duration = short.MaxValue;
+                exm.Console.SetToolTipDuration((int)duration);
+                return;
+            }
+        }
 
-		#region flowControlFunction
+        #endregion
 
-		private sealed class BEGIN_Instruction : AbstractInstruction
+        #region flowControlFunction
+
+        private sealed class BEGIN_Instruction : AbstractInstruction
 		{
 			public BEGIN_Instruction()
 			{

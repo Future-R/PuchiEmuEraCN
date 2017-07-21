@@ -153,7 +153,7 @@ namespace MinorShift.Emuera
 				GlobalStatic.Reset();
 				//GC.Collect();
 				Reboot = false;
-				ConfigData.Instance.LoadConfig();
+				ConfigData.Instance.ReLoadConfig();
 			}
 		}
 
