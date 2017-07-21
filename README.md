@@ -2,7 +2,7 @@
 ==== PuchiEmuEra Anchor =============================================================
 
 This project is an extension of PCDRP's PuchiEmuEra executable, which in itself
-is a modification of the EmuEra project (https://osdn.net/projects/emuera),
+is a modification of the EmuEra project (http://ux.getuploader.com/ninnohito/),
 version 1821.
 
 The anchor was created to facilitate easier translation of Era games using clipboard
