@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using MinorShift.Emuera.Sub;
 using System.Drawing;
 using MinorShift.Emuera.GameData.Expression;
+using System.Globalization;
 
 namespace MinorShift.Emuera.GameView
 {
@@ -736,7 +737,10 @@ namespace MinorShift.Emuera.GameView
 					}
 				case "img":
 					{
-						if (wc == null)
+                        NumberStyles style = NumberStyles.Float | NumberStyles.AllowDecimalPoint;
+                        var culture = new CultureInfo("ja-JP");
+
+                        if (wc == null)
 							throw new CodeEE("<" + tag + ">タグに属性が設定されていません");
 						string attrValue = null;
 						string src = null;
@@ -827,7 +831,7 @@ namespace MinorShift.Emuera.GameView
                             {
                                 if (alpha != -1.0f)
                                     throw new CodeEE("<" + tag + ">タグに" + word.Code + "属性が2度以上指定されています");
-                                if (!float.TryParse(attrValue, out alpha))
+                                if (!float.TryParse(attrValue, style, culture, out alpha))
                                     throw new CodeEE("<" + tag + ">タグのalpha属性の属性値が数値として解釈できません");
                             }
                             else if (word.Code.Equals("back", StringComparison.OrdinalIgnoreCase))
@@ -838,11 +842,11 @@ namespace MinorShift.Emuera.GameView
                                 if (values.Length < 2)
                                     throw new CodeEE("<" + tag + ">タグのback属性の属性値に指定する項目が不足しています");
                                 float tmpGroupAlpha;
-                                if (!float.TryParse(values[0], out tmpGroupAlpha))
+                                if (!float.TryParse(values[0], style, culture, out tmpGroupAlpha))
                                     throw new CodeEE("<" + tag + ">タグのback属性の属性値(α値)が数値として解釈できません");
                                 for (int i = 1; i < values.Length; i++) {
                                     int tmpGroupIdData;
-                                    if (!int.TryParse(values[i], out tmpGroupIdData))
+                                    if (!int.TryParse(values[i], style, culture, out tmpGroupIdData))
                                         throw new CodeEE("<" + tag + ">タグのback属性の属性値(グループID)が数値として解釈できません");
                                 }
                                 backGroupInfo = attrValue;

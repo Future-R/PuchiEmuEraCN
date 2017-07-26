@@ -12,6 +12,9 @@ namespace MinorShift.Emuera.GameView
 
 		public ConsoleImagePart(string resName, string resNameb, int raw_height, int raw_width, int raw_ypos, int fix_xpos, int fix_ypos, bool fix_reverse,int fix_group, float fix_alpha, string backGroupInfo)//182101 PCDRP-Update:画像固定表示機能で修正
 		{
+            System.Globalization.CultureInfo customCulture = new System.Globalization.CultureInfo("ja-JP");
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
 
             fImgInfo = new CroppedImage.FixImgInfo();	//画像固定表示機能用情報	//182101 PCDRP-Update
 			top = 0;

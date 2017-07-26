@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -70,6 +71,7 @@ namespace MinorShift.Emuera.Content
 
 		static private AContentItem CreateFromCsv(string[] tokens)
 		{
+
 			if(tokens.Length < 2)
 				return null;
 			string name = tokens[0].Trim().ToUpper();
@@ -118,9 +120,12 @@ namespace MinorShift.Emuera.Content
                                     string[] fixTokens = tokens[7].Split('|');
                                     //グルーピングを使わない時は3つ、使う時は5つ指定されている
                                     if (fixTokens.Length == 3 || fixTokens.Length == 5) {
+                                        NumberStyles style = NumberStyles.Float | NumberStyles.AllowDecimalPoint;
+                                        var culture = new CultureInfo("ja-JP");
+
                                         sccs &= int.TryParse(fixTokens[0], out fImgInfo.fixPosX);
                                         sccs &= int.TryParse(fixTokens[1], out fImgInfo.fixPosY);
-                                        sccs &= float.TryParse(fixTokens[2], out fImgInfo.fixAlpha);
+                                        sccs &= float.TryParse(fixTokens[2], style, culture, out fImgInfo.fixAlpha);
                                         if (fixTokens.Length == 5) {
                                             if (fixTokens[3].Equals("ROOT", StringComparison.OrdinalIgnoreCase))
                                             {

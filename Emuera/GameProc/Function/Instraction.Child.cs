@@ -9,6 +9,7 @@ using MinorShift._Library;
 using MinorShift.Emuera.GameData.Function;
 using System.Drawing;
 using System.IO;
+using System.Globalization;
 
 namespace MinorShift.Emuera.GameProc.Function
 {
@@ -1600,8 +1601,9 @@ namespace MinorShift.Emuera.GameProc.Function
             {
                 SpFadeArgument arg = (SpFadeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
-          
-                float alpha = float.Parse(terms[0].GetStrValue(exm));
+
+                var culture = new CultureInfo("ja-JP");
+                float alpha = float.Parse(terms[0].GetStrValue(exm), culture);
                 string groupID = terms[1].GetStrValue(exm);
                 Int64 speed = terms[2].GetIntValue(exm);
                 Int64 color = terms[3].GetIntValue(exm);
@@ -1712,7 +1714,8 @@ namespace MinorShift.Emuera.GameProc.Function
                 SpShakeArgument arg = (SpShakeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
 
-                float effectCoef = float.Parse(terms[0].GetStrValue(exm));	//透過含めた全体の変動量
+                var culture = new CultureInfo("ja-JP");
+                float effectCoef = float.Parse(terms[0].GetStrValue(exm), culture);	//透過含めた全体の変動量
                 Int64 shakeQt = terms[1].GetIntValue(exm);					//移動量
                 string groupID = terms[2].GetStrValue(exm);                 //グループID
                 Int64 speed = terms[3].GetIntValue(exm);					//振動する時間
