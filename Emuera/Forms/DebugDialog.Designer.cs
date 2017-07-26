@@ -114,9 +114,9 @@
             // 
             // tabControlMain
             // 
+            this.tabControlMain.Controls.Add(this.tabPageConsole);
             this.tabControlMain.Controls.Add(this.tabPageWatch);
             this.tabControlMain.Controls.Add(this.tabPageTrace);
-            this.tabControlMain.Controls.Add(this.tabPageConsole);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControlMain.Location = new System.Drawing.Point(0, 24);
             this.tabControlMain.Name = "tabControlMain";
