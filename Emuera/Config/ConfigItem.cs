@@ -128,7 +128,7 @@ namespace MinorShift.Emuera
 				if (ret)
 					((ConfigItem<Color>)(AConfigItem)this).Value = c;
                 else
-                    throw new CodeEE("値をColor指定子として認識できません");
+                    throw new CodeEE("Value can not be recognized as Color specifier");
             }
 			else if (this is ConfigItem<char>)
 			{
@@ -144,7 +144,7 @@ namespace MinorShift.Emuera
 				if (ret)
 					((ConfigItem<Int32>)(AConfigItem)this).Value = i;
                 else
-                    throw new CodeEE("数字でない文字が含まれています");
+                    throw new CodeEE("Numeric config item contains non-numeric characters");
             }
 			else if (this is ConfigItem<Int64>)
 			{
@@ -153,7 +153,7 @@ namespace MinorShift.Emuera
                 if (ret)
                     ((ConfigItem<Int64>)(AConfigItem)this).Value = i;
                 else
-                    throw new CodeEE("数字でない文字が含まれています");
+                    throw new CodeEE("Numeric config item contains non-numeric characters");
 			}
             else if (this is ConfigItem<List<Int64>>)
             {
@@ -167,7 +167,7 @@ namespace MinorShift.Emuera
                         ((ConfigItem<List<Int64>>)(AConfigItem)this).Value.Add(i);
                     else
                     {
-                        throw new CodeEE("数字でない文字が含まれています");
+                        throw new CodeEE("Numeric config item contains non-numeric characters");
                     }
                 }
             }
@@ -191,7 +191,7 @@ namespace MinorShift.Emuera
                      = (TextDrawingMode)Enum.Parse(typeof(TextDrawingMode), str);
                 }
                 else
-                    throw new CodeEE("不正な指定です");
+                    throw new CodeEE("Invalid specification");
             }
             else if (this is ConfigItem<ReduceArgumentOnLoadFlag>)
             {
@@ -203,7 +203,7 @@ namespace MinorShift.Emuera
                      = (ReduceArgumentOnLoadFlag)Enum.Parse(typeof(ReduceArgumentOnLoadFlag), str);
                 }
                 else
-                    throw new CodeEE("不正な指定です");
+                    throw new CodeEE("Invalid specification");
             }
             else if (this is ConfigItem<DisplayWarningFlag>)
             {
@@ -215,7 +215,7 @@ namespace MinorShift.Emuera
                      = (DisplayWarningFlag)Enum.Parse(typeof(DisplayWarningFlag), str);
                 }
                 else
-                    throw new CodeEE("不正な指定です");
+                    throw new CodeEE("Invalid specification");
             }
             else if (this is ConfigItem<UseLanguage>)
             {
@@ -227,7 +227,7 @@ namespace MinorShift.Emuera
                         = (UseLanguage)Enum.Parse(typeof(UseLanguage), str);
                 }
                 else
-                    throw new CodeEE("不正な指定です");
+                    throw new CodeEE("Invalid specification");
             }
             else if (this is ConfigItem<TextEditorType>)
             {
@@ -239,7 +239,7 @@ namespace MinorShift.Emuera
                         = (TextEditorType)Enum.Parse(typeof(TextEditorType), str);
                 }
                 else
-                    throw new CodeEE("不正な指定です");
+                    throw new CodeEE("Invalid specification");
             }
             //else
             //    throw new ExeEE("型不明なコンフィグ");
@@ -273,7 +273,7 @@ namespace MinorShift.Emuera
 				p = true;
 				return true;
 			}
-			throw new CodeEE("不正な指定です");
+			throw new CodeEE("Invalid specification");
 		}
 
 		private bool tryStringsToColor(string str, out Color c)

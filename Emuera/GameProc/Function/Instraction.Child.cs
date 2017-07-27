@@ -193,7 +193,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					flag |= METHOD_SAFE;
 				}
 				if ((ArgBuilder == null) || (!st.EOS))
-					throw new ExeEE("PRINTDATA異常");
+					throw new ExeEE("PRINTDATA error");
 			}
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
@@ -245,10 +245,13 @@ namespace MinorShift.Emuera.GameProc.Function
 		
 		private sealed class HTML_PRINT_Instruction : AbstractInstruction
 		{
-			public HTML_PRINT_Instruction()
+            bool _noNewLine;
+
+			public HTML_PRINT_Instruction(bool noLineBreaks = false)
 			{
 				flag = EXTENDED | METHOD_SAFE;
 				ArgBuilder = ArgumentParser.GetArgumentBuilder(FunctionArgType.STR_EXPRESSION);
+                _noNewLine = noLineBreaks;
 			}
 
 			public override void DoInstruction(ExpressionMediator exm, InstructionLine func, ProcessState state, bool translate = false)
@@ -258,7 +261,7 @@ namespace MinorShift.Emuera.GameProc.Function
 					str = func.Argument.ConstStr;
 				else
 					str = ((ExpressionArgument)func.Argument).Term.GetStrValue(exm, translate);
-				exm.Console.PrintHtml(str);
+				exm.Console.PrintHtml(str, _noNewLine);
 			}
 		}
 

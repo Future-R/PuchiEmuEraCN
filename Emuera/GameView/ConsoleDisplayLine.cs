@@ -25,10 +25,10 @@ namespace MinorShift.Emuera.GameView
 		CENTER = 1,
 		RIGHT = 2,
 	}
-	/// <summary>
-	/// 表示行。1つ以上のボタン（ConsoleButtonString）からなる
-	/// </summary>
-	internal sealed class ConsoleDisplayLine
+    /// <summary>
+    /// Display line. It consists of one or more buttons (ConsoleButtonString)
+    /// </summary>
+    internal sealed class ConsoleDisplayLine
 	{
 		
 		//public ConsoleDisplayLine(EmueraConsole parentWindow, ConsoleButtonString[] buttons, bool isLogical, bool temporary)

@@ -263,66 +263,84 @@ namespace MinorShift.Emuera.GameView
 		/// <param name="str">htmlテキスト</param>
 		/// <param name="sm"></param>
 		/// <param name="console">実際の表示に使わないならnullにする</param>
+        /// <param name="noLineBreak">Disable any line breaks in resulting ConsoleDisplayLine</param>
 		/// <returns></returns>
 		public static ConsoleDisplayLine[] Html2DisplayLine(string str, StringMeasure sm, EmueraConsole console)
-		{
-			List<AConsoleDisplayPart> cssList = new List<AConsoleDisplayPart>();
-			List<ConsoleButtonString> buttonList = new List<ConsoleButtonString>();
-			StringStream st = new StringStream(str);
-			int found;
-			bool hasComment = str.IndexOf("<!--") >= 0;
-			bool hasReturn = str.IndexOf('\n') >= 0;
-			HtmlAnalzeState state = new HtmlAnalzeState();
-			while (!st.EOS)
-			{
-				found = st.Find('<');
-				if (hasReturn)
-				{
-					int rFound = st.Find('\n');
-					if (rFound >= 0 && (found > rFound || found < 0))
-						found = rFound;
-				}
-				if (found < 0)
-				{
-					string txt = Unescape(st.Substring());
-					cssList.Add(new ConsoleStyledString(txt, state.GetSS()));
-					if (state.FlagPClosed)
-						throw new CodeEE("</p>の後にテキストがあります");
-					if (state.FlagNobrClosed)
-						throw new CodeEE("</nobr>の後にテキストがあります");
-					break;
-				}
-				else if (found > 0)
-				{
-					string txt = Unescape(st.Substring(st.CurrentPosition, found));
-					cssList.Add(new ConsoleStyledString(txt, state.GetSS()));
-					state.LineHead = false;
-					st.CurrentPosition += found;
-				}
-				//コメントタグのみ特別扱い
-				if (hasComment && st.CurrentEqualTo("<!--"))
-				{
-					st.CurrentPosition += 4;
-					found = st.Find("-->");
-					if (found < 0)
-						throw new CodeEE("コメンdト終了タグ\"-->\"がみつかりません");
-					st.CurrentPosition += found + 3;
-					continue;
-				}
-				if (hasReturn && st.Current == '\n')//テキスト中の\nは<br>として扱う
-				{
-					state.FlagBr = true;
-					st.ShiftNext();
-				}
-				else//タグ解析
-				{
-					st.ShiftNext();
-					AConsoleDisplayPart part = tagAnalyze(state, st);
-					if (st.Current != '>')
-						throw new CodeEE("タグ終端'>'が見つかりません");
-					//182101 PCDRP-Update:画像固定表示機能で修正↓--------------------------
+        {
+            bool noBr = false;
+            DisplayLineAlignment alignment;
+            List<ConsoleButtonString> buttonList = Html2ButtonList(str, console, out noBr, out alignment);
+            ConsoleDisplayLine[] ret = PrintStringBuffer.ButtonsToDisplayLines(buttonList, sm, noBr, false);
+
+            foreach (ConsoleDisplayLine dl in ret)
+            {
+                dl.SetAlignment(alignment);
+            }
+            return ret;
+        }
+
+        public static List<ConsoleButtonString> Html2ButtonList(string str, EmueraConsole console, out bool noBr, out DisplayLineAlignment alignment)
+        {
+            HtmlAnalzeState state;
+            List<ConsoleButtonString> buttonList = new List<ConsoleButtonString>();
+            List<AConsoleDisplayPart> cssList = new List<AConsoleDisplayPart>();
+            buttonList = new List<ConsoleButtonString>();
+            StringStream st = new StringStream(str);
+            int found;
+            bool hasComment = str.IndexOf("<!--") >= 0;
+            bool hasReturn = str.IndexOf('\n') >= 0;
+            state = new HtmlAnalzeState();
+            while (!st.EOS)
+            {
+                found = st.Find('<');
+                if (hasReturn)
+                {
+                    int rFound = st.Find('\n');
+                    if (rFound >= 0 && (found > rFound || found < 0))
+                        found = rFound;
+                }
+                if (found < 0)
+                {
+                    string txt = Unescape(st.Substring());
+                    cssList.Add(new ConsoleStyledString(txt, state.GetSS()));
+                    if (state.FlagPClosed)
+                        throw new CodeEE("</p>の後にテキストがあります");
+                    if (state.FlagNobrClosed)
+                        throw new CodeEE("</nobr>の後にテキストがあります");
+                    break;
+                }
+                else if (found > 0)
+                {
+                    string txt = Unescape(st.Substring(st.CurrentPosition, found));
+                    cssList.Add(new ConsoleStyledString(txt, state.GetSS()));
+                    state.LineHead = false;
+                    st.CurrentPosition += found;
+                }
+                //コメントタグのみ特別扱い
+                if (hasComment && st.CurrentEqualTo("<!--"))
+                {
+                    st.CurrentPosition += 4;
+                    found = st.Find("-->");
+                    if (found < 0)
+                        throw new CodeEE("コメンdト終了タグ\"-->\"がみつかりません");
+                    st.CurrentPosition += found + 3;
+                    continue;
+                }
+                if (hasReturn && st.Current == '\n')//テキスト中の\nは<br>として扱う
+                {
+                    state.FlagBr = true;
+                    st.ShiftNext();
+                }
+                else//タグ解析
+                {
+                    st.ShiftNext();
+                    AConsoleDisplayPart part = tagAnalyze(state, st);
+                    if (st.Current != '>')
+                        throw new CodeEE("タグ終端'>'が見つかりません");
+                    //182101 PCDRP-Update:画像固定表示機能で修正↓--------------------------
                     //生成されたインスタンスが固定画像表示機能用のインスタンスだった場合
-					if (part != null) {
+                    if (part != null)
+                    {
                         if (part.GetType() == typeof(ConsoleImagePart) &&
                             ((ConsoleImagePart)part).fImgInfo.isFixed)
                         {
@@ -333,55 +351,51 @@ namespace MinorShift.Emuera.GameView
                         }
                         else
                         {
-							cssList.Add(part);
+                            cssList.Add(part);
                         }
                     }
-					st.ShiftNext();
-					//182101 PCDRP-Update:画像固定表示機能で修正↑--------------------------
-				}
+                    st.ShiftNext();
+                    //182101 PCDRP-Update:画像固定表示機能で修正↑--------------------------
+                }
 
-				if (state.FlagBr)
-				{
-					state.LastButtonTag = state.CurrentButtonTag;
-					if (cssList.Count > 0)
-						buttonList.Add(cssToButton(cssList, state, console));
-					buttonList.Add(null);
-				}
-				if (state.FlagButton && cssList.Count > 0)
-				{
-					buttonList.Add(cssToButton(cssList, state, console));
-				}
-				state.FlagBr = false;
-				state.FlagButton = false;
-				state.LastButtonTag = state.CurrentButtonTag;
-			}
-			//</nobr></p>は省略許可
-			if (state.CurrentButtonTag != null || state.FontStyle != FontStyle.Regular || state.FonttagList.Count > 0)
-				throw new CodeEE("閉じられていないタグがあります");
-			if (cssList.Count > 0)
-				buttonList.Add(cssToButton(cssList, state, console));
+                if (state.FlagBr)
+                {
+                    state.LastButtonTag = state.CurrentButtonTag;
+                    if (cssList.Count > 0)
+                        buttonList.Add(cssToButton(cssList, state, console));
+                    buttonList.Add(null);
+                }
+                if (state.FlagButton && cssList.Count > 0)
+                {
+                    buttonList.Add(cssToButton(cssList, state, console));
+                }
+                state.FlagBr = false;
+                state.FlagButton = false;
+                state.LastButtonTag = state.CurrentButtonTag;
+            }
+            //</nobr></p>は省略許可
+            if (state.CurrentButtonTag != null || state.FontStyle != FontStyle.Regular || state.FonttagList.Count > 0)
+                throw new CodeEE("閉じられていないタグがあります");
+            if (cssList.Count > 0)
+                buttonList.Add(cssToButton(cssList, state, console));
 
-			foreach(ConsoleButtonString button in buttonList)
-			{
-				if (button != null && button.PointXisLocked)
-				{
-					if (!state.FlagNobr)
-						throw new CodeEE("<nobr>が設定されていない行ではpos属性は使用できません");
-					if (state.Alignment != DisplayLineAlignment.LEFT)
-						throw new CodeEE("alignがleftでない行ではpos属性は使用できません");
-					break;
-				}
-			}
-			ConsoleDisplayLine[] ret = PrintStringBuffer.ButtonsToDisplayLines(buttonList, sm, state.FlagNobr, false);
+            foreach (ConsoleButtonString button in buttonList)
+            {
+                if (button != null && button.PointXisLocked)
+                {
+                    if (!state.FlagNobr)
+                        throw new CodeEE("<nobr>が設定されていない行ではpos属性は使用できません");
+                    if (state.Alignment != DisplayLineAlignment.LEFT)
+                        throw new CodeEE("alignがleftでない行ではpos属性は使用できません");
+                    break;
+                }
+            }
+            alignment = state.Alignment;
+            noBr = state.FlagNobr;
+            return buttonList;
+        }
 
-			foreach (ConsoleDisplayLine dl in ret)
-			{
-				dl.SetAlignment(state.Alignment);
-			}
-			return ret;
-		}
-
-		public static string Html2PlainText(string str)
+        public static string Html2PlainText(string str)
 		{
 			string ret = Regex.Replace(str, "\\<[^<]*\\>", "");
 			return Unescape(ret);

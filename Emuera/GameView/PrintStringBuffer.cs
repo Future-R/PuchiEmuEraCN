@@ -96,8 +96,6 @@ namespace MinorShift.Emuera.GameView
 			m_stringList.Clear();
 		}
 
-
-
 		public void AppendButton(string str, StringStyle style, long input)
 		{
 			fromCssToButton();
@@ -108,7 +106,17 @@ namespace MinorShift.Emuera.GameView
 			m_stringList.Clear();
 		}
 
-		public void AppendPlainText(string str, StringStyle style)
+        public void AppendButton(ConsoleButtonString cbs, StringStyle style)
+        {
+            fromCssToButton();
+            m_stringList.Add(new ConsoleStyledString(cbs.ToString(), style));
+            if (m_stringList.Count == 0)
+                return;
+            m_buttonList.Add(cbs);
+            m_stringList.Clear();
+        }
+
+        public void AppendPlainText(string str, StringStyle style)
 		{
 			fromCssToButton();
 			m_stringList.Add(new ConsoleStyledString(str, style));

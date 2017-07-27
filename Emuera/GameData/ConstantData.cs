@@ -566,7 +566,7 @@ check1break:
 			{
 				//調整が面倒なので投げる
 				if ((length1 != MaxDataList[cdflag1Index]) || (length2 != MaxDataList[cdflag2Index]))
-					throw new CodeEE("CDFLAGの要素数とCDFLAGNAME1及びCDFLAGNAME2の要素数が一致していません", position);
+					throw new CodeEE("The number of elements of CDFLAG does not match the number of elements of CDFLAGNAME 1 and CDFLAGNAME 2", position);
 			}
 			else if (cdflagNameLengthChanged && !changedCode.Contains(VariableCode.CDFLAG))
 			{
@@ -575,7 +575,7 @@ check1break:
 				if (length1 * length2 > 1000000)
 				{
 					//調整が面倒なので投げる
-					throw new CodeEE("CDFLAGの要素数が多すぎます（CDFLAGNAME1とCDFLAGNAME2の要素数の積が100万を超えています）", position);
+					throw new CodeEE("CDFLAG has too many elements (product of CDFLAGNAME 1 and CDFLAGNAME 2 number of elements exceeds 1 million)", position);
 				}
 				CharacterIntArray2DLength[mainLengthIndex] = (((Int64)length1) << 32) + ((Int64)length2);
 			}
@@ -704,16 +704,16 @@ check1break:
 		public int KeywordToInteger(VariableCode code, string key, int index)
 		{
 			if (string.IsNullOrEmpty(key))
-				throw new CodeEE("キーワードを空には出来ません");
+				throw new CodeEE("Keywords cannot be empty");
 			int ret = -1;
 			string errPos;
             Dictionary<string, int> dic = GetKeywordDictionary(out errPos, code, index);
 			if (dic.TryGetValue(key, out ret))
 				return ret;
 			if (errPos == null)
-				throw new CodeEE("配列変数" + code.ToString() + "の要素を文字列で指定することはできません");
+				throw new CodeEE("Array variable" + code.ToString() + "elements can not be specified as a string");
 			else
-				throw new CodeEE(errPos + "の中に\"" + key + "\"の定義がありません");
+				throw new CodeEE("There is no definition of\"" + key + "\" at " + errPos);
 		}
 
 		public Dictionary<string, int> GetKeywordDictionary(out string errPos, VariableCode code, int index)

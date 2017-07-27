@@ -57,7 +57,7 @@ namespace MinorShift.Emuera.Content
 			}
 			catch
 			{
-				throw new CodeEE("リソースファイルのロード中にエラーが発生しました");
+				throw new CodeEE("An error occurred while loading the resource file");
 			}
 		}
 

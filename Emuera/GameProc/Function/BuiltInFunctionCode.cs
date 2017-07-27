@@ -347,7 +347,8 @@ namespace MinorShift.Emuera.GameProc.Function
 		PRINTDATADW,
 
 		HTML_PRINT,
-		HTML_TAGSPLIT,
+        HTML_PRINTSL,
+        HTML_TAGSPLIT,
 
 		TOOLTIP_SETCOLOR,
 		TOOLTIP_SETDELAY,
