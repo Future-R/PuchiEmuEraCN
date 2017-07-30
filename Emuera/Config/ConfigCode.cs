@@ -148,6 +148,7 @@ namespace MinorShift.Emuera
         CBBufferSize,
         CBScrollCount,
         CBMinTimer,
+        AnchorCustomIcon, // Takes a path relative to the exe, or an absolute path.
 
 		MoneyLabel = 100,
 		MoneyFirst = 101,

@@ -128,6 +128,7 @@ namespace MinorShift.Emuera
             configArray[i++] = new ConfigItem<int>(ConfigCode.CBBufferSize, "Clipboard- Buffer Size", 300);
             configArray[i++] = new ConfigItem<int>(ConfigCode.CBScrollCount, "Clipboard- Scrolled Lines per Key", 5);
             configArray[i++] = new ConfigItem<int>(ConfigCode.CBMinTimer, "Clipboard- min time between pastes", 800);
+            configArray[i++] = new ConfigItem<string>(ConfigCode.AnchorCustomIcon, "Anchor- Path to a custom window icon (PNG)", "");
 
 
             i = 0;

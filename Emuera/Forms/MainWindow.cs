@@ -1121,5 +1121,52 @@ namespace MinorShift.Emuera
 			labelMacroGroupChanged.Visible = true;
 		}
 
-	}
+        // why the japs didn't put all their initialization in this instead of the form constructor, who knows
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            LoadIconFromConfig();
+        }
+
+        private void LoadIconFromConfig()
+        {
+            // let's set the window icon
+            // try catch should handle all possible
+            try
+            {
+                string filePath;
+                string configuredPath = ConfigData.Instance.GetItem(ConfigCode.AnchorCustomIcon).GetValue<string>();
+                // don't even try with an unconfigured path or a non-png file
+                if (string.IsNullOrEmpty(configuredPath) || !Path.GetFileName(configuredPath).Contains(".png"))
+                    return;
+                if (Path.IsPathRooted(configuredPath))
+                {
+                    // since the path seems to be valid, let's just load that full path.
+                    filePath = configuredPath;
+                }
+                else
+                {
+                    // assume the path is relative to executable
+                    filePath = Path.GetDirectoryName(Sys.ExePath);
+                    filePath = Path.Combine(filePath, ConfigData.Instance.GetItem(ConfigCode.AnchorCustomIcon).GetValue<string>());
+                }
+
+                // LOAD 'ER UP, CAPTAIN
+                Bitmap bmp = new Bitmap(Path.GetFullPath(filePath));
+                Icon = Icon.FromHandle(bmp.GetHicon());
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show("Window icon config does not point to a valid file.\nFile must be a square PNG (same width and height)\n" + ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("Window icon config does not point to an existing file. Must be a PNG.\n" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unhandled exception when loading configured window icon" + ex.Message);
+            }
+        }
+    }
+
 }
