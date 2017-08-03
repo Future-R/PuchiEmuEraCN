@@ -203,6 +203,8 @@ namespace MinorShift.Emuera.GameProc.Function
             addFunction(FunctionCode.FADE, new FADE_Instruction());                    //182101 PCDRP-Update:画面フェード機能
             addFunction(FunctionCode.SHAKE, new SHAKE_Instruction());                   //182101 PCDRP-Update:画像振動機能
             addFunction(FunctionCode.FONTEDGE, argb[FunctionArgType.INT_EXPRESSION], METHOD_SAFE | EXTENDED);             //182101 PCDRP-Update:フォント縁取り
+            addFunction(FunctionCode.FONTEDGE_COLOR, argb[FunctionArgType.SP_COLOR], METHOD_SAFE | EXTENDED);
+            addFunction(FunctionCode.RESET_FONTEDGE_COLOR, argb[FunctionArgType.VOID], METHOD_SAFE | EXTENDED);
             addFunction(FunctionCode.OUTPUTHINTS, argb[FunctionArgType.VOID]); //182101 PCDRP-Update:ヒントを出力
 
             #endregion

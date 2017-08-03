@@ -6,6 +6,7 @@ namespace MinorShift.Emuera.GameView
     public static class PrintEdgeFont
     {
         public static bool edgeEnabled = false;
+        public static Color currentEdgeColor = Color.Black; // will be overwritten by config load
         public static void DrawString(Graphics graph, string Str,Color color, int PointX, int pointY)
         {
 			//アンチエリアス
@@ -28,7 +29,7 @@ namespace MinorShift.Emuera.GameView
 			                new Point(PointX, pointY), StringFormat.GenericDefault);
 
 			//パスの線分を描画
-			Pen drawPen = new Pen(Config.EdgeColor, 3.5F);
+			Pen drawPen = new Pen(currentEdgeColor, 3.5F);
             drawPen.LineJoin = LineJoin.Round;
             graph.DrawPath(drawPen, gp);
             graph.DrawPath(drawPen, gp);

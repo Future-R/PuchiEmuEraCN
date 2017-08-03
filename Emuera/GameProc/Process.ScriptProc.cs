@@ -550,7 +550,52 @@ namespace MinorShift.Emuera.GameProc
                     break;
                 //182101 PCDRP-Update:フォント縁取り機能
 
-				case FunctionCode.RESET_STAIN:
+                //Anchor addition
+                //Mostly just copy paste, to be honest
+                case FunctionCode.FONTEDGE_COLOR:
+                    {
+                        SpColorArgument colorArg = (SpColorArgument)func.Argument;
+                        Int64 colorR;
+                        Int64 colorG;
+                        Int64 colorB;
+                        if (colorArg.IsConst)
+                        {
+                            Int64 colorRGB = colorArg.ConstInt;
+                            colorR = (colorRGB & 0xFF0000) >> 16;
+                            colorG = (colorRGB & 0x00FF00) >> 8;
+                            colorB = (colorRGB & 0x0000FF);
+                        }
+                        else if (colorArg.RGB != null)
+                        {
+                            Int64 colorRGB = colorArg.RGB.GetIntValue(exm);
+                            colorR = (colorRGB & 0xFF0000) >> 16;
+                            colorG = (colorRGB & 0x00FF00) >> 8;
+                            colorB = (colorRGB & 0x0000FF);
+                        }
+                        else
+                        {
+                            colorR = colorArg.R.GetIntValue(exm);
+                            colorG = colorArg.G.GetIntValue(exm);
+                            colorB = colorArg.B.GetIntValue(exm);
+                            if ((colorR < 0) || (colorG < 0) || (colorB < 0))
+                                throw new CodeEE("FONTEDGE_COLOR cannot be given a value less than 0.");
+                            if ((colorR > 255) || (colorG > 255) || (colorB > 255))
+                                throw new CodeEE("FONTEDGE_COLOR cannot be given a value greater than 255.");
+                        }
+                        Color c = Color.FromArgb((Int32)colorR, (Int32)colorG, (Int32)colorB);
+                        PrintEdgeFont.currentEdgeColor = c;
+                        break;
+                    }
+                
+                // Anchor addition
+                // resets font edge color to value from config
+                case FunctionCode.RESET_FONTEDGE_COLOR:
+                    {
+                        PrintEdgeFont.currentEdgeColor = Config.EdgeColor;
+                        break;
+                    }
+
+                case FunctionCode.RESET_STAIN:
 					{
 						if (func.Argument.IsConst)
 							iValue = func.Argument.ConstInt;

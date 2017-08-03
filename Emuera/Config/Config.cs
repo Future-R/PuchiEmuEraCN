@@ -82,6 +82,8 @@ namespace MinorShift.Emuera
             FixImgGroupNumber = instance.GetConfigValue<int>(ConfigCode.FixImgGroupNumber);         //182101 PCDRP-Update
             ScreenEffectInterval = instance.GetConfigValue<int>(ConfigCode.ScreenEffectInterval);   //182101 PCDRP-Update
             EdgeColor = instance.GetConfigValue<Color>(ConfigCode.EdgeColor);                       //182101 PCDRP-Update
+            // Anchor edge color so we can reset to config value later if we want via an instruction
+            GameView.PrintEdgeFont.currentEdgeColor = EdgeColor;
 
 
             AllowFunctionOverloading = instance.GetConfigValue<bool>(ConfigCode.AllowFunctionOverloading);//182101 PCDRP-Update

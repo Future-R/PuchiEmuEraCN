@@ -57,6 +57,8 @@ namespace MinorShift.Emuera.GameProc.Function
         FADE,           //182101 PCDRP-Update:画面エフェクト機能
         SHAKE,          //182101 PCDRP-Update:画面エフェクト機能
         FONTEDGE,       //182101 PCDRP-Update:フォント縁取り
+        FONTEDGE_COLOR, // Anchor addition
+        RESET_FONTEDGE_COLOR, // Anchor addition
         OUTPUTHINTS,     //182101 PCDRP-Update:ヒント出力
 
 		DRAWLINE,//画面の左端から右端まで----と線を引く。
