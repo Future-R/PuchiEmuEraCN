@@ -1209,7 +1209,10 @@ namespace MinorShift.Emuera.GameView
                         window.ToolTip.RemoveAll();
                     if (pointingString != null && !string.IsNullOrEmpty(pointingString.Title))
                     {
-                        window.ToolTip.SetToolTip(window.MainPicBox, pointingString.Title);
+                        if (tooltip_duration == 0)
+                            window.ToolTip.SetToolTip(window.MainPicBox, pointingString.Title);
+                        else
+                            window.ToolTip.Show(pointingString.Title, window.MainPicBox, tooltip_duration);
                         tooltipUsed = true;
                     }
                     lastPointingString = pointingString;
