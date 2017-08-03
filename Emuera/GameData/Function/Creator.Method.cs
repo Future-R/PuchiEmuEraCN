@@ -615,6 +615,21 @@ namespace MinorShift.Emuera.GameData.Function
             }
         }
 
+        private sealed class CheckFontEdgeMethod : FunctionMethod
+        {
+            public CheckFontEdgeMethod()
+            {
+                ReturnType = typeof(Int64);
+                argumentTypeArray = new Type[] { };
+                CanRestructure = true;
+            }
+
+            public override Int64 GetIntValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            {
+                return PrintEdgeFont.edgeEnabled ? 1 : 0;
+            }
+        }
+
         private sealed class GetStyleMethod : FunctionMethod
         {
             public GetStyleMethod()
