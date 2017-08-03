@@ -44,6 +44,8 @@ namespace MinorShift.Emuera.GameData.Function
 			methodList["MESSKIP"] = new MesSkipMethod(false);
             methodList["GETCOLOR"] = new GetColorMethod(false);
             methodList["GETDEFCOLOR"] = new GetColorMethod(true);
+            methodList["GETFONTEDGECOLOR"] = new GetFontEdgeColorMethod(false);
+            methodList["GETDEFFONTEDGECOLOR"] = new GetFontEdgeColorMethod(true);
             methodList["GETFOCUSCOLOR"] = new GetFocusColorMethod();
             methodList["GETBGCOLOR"] = new GetBGColorMethod(false);
             methodList["GETDEFBGCOLOR"] = new GetBGColorMethod(true);

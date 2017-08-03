@@ -598,6 +598,23 @@ namespace MinorShift.Emuera.GameData.Function
             }
         }
 
+        private sealed class GetFontEdgeColorMethod : FunctionMethod
+        {
+            public GetFontEdgeColorMethod(bool isDef)
+            {
+                ReturnType = typeof(Int64);
+                argumentTypeArray = new Type[] { };
+                CanRestructure = isDef;
+                defaultColor = isDef;
+            }
+            bool defaultColor;
+            public override Int64 GetIntValue(ExpressionMediator exm, IOperandTerm[] arguments)
+            {
+                Color color = (defaultColor) ? Config.EdgeColor : PrintEdgeFont.currentEdgeColor;
+                return (color.ToArgb() & 0xFFFFFF);
+            }
+        }
+
         private sealed class GetStyleMethod : FunctionMethod
         {
             public GetStyleMethod()
