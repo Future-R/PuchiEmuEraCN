@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MinorShift.Emuera.GameView;
+using System;
 using System.Text;
-using MinorShift.Emuera.GameView;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace MinorShift.Emuera.GameProc.Function
 {
-    class ClipboardProcessor
+    internal class ClipboardProcessor
     {
         private bool useCB;
         private bool classicMode; // New Lines Only mode
@@ -25,6 +25,14 @@ namespace MinorShift.Emuera.GameProc.Function
         private StringBuilder OldText; //Last set of lines sent to the clipboard
         private CircularBuffer<string> lineBuffer; //Buffer for processed strings ready for clipboard
 
+        public string GetLatestString
+        {
+            get
+            {
+                return OldText.ToString();
+            }
+        }
+
         internal enum CBTriggers
         {
             LeftClick,
@@ -40,7 +48,7 @@ namespace MinorShift.Emuera.GameProc.Function
         {
             useCB = Config.CBUseClipboard;
             classicMode = Config.CBNewLinesOnly;
-            
+
             mainWin = parent;
 
             minTimePassed = true;
@@ -54,12 +62,11 @@ namespace MinorShift.Emuera.GameProc.Function
 
             if (useCB)
             {
-                lineBuffer= new CircularBuffer<string>(Config.CBBufferSize);
+                lineBuffer = new CircularBuffer<string>(Config.CBBufferSize);
                 minTimer = new System.Timers.Timer(Config.CBMinTimer);
                 minTimer.AutoReset = false;
                 minTimer.Elapsed += minTimerDone;
                 OldText = new StringBuilder();
- 
             }
         }
 
@@ -67,7 +74,7 @@ namespace MinorShift.Emuera.GameProc.Function
         {
             if (!useCB) return false;
             if (ScrollPos == 0 && classicMode && ScrollCount > OldNewLineCount) ScrollPos = OldNewLineCount;
-            else ScrollPos += ScrollCount*value;
+            else ScrollPos += ScrollCount * value;
             if (lineBuffer.Count < ScrollPos) ScrollPos = lineBuffer.Count - ScrollCount;
             SendToCB(true);
             return true;
@@ -106,9 +113,9 @@ namespace MinorShift.Emuera.GameProc.Function
             if (!useCB) return;
 
             NewLineCount++;
-            lineBuffer.Enqueue(ProcessLine(inputLine.ToString()));
+            string processed = ProcessLine(inputLine.ToString());
+            lineBuffer.Enqueue(processed);
         }
-
 
         public void DelLine(int count)
         {
@@ -122,11 +129,11 @@ namespace MinorShift.Emuera.GameProc.Function
                 {
                     lineBuffer.Dequeue();
                     count--;
-                }                
-            }           
+                }
+            }
         }
 
-         public void ClearScreen() 
+        public void ClearScreen()
         {
             if (!useCB) return;
             if (Config.CBClearBuffer)
@@ -165,6 +172,7 @@ namespace MinorShift.Emuera.GameProc.Function
                 case CBTriggers.InputWait:
                     if (!Config.CBTriggerInputWait) return;
                     break;
+
                 default:
                     return;
             }
@@ -172,8 +180,6 @@ namespace MinorShift.Emuera.GameProc.Function
             ScrollPos = 0;
             SendToCB(false);
         }
-
-
 
         public void SendToCB(bool force)
         {
@@ -185,12 +191,10 @@ namespace MinorShift.Emuera.GameProc.Function
                 return;
             }
 
-            
-
             if (NewLineCount == 0 && ScrollPos == 0) NewLineCount = OldNewLineCount;
 
             int length;
-            if(classicMode && ScrollPos == 0) length = Math.Min(NewLineCount, lineBuffer.Count);
+            if (classicMode && ScrollPos == 0) length = Math.Min(NewLineCount, lineBuffer.Count);
             else length = Math.Min(MaxCB, lineBuffer.Count - ScrollPos);
             StringBuilder newText = new StringBuilder();
             if (length > 0)
@@ -209,46 +213,26 @@ namespace MinorShift.Emuera.GameProc.Function
                     OldText = newText;
                     postWaiting = false;
                 }
-                catch (Exception ex) { };        
+                catch (Exception ex) { };
             }
         }
 
-        private string ProcessLine(string input) //FIXIT - Expand for proper regex?
+        private const string HTML_TAG_PATTERN = "<.*?>";
+
+        public static string StripHTML(string input)
         {
-            if (Config.CBIgnoreTags)
+            // still faster to use String.Contains to check if we need to do this at all first, supposedly
+            if (Config.CBIgnoreTags && input.Contains("<"))
             {
-
-                //Incrementing toggle for tracking possible nested <> sets
-                int toggle = 0;
-                StringBuilder outputString = new StringBuilder();
-
-                if (input.Contains("<"))
-                {
-
-                    for (int step = 0; step < input.Length; step++)
-                    {
-                        if (input[step] == '<') toggle++;
-                        if (toggle > 0)
-                        {
-                            if (input[step] == '>')
-                            {
-                                toggle--;
-                                if (toggle == 0) outputString.Append(Config.CBReplaceTags);
-                            }
-                        }
-                        else outputString.Append(input[step]);
-                    }
-                    return outputString.ToString();
-                }
-                else
-                {
-                    return input;
-                }
+                // regex is faster and simpler than a for loop you nerds
+                return Regex.Replace(input, HTML_TAG_PATTERN, Config.CBReplaceTags);
             }
-            else
-            {
-                return input;
-            }
+            return input;
+        }
+
+        private string ProcessLine(string input)
+        {
+            return StripHTML(input);
         }
     }
 }

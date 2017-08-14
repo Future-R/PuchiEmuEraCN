@@ -1,4 +1,5 @@
 ﻿using MinorShift._Library;
+using MinorShift.Emuera.GameProc.Function;
 using MinorShift.Emuera.Sub;
 using System;
 using System.Collections.Generic;
@@ -646,13 +647,14 @@ namespace MinorShift.Emuera.GameView
                 return false;
         }
 
+        // used exclusively for clipboard, so it's gonna do some HTML tag stripping for us
         public void GetDisplayStrings(StringBuilder builder)
         {
             if (displayLineList.Count == 0)
                 return;
             for (int i = 0; i < displayLineList.Count; i++)
             {
-                builder.AppendLine(displayLineList[i].ToString());
+                builder.AppendLine(ClipboardProcessor.StripHTML(displayLineList[i].ToString()));
             }
         }
 
