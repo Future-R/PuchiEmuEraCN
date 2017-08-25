@@ -373,15 +373,23 @@ namespace MinorShift.Emuera.GameView
             }
             if (noLineBreaks)
             {
-                printBuffer.Flush(stringMeasure, force_temporary);
+                ConsoleDisplayLine oldLine = displayLineList[displayLineList.Count - 1];
                 //throwaway variables for the outs that are only used in the normal method
                 bool throwaway;
                 DisplayLineAlignment throwaway2;
-                List<ConsoleButtonString> buttonList = HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2);
-                foreach(var button in buttonList)
+                List<ConsoleButtonString> buttonList = new List<ConsoleButtonString>();
+                buttonList.AddRange(oldLine.Buttons);
+                buttonList.AddRange(HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2));
+                int pointX = 0;
+                foreach (var button in buttonList)
                 {
-                    printBuffer.AppendButton(button, Style);
+                    button.CalcWidth(stringMeasure, button.XsubPixel);
+                    button.CalcPointX(pointX);
+                    pointX += button.Width - 1;
                 }
+                //PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
+                ConsoleDisplayLine newLine = new ConsoleDisplayLine(buttonList.ToArray(), false, false);
+                displayLineList[displayLineList.Count - 1] = newLine;
             }
             else
             {
