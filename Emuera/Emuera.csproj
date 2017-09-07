@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MinorShift.Emuera</RootNamespace>
-    <AssemblyName>Emuera</AssemblyName>
+    <AssemblyName>Emuera-Anchor</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

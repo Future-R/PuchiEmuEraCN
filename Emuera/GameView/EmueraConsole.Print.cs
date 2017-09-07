@@ -385,7 +385,7 @@ namespace MinorShift.Emuera.GameView
                 {
                     button.CalcWidth(stringMeasure, button.XsubPixel);
                     button.CalcPointX(pointX);
-                    pointX += button.Width - 1;
+                    pointX = button.PointX + button.Width - 1;
                 }
                 //PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
                 ConsoleDisplayLine newLine = new ConsoleDisplayLine(buttonList.ToArray(), false, false);

@@ -243,7 +243,7 @@ namespace MinorShift.Emuera.GameView
 					if (buttonList[j] == null)//強制改行を挟んだ後は調整無用
 						break;
 					buttonList[j].CalcPointX(pointX);
-					pointX += buttonList[j].Width;
+					pointX += buttonList[j].Width - 1;
 				}
 				i--;//buttonList[i]は新しい行に含めないので次の行のために再検討する必要がある(直後のi++と相殺)
 			}
@@ -415,7 +415,7 @@ namespace MinorShift.Emuera.GameView
 				}
 				button.CalcWidth(stringMeasure, subPixel);
 				button.CalcPointX(pointX);
-				pointX = button.PointX + button.Width;
+				pointX = button.PointX + button.Width - 1;
 				if (button.PointXisLocked)
 					subPixel = 0;
 				//pointX += button.Width;
