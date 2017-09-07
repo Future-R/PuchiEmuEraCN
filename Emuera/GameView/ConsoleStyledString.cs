@@ -93,7 +93,7 @@ namespace MinorShift.Emuera.GameView
                 color = Config.LogColor;
 
             if (PrintEdgeFont.edgeEnabled)
-                PrintEdgeFont.DrawString(graph, Str, color, PointX, pointY);
+                PrintEdgeFont.DrawString(graph, Str, color, PointX, pointY, font: Font);
             else
             {
                 if (mode == TextDrawingMode.GRAPHICS)

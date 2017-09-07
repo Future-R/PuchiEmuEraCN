@@ -8,7 +8,7 @@ namespace MinorShift.Emuera.GameView
         public static bool edgeEnabled = false;
         public static Color currentEdgeColor = Color.Black; // will be overwritten by config load
         public static string fontName;
-        public static void DrawString(Graphics graph, string Str,Color color, int PointX, int pointY)
+        public static void DrawString(Graphics graph, string Str, Color color, int PointX, int pointY, Font font = null)
         {
 
 			//アンチエリアス
@@ -27,13 +27,18 @@ namespace MinorShift.Emuera.GameView
 
             float emSize = Config.Font.SizeInPoints * graph.DpiY / 72;  // 1 inch = 72 points
 
-            Font currentFont;
-            if (fontName != null)
-                currentFont = new Font(fontName, emSize);
-            else
-                currentFont = Config.Font;
+            if(font != null)
+                emSize = font.SizeInPoints * graph.DpiY / 72;  // update emSize since we have a complete font
 
-            gp.AddString(Str, currentFont.FontFamily, (int)FontStyle.Regular, emSize,
+            else
+            { // if SETFONT font is specified use it otherwise use config font
+                if (fontName != null)
+                    font = new Font(fontName, emSize);
+                else
+                    font = Config.Font;
+            }
+
+            gp.AddString(Str, font.FontFamily, (int)FontStyle.Regular, emSize,
 			                new Point(PointX, pointY), StringFormat.GenericDefault);
 
 			//パスの線分を描画
