@@ -73,7 +73,12 @@ namespace MinorShift.Emuera.GameView
 
         public void SetFont(string fontname)
         {
-            if (!string.IsNullOrEmpty(fontname)) userStyle.Fontname = fontname; else userStyle.Fontname = Config.FontName;
+            if (!string.IsNullOrEmpty(fontname))
+                userStyle.Fontname = fontname;
+            else
+                userStyle.Fontname = Config.FontName;
+            PrintEdgeFont.fontName = userStyle.Fontname; // sworve: this is dumb but so is edge fonts
+            
         }
 
         private DisplayLineAlignment alignment = DisplayLineAlignment.LEFT;

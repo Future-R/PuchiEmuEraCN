@@ -7,8 +7,10 @@ namespace MinorShift.Emuera.GameView
     {
         public static bool edgeEnabled = false;
         public static Color currentEdgeColor = Color.Black; // will be overwritten by config load
+        public static string fontName;
         public static void DrawString(Graphics graph, string Str,Color color, int PointX, int pointY)
         {
+
 			//アンチエリアス
 			SmoothingMode initialMode = graph.SmoothingMode;
 			graph.SmoothingMode = SmoothingMode.HighQuality;
@@ -25,7 +27,13 @@ namespace MinorShift.Emuera.GameView
 
             float emSize = Config.Font.SizeInPoints * graph.DpiY / 72;  // 1 inch = 72 points
 
-            gp.AddString(Str, Config.Font.FontFamily, (int)FontStyle.Regular, emSize,
+            Font currentFont;
+            if (fontName != null)
+                currentFont = new Font(fontName, emSize);
+            else
+                currentFont = Config.Font;
+
+            gp.AddString(Str, currentFont.FontFamily, (int)FontStyle.Regular, emSize,
 			                new Point(PointX, pointY), StringFormat.GenericDefault);
 
 			//パスの線分を描画
