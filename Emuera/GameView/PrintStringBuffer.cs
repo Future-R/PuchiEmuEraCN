@@ -400,7 +400,7 @@ namespace MinorShift.Emuera.GameView
 
 
 		//stringListにPointX、Widthを追加
-		private static void setWidthToButtonList(List<ConsoleButtonString> buttonList, StringMeasure stringMeasure, bool nobr)
+		public static void setWidthToButtonList(List<ConsoleButtonString> buttonList, StringMeasure stringMeasure, bool nobr)
 		{
 			int pointX = 0;
 			int count = buttonList.Count;

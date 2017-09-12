@@ -71,7 +71,9 @@ namespace MinorShift.Emuera.GameData.Variable
 
         //JVN: I just wants it
         public static bool isCanLoadParam() { return canLoadParam; }
-		
+
+        private const bool translateCSVAnyways = true; // TODO: make this configurable, somehow, probably via CSV setting?
+
 		//Normal way to translate original is the string of the variable we are working with and name is the file where it lives ex: Talent or Source. It can also be ALL.
 		public static string translate(string original, string name, bool tryTranslate){
 			string ret;
@@ -84,7 +86,8 @@ namespace MinorShift.Emuera.GameData.Variable
             //Change the original term to the translated one;
 			if (original != null){		
 				if(Translation.nameTlDictionnary.ContainsKey(name) && Translation.nameTlDictionnary[name].ContainsKey(original)){
-					if(tryTranslate){
+					if(tryTranslate || translateCSVAnyways)
+                    {
 						ret = Translation.nameTlDictionnary[name][original];
                         lastRet = ret;
                     }

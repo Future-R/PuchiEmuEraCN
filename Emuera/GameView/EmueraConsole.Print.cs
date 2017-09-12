@@ -378,16 +378,29 @@ namespace MinorShift.Emuera.GameView
                 bool throwaway;
                 DisplayLineAlignment throwaway2;
                 List<ConsoleButtonString> buttonList = new List<ConsoleButtonString>();
-                buttonList.AddRange(oldLine.Buttons);
-                buttonList.AddRange(HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2));
-                int pointX = 0;
-                foreach (var button in buttonList)
+                foreach(var button in oldLine.Buttons)
                 {
-                    button.CalcWidth(stringMeasure, button.XsubPixel);
-                    button.CalcPointX(pointX);
-                    pointX = button.PointX + button.Width - 1;
+                    if(button != null)
+                    {
+                        buttonList.Add(button);
+                    }
                 }
-                //PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
+                var htmlList = HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2);
+                foreach (var button in htmlList)
+                {
+                    if (button != null)
+                    {
+                        buttonList.Add(button);
+                    }
+                }
+                //int pointX = 0;
+                //foreach (var button in buttonList)
+                //{
+                //    button.CalcWidth(stringMeasure, button.XsubPixel);
+                //    button.CalcPointX(pointX);
+                //    pointX = button.PointX + button.Width - 1;
+                //}
+                PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
                 ConsoleDisplayLine newLine = new ConsoleDisplayLine(buttonList.ToArray(), false, false);
                 displayLineList[displayLineList.Count - 1] = newLine;
             }
