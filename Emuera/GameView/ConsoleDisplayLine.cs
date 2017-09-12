@@ -42,7 +42,11 @@ namespace MinorShift.Emuera.GameView
 			}
 			this.buttons = buttons;
 			foreach (ConsoleButtonString button in buttons)
-				button.ParentLine = this;
+            {
+                if (button == null)
+                    throw new Exception();
+                button.ParentLine = this;
+            }
 			IsLogicalLine = isLogical;
 			IsTemporary = temporary;
 		}

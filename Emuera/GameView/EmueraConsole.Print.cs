@@ -382,14 +382,7 @@ namespace MinorShift.Emuera.GameView
                 buttonList.AddRange(oldLine.Buttons);
                 buttonList.AddRange(HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2));
 
-                //int pointX = 0;
-                //foreach (var button in buttonList)
-                //{
-                //    button.CalcWidth(stringMeasure, button.XsubPixel);
-                //    button.CalcPointX(pointX);
-                //    pointX = button.PointX + button.Width - 1;
-                //}
-                PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
+                //PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
 
                 List<ConsoleDisplayLine> lines = new List<ConsoleDisplayLine>();
                 List<ConsoleButtonString> lineButtons = new List<ConsoleButtonString>();
@@ -397,21 +390,40 @@ namespace MinorShift.Emuera.GameView
                 {
                     if(button == null)
                     {
-                        lines.Add(new ConsoleDisplayLine(lineButtons.ToArray(), false, false));
-                        lineButtons.Clear();
+                        if(lineButtons.Count > 0)
+                        {
+                            lines.Add(new ConsoleDisplayLine(lineButtons.ToArray(), false, false));
+                            lineButtons.Clear();
+                        }
                     }
                     else
                     {
+                        // PRINTL for linebreak fix
+                        // TODO: make good
+                        if (button.StrArray[0].ToString() == " " && lines.Count == 0)
+                            continue;
                         lineButtons.Add(button);
                     }
                 }
 
-                if(lineButtons.Count > 0)
+                if (lineButtons.Count > 0)
                 {
                     lines.Add(new ConsoleDisplayLine(lineButtons.ToArray(), false, false));
                 }
 
-                displayLineList[displayLineList.Count - 1] = lines[0];
+                foreach (var line in lines)
+                {
+                    int pointX = 0;
+                    foreach (var button in line.Buttons)
+                    {
+                        button.CalcWidth(stringMeasure, button.XsubPixel);
+                        button.CalcPointX(pointX);
+                        pointX = button.PointX + button.Width - 1;
+                    }
+                }
+
+                if(lines[0] != null)
+                    displayLineList[displayLineList.Count - 1] = lines[0];
                 lines.RemoveAt(0);
                 displayLineList.AddRange(lines);
             }

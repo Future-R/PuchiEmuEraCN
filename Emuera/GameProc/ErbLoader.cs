@@ -970,7 +970,7 @@ namespace MinorShift.Emuera.GameProc
 						{
 							if (iLine.FunctionCode == FunctionCode.REPEAT)
 							{
-								ParserMediator.Warn("REPEAT文が入れ子にされています", func, 2, true, false);
+								ParserMediator.Warn("REPEAT statements cannot be nested", func, 2, true, false);
                                 break;
 							}
 						}
