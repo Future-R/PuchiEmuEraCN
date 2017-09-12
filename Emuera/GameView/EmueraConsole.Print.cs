@@ -377,22 +377,11 @@ namespace MinorShift.Emuera.GameView
                 //throwaway variables for the outs that are only used in the normal method
                 bool throwaway;
                 DisplayLineAlignment throwaway2;
+
                 List<ConsoleButtonString> buttonList = new List<ConsoleButtonString>();
-                foreach(var button in oldLine.Buttons)
-                {
-                    if(button != null)
-                    {
-                        buttonList.Add(button);
-                    }
-                }
-                var htmlList = HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2);
-                foreach (var button in htmlList)
-                {
-                    if (button != null)
-                    {
-                        buttonList.Add(button);
-                    }
-                }
+                buttonList.AddRange(oldLine.Buttons);
+                buttonList.AddRange(HtmlManager.Html2ButtonList(str, this, out throwaway, out throwaway2));
+
                 //int pointX = 0;
                 //foreach (var button in buttonList)
                 //{
@@ -401,8 +390,30 @@ namespace MinorShift.Emuera.GameView
                 //    pointX = button.PointX + button.Width - 1;
                 //}
                 PrintStringBuffer.setWidthToButtonList(buttonList, stringMeasure, true);
-                ConsoleDisplayLine newLine = new ConsoleDisplayLine(buttonList.ToArray(), false, false);
-                displayLineList[displayLineList.Count - 1] = newLine;
+
+                List<ConsoleDisplayLine> lines = new List<ConsoleDisplayLine>();
+                List<ConsoleButtonString> lineButtons = new List<ConsoleButtonString>();
+                foreach(var button in buttonList)
+                {
+                    if(button == null)
+                    {
+                        lines.Add(new ConsoleDisplayLine(lineButtons.ToArray(), false, false));
+                        lineButtons.Clear();
+                    }
+                    else
+                    {
+                        lineButtons.Add(button);
+                    }
+                }
+
+                if(lineButtons.Count > 0)
+                {
+                    lines.Add(new ConsoleDisplayLine(lineButtons.ToArray(), false, false));
+                }
+
+                displayLineList[displayLineList.Count - 1] = lines[0];
+                lines.RemoveAt(0);
+                displayLineList.AddRange(lines);
             }
             else
             {
