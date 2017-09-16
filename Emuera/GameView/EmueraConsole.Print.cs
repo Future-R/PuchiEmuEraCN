@@ -425,7 +425,7 @@ namespace MinorShift.Emuera.GameView
                 if(lines[0] != null)
                     displayLineList[displayLineList.Count - 1] = lines[0];
                 lines.RemoveAt(0);
-                displayLineList.AddRange(lines);
+                addRangeDisplayLine(lines.ToArray());
             }
             else
             {
