@@ -235,7 +235,7 @@ namespace MinorShift.Emuera.GameProc
                                 else
                                     printStr = string.Format("[{2}] {0}({1}{3})", printStr, price, i, Config.MoneyLabel);
 
-                                printStr= printStr.PadRight(Config.PrintCShopLength - (Encoding.GetEncoding("Shift_JIS").GetByteCount(printStr) - printStr.Length));
+                                printStr = printStr.PadRight(Config.PrintCShopLength - (Encoding.GetEncoding("GBK").GetByteCount(printStr) - printStr.Length));
                                 //182101 PCDRP-Update:SHOPだけ文字数が違い過ぎるので個別対応↑------
                                 exm.Console.PrintC(printStr, false);
 								count++;
