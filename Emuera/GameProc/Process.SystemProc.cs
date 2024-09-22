@@ -568,7 +568,7 @@ namespace MinorShift.Emuera.GameProc
 				{
 					//見つからなければ終了
 					console.deleteLine(1);
-					console.PrintTemporaryLine("Invalid value");
+					console.PrintTemporaryLine("无效的值");
 					console.updatedGeneration = true;
 					endCallShowAblupSelect();
 				}
@@ -586,7 +586,7 @@ namespace MinorShift.Emuera.GameProc
 			if (console.LastLineIsTemporary)
 			{
 				console.deleteLine(2);
-				console.PrintTemporaryLine("Invalid value");
+				console.PrintTemporaryLine("无效的值");
 				console.updatedGeneration = true;
 				endCallShowAblupSelect();
 			}
@@ -702,7 +702,7 @@ namespace MinorShift.Emuera.GameProc
 						//console.Print("お金が足りません。");
 						//console.NewLine();
 						console.deleteLine(1);
-						console.PrintTemporaryLine("Not enough money.");
+						console.PrintTemporaryLine("金钱不足。");
 					}
 				}
 				else
@@ -710,7 +710,7 @@ namespace MinorShift.Emuera.GameProc
 					//console.Print("売っていません。");
 					//console.NewLine();
 					console.deleteLine(1);
-					console.PrintTemporaryLine("Cannot be sold.");
+					console.PrintTemporaryLine("无法出售。");
 				}
 				//購入に失敗した場合、endCallEventShop()に戻す。
 				//endCallEventShop();
@@ -734,7 +734,7 @@ namespace MinorShift.Emuera.GameProc
 			if (console.LastLineIsTemporary)
 			{
 				console.deleteLine(2);
-				console.PrintTemporaryLine("Invalid value");
+				console.PrintTemporaryLine("无效的值");
 				console.updatedGeneration = true;
 				endCallShowShop();
 			}
@@ -773,21 +773,21 @@ namespace MinorShift.Emuera.GameProc
 
 		void beginSaveGame()
 		{
-			console.PrintSingleLine("Where do you want to save?");
+			console.PrintSingleLine("你想保存在哪里？");
 			state.SystemState = SystemStateCode.SaveGame_Begin;
 			printSaveDataText();
 		}
 
 		void beginLoadGame()
 		{
-			console.PrintSingleLine("What do you want to load?");
+			console.PrintSingleLine("你想从哪里读取？");
 			state.SystemState = SystemStateCode.LoadGame_Begin;
 			printSaveDataText();
 		}
 
 		void beginLoadGameOpening()
 		{
-			console.PrintSingleLine("Which save do you load?");
+			console.PrintSingleLine("你要读取哪个存档？");
 			state.SystemState = SystemStateCode.LoadGameOpenning_Begin;
 			printSaveDataText();
 		}
@@ -807,7 +807,7 @@ namespace MinorShift.Emuera.GameProc
 			for (int i = 0; i < page; i++)
 			{
 				console.PrintFlush(false);
-				console.Print(string.Format("[{0, 2}] Display slots {0, 2}～{1, 2}", i * 20, i * 20 + 19));
+				console.Print(string.Format("[{0, 2}] 显示槽位 {0, 2}～{1, 2}", i * 20, i * 20 + 19));
 			}
 			for (int i = 0; i < 20; i++)
 			{
@@ -824,7 +824,7 @@ namespace MinorShift.Emuera.GameProc
 			for (int i = page; i < ((dataIsAvailable.Length - 2) / 20); i++)
 			{
 				console.PrintFlush(false);
-				console.Print(string.Format("[{0, 2}] Display slots {0, 2}～{1, 2}", (i + 1) * 20, (i + 1) * 20 + 19));
+				console.Print(string.Format("[{0, 2}] 显示槽位 {0, 2}～{1, 2}", (i + 1) * 20, (i + 1) * 20 + 19));
 			}
 			//オートセーブの処理は別途切り出し（表示処理の都合上）
 			dataIsAvailable[dataIsAvailable.Length - 1] = false;
@@ -838,7 +838,7 @@ namespace MinorShift.Emuera.GameProc
 			}
 			console.RefreshStrings(false);
 			//描画全部終わり
-			console.PrintSingleLine("[100] Return");
+			console.PrintSingleLine("[100] 返回");
 			setWaitInput();
 			if (state.SystemState == SystemStateCode.SaveGame_Begin)
 				state.SystemState = SystemStateCode.SaveGame_WaitInput;
@@ -873,7 +873,7 @@ namespace MinorShift.Emuera.GameProc
 			else
 			{//入力しなおし
 				console.deleteLine(1);
-				console.PrintTemporaryLine("Invalid value");
+				console.PrintTemporaryLine("无效的值");
 				console.updatedGeneration = true;
 				setWaitInput();
 				return;
@@ -882,9 +882,9 @@ namespace MinorShift.Emuera.GameProc
 			//既存データがあるなら選択肢を表示してSaveGame_WaitInputOverwriteへ移行。
 			if (available)
 			{
-				console.PrintSingleLine("Save already exists. Overwrite?");
-				console.PrintC("[0] Yes", false);
-				console.PrintC("[1] No", false);
+				console.PrintSingleLine("存档已存在，要覆盖吗？");
+				console.PrintC("[0] 是", false);
+				console.PrintC("[1] 否", false);
 				setWaitInput();
 				state.SystemState = SystemStateCode.SaveGame_WaitInputOverwrite;
 				return;
@@ -904,7 +904,7 @@ namespace MinorShift.Emuera.GameProc
 			else if (systemResult != 0)//「はい」でもない
 			{//入力しなおし
 				console.deleteLine(1);
-				console.PrintTemporaryLine("Invalid value");
+				console.PrintTemporaryLine("无效的值");
 				console.updatedGeneration = true;
 				setWaitInput();
 				return;
@@ -919,7 +919,7 @@ namespace MinorShift.Emuera.GameProc
 		{
 			if (!vEvaluator.SaveTo(saveTarget, vEvaluator.SAVEDATA_TEXT))
 			{
-				console.PrintError("Unexpected error while saving occured");
+				console.PrintError("保存时发生意外错误");
 				console.ReadAnyKey();
 			}
 			loadPrevState();
@@ -957,7 +957,7 @@ namespace MinorShift.Emuera.GameProc
 			else
 			{//入力しなおし
 				console.deleteLine(1);
-				console.PrintTemporaryLine("Invalid value");
+				console.PrintTemporaryLine("无效的值");
 				console.updatedGeneration = true;
 				setWaitInput();
 				return;
@@ -965,7 +965,7 @@ namespace MinorShift.Emuera.GameProc
 			if (!available)
 			{
 				console.PrintSingleLine(systemResult.ToString());
-				console.PrintError("No data found");
+				console.PrintError("未找到数据");
 				if (state.SystemState == SystemStateCode.LoadGameOpenning_WaitInput)
 				{
 					beginLoadGameOpening();
@@ -976,7 +976,7 @@ namespace MinorShift.Emuera.GameProc
 			}
 
 			if (!vEvaluator.LoadFrom((int)systemResult))
-				throw new ExeEE("Unexpected error while loading save");
+				throw new ExeEE("加载存档时发生未知错误");
 			deletePrevState();
 			beginDataLoaded();
 		}
@@ -984,7 +984,7 @@ namespace MinorShift.Emuera.GameProc
 
 		void endNormal()
 		{
-			throw new CodeEE("Script execution terminated");
+			throw new CodeEE("脚本执行已中止");
 		}
 
 		void endReloaderb()

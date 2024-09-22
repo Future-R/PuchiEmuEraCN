@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。 
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("PuchiEmuera")]
+[assembly: AssemblyTitle("PuchiEmuera中文版")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PuchiEmuera")]
+[assembly: AssemblyProduct("PuchiEmuera中文版")]
 [assembly: AssemblyCopyright("Copyright (C) 2017 PCDRP改造版")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
