@@ -114,7 +114,7 @@ namespace MinorShift.Emuera
                     doit = false;
                 if (console.IsInProcess)
                 {
-                    MessageBox.Show("Cannot use while script is processing.");  //スクリプト動作中には使用できません
+                    MessageBox.Show("脚本在处理时无法使用");  //スクリプト動作中には使用できません
                     doit = false;
                 }
                 if (doit) { 
@@ -126,12 +126,12 @@ namespace MinorShift.Emuera
                         {
                             if (!File.Exists(fname))
                             {
-                                MessageBox.Show("File Not Found", "File Not Found"); //ファイルがありません
+                                MessageBox.Show("找不到文件", "找不到文件"); //ファイルがありません
                                 doit = false;
                             }
                             if (Path.GetExtension(fname).ToUpper() != ".ERB")
                             {
-                                MessageBox.Show("Cannot read files that aren't .ERB", "File Format Error"); //ERBファイル以外は読み込めません  , ファイル形式エラー
+                                MessageBox.Show("无法读取.ERB以外的文件", "文件格式错误"); //ERBファイル以外は読み込めません  , ファイル形式エラー
                                 doit = false;
                             }
                             if (fname.StartsWith(Program.ErbDir, StringComparison.OrdinalIgnoreCase))
@@ -156,20 +156,20 @@ namespace MinorShift.Emuera
                         doit = false;
                     if (console.IsInProcess)
                     {
-                        MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません or something close
+                        MessageBox.Show("脚本在处理时无法使用"); //スクリプト動作中には使用できません or something close
                         doit = false;
                     }
                     if (console.notToTitle)
                     {
                         if (console.byError)
-                            MessageBox.Show("Because an error was found in Analysis mode, you cannot return to the title."); //コード解析でエラーが発見されたため、タイトルへは飛べません
+                            MessageBox.Show("由于在分析模式下发现错误，无法返回标题。"); //コード解析でエラーが発見されたため、タイトルへは飛べません
                         else
-                            MessageBox.Show("Cannot return to title because you're in Analysis Mode."); //解析モードのためタイトルへは飛べません
+                            MessageBox.Show("因为处于分析模式，无法返回标题"); //解析モードのためタイトルへは飛べません
                         doit = false;
                     }
                     if (doit)
                     {
-                        DialogResult result = MessageBox.Show("Return to Title Screen?", "Return to Title", MessageBoxButtons.OKCancel);
+                        DialogResult result = MessageBox.Show("回到标题界面？", "返回标题", MessageBoxButtons.OKCancel);
                         if (result != DialogResult.OK)
                             doit = false;
                         if (doit) {
@@ -184,7 +184,7 @@ namespace MinorShift.Emuera
             else if (((keyData & Keys.KeyCode) == Keys.R && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)   
                 || (keyData & Keys.KeyCode) == Keys.Insert && ((keyData & Keys.Modifiers) & Keys.Control) == Keys.Control)
             {
-                DialogResult result = MessageBox.Show("Restart Game?", "Restart", MessageBoxButtons.OKCancel);
+                DialogResult result = MessageBox.Show("重启游戏？", "重启", MessageBoxButtons.OKCancel);
                 if (result == DialogResult.OK)
                 {
                     this.Reboot();
@@ -571,7 +571,7 @@ namespace MinorShift.Emuera
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			DialogResult result = MessageBox.Show("Exit Game?", "Exit", MessageBoxButtons.OKCancel);
+			DialogResult result = MessageBox.Show("退出游戏？", "退出", MessageBoxButtons.OKCancel);
 			if (result != DialogResult.OK)
 				return;
 			this.Close();
@@ -585,7 +585,7 @@ namespace MinorShift.Emuera
 
         private void rebootToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			DialogResult result = MessageBox.Show("Restart Game?", "Restart", MessageBoxButtons.OKCancel);
+			DialogResult result = MessageBox.Show("重启游戏？", "重启", MessageBoxButtons.OKCancel);
 			if (result != DialogResult.OK)
 				return;
 			this.Reboot();
@@ -598,7 +598,7 @@ namespace MinorShift.Emuera
 		//    string filepath = openFileDialog.FileName;
 		//    if (!File.Exists(filepath))
 		//    {
-		//        MessageBox.Show("ファイルがありません", "File Not Found");
+		//        MessageBox.Show("ファイルがありません", "找不到文件");
 		//        return;
 		//    }
 		//}
@@ -658,18 +658,18 @@ namespace MinorShift.Emuera
 				return;
 			if (console.IsInProcess)
 			{
-				MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません or something close
+				MessageBox.Show("脚本在处理时无法使用"); //スクリプト動作中には使用できません or something close
                 return;
             }
             if (console.notToTitle)
             {
                 if (console.byError)
-                    MessageBox.Show("Because an error was found in Analysis mode, you cannot return to the title."); //コード解析でエラーが発見されたため、タイトルへは飛べません
+                    MessageBox.Show("由于在分析模式下发现错误，无法返回标题。"); //コード解析でエラーが発見されたため、タイトルへは飛べません
                 else
-                    MessageBox.Show("Cannot return to title because you're in Analysis Mode."); //解析モードのためタイトルへは飛べません
+                    MessageBox.Show("因为处于分析模式，无法返回标题"); //解析モードのためタイトルへは飛べません
                 return;
             }
-            DialogResult result = MessageBox.Show("Return to Title Screen?", "Return to Title", MessageBoxButtons.OKCancel);
+            DialogResult result = MessageBox.Show("回到标题界面？", "返回标题", MessageBoxButtons.OKCancel);
 			if (result != DialogResult.OK)
 				return;
 			this.GotoTitle();
@@ -681,10 +681,10 @@ namespace MinorShift.Emuera
 				return;
 			if (console.IsInProcess)
 			{
-				MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません
+				MessageBox.Show("脚本在处理时无法使用"); //スクリプト動作中には使用できません
                 return;
             }
-            DialogResult result = MessageBox.Show("Try to Load the ERB Files?", "Load Files", MessageBoxButtons.OKCancel); //ERBファイルを読み直します
+            DialogResult result = MessageBox.Show("尝试读取ERB文件？", "读取文件", MessageBoxButtons.OKCancel); //ERBファイルを読み直します
             if (result != DialogResult.OK)
 				return;
 			this.ReloadErb();
@@ -724,7 +724,7 @@ namespace MinorShift.Emuera
             }
             catch (Exception)
             {
-                MessageBox.Show("Because of an unexpected error, the cilpboard could not be opened."); //予期せぬエラーが発生したためクリップボードを開けません
+                MessageBox.Show("发生意外错误，无法打开剪贴板。"); //予期せぬエラーが発生したためクリップボードを開けません
                 return;
             }
 		}
@@ -735,7 +735,7 @@ namespace MinorShift.Emuera
 				return;
 			if (console.IsInProcess)
             {
-				MessageBox.Show("Cannot use while script is processing.");  //スクリプト動作中には使用できません
+				MessageBox.Show("脚本在处理时无法使用");  //スクリプト動作中には使用できません
                  return;
             }
             DialogResult result = openFileDialog.ShowDialog();
@@ -746,12 +746,12 @@ namespace MinorShift.Emuera
 				{
 					if (!File.Exists(fname))
 					{
-						MessageBox.Show("File Not Found", "File Not Found"); //ファイルがありません
+						MessageBox.Show("找不到文件", "找不到文件"); //ファイルがありません
                         return;
 					}
 					if (Path.GetExtension(fname).ToUpper() != ".ERB")
 					{
-						MessageBox.Show("Cannot read files that aren't .ERB", "File Format Error"); //ERBファイル以外は読み込めません  , ファイル形式エラー
+						MessageBox.Show("无法读取.ERB以外的文件", "文件格式错误"); //ERBファイル以外は読み込めません  , ファイル形式エラー
                         return;
 					}
 					if (fname.StartsWith(Program.ErbDir, StringComparison.OrdinalIgnoreCase))
@@ -783,7 +783,7 @@ namespace MinorShift.Emuera
 				return;
             if (console.IsInProcess)
             {
-                MessageBox.Show("Cannot use while script is processing."); //スクリプト動作中には使用できません
+                MessageBox.Show("脚本在处理时无法使用"); //スクリプト動作中には使用できません
                 return;
             }
             List<KeyValuePair<string, string>> filepath = new List<KeyValuePair<string, string>>();
