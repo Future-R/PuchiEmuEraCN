@@ -123,7 +123,7 @@ namespace MinorShift.Emuera
             this.EmuVerToolStripTextBox});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(657, 28);
+            this.menuStrip.Size = new System.Drawing.Size(657, 25);
             this.menuStrip.TabIndex = 3;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -139,62 +139,62 @@ namespace MinorShift.Emuera
             this.ファイルを読み直すFToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
             this.fileToolStripMenuItem.Text = "文件(&F)";
             // 
             // rebootToolStripMenuItem
             // 
             this.rebootToolStripMenuItem.Name = "rebootToolStripMenuItem";
-            this.rebootToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.rebootToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.rebootToolStripMenuItem.Text = "重启(&R)";
             this.rebootToolStripMenuItem.Click += new System.EventHandler(this.rebootToolStripMenuItem_Click);
             // 
             // ログを保存するSToolStripMenuItem
             // 
             this.ログを保存するSToolStripMenuItem.Name = "ログを保存するSToolStripMenuItem";
-            this.ログを保存するSToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ログを保存するSToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.ログを保存するSToolStripMenuItem.Text = "保存日志到…(&S)";
             this.ログを保存するSToolStripMenuItem.Click += new System.EventHandler(this.ログを保存するSToolStripMenuItem_Click);
             // 
             // ログをクリップボードにコピーToolStripMenuItem
             // 
             this.ログをクリップボードにコピーToolStripMenuItem.Name = "ログをクリップボードにコピーToolStripMenuItem";
-            this.ログをクリップボードにコピーToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ログをクリップボードにコピーToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.ログをクリップボードにコピーToolStripMenuItem.Text = "打开剪贴板(&C)";
             this.ログをクリップボードにコピーToolStripMenuItem.Click += new System.EventHandler(this.ログをクリップボードにコピーToolStripMenuItem_Click);
             // 
             // タイトルへ戻るTToolStripMenuItem
             // 
             this.タイトルへ戻るTToolStripMenuItem.Name = "タイトルへ戻るTToolStripMenuItem";
-            this.タイトルへ戻るTToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.タイトルへ戻るTToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.タイトルへ戻るTToolStripMenuItem.Text = "返回标题界面(&T)";
             this.タイトルへ戻るTToolStripMenuItem.Click += new System.EventHandler(this.タイトルへ戻るTToolStripMenuItem_Click);
             // 
             // コードを読み直すcToolStripMenuItem
             // 
             this.コードを読み直すcToolStripMenuItem.Name = "コードを読み直すcToolStripMenuItem";
-            this.コードを読み直すcToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.コードを読み直すcToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.コードを読み直すcToolStripMenuItem.Text = "重载代码(&C)";
             this.コードを読み直すcToolStripMenuItem.Click += new System.EventHandler(this.コードを読み直すcToolStripMenuItem_Click);
             // 
             // フォルダを読み直すFToolStripMenuItem
             // 
             this.フォルダを読み直すFToolStripMenuItem.Name = "フォルダを読み直すFToolStripMenuItem";
-            this.フォルダを読み直すFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.フォルダを読み直すFToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.フォルダを読み直すFToolStripMenuItem.Text = "重载目录(&F)";
             this.フォルダを読み直すFToolStripMenuItem.Click += new System.EventHandler(this.フォルダを読み直すFToolStripMenuItem_Click);
             // 
             // ファイルを読み直すFToolStripMenuItem
             // 
             this.ファイルを読み直すFToolStripMenuItem.Name = "ファイルを読み直すFToolStripMenuItem";
-            this.ファイルを読み直すFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ファイルを読み直すFToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.ファイルを読み直すFToolStripMenuItem.Text = "重载文件(&A)";
             this.ファイルを読み直すFToolStripMenuItem.Click += new System.EventHandler(this.ファイルを読み直すFToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.exitToolStripMenuItem.Text = "关闭(&X)";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -204,7 +204,7 @@ namespace MinorShift.Emuera
             this.デバッグウインドウを開くToolStripMenuItem,
             this.デバッグ情報の更新ToolStripMenuItem});
             this.デバッグToolStripMenuItem.Name = "デバッグToolStripMenuItem";
-            this.デバッグToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.デバッグToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
             this.デバッグToolStripMenuItem.Text = "调试(&D)";
             this.デバッグToolStripMenuItem.Visible = false;
             // 
@@ -212,7 +212,7 @@ namespace MinorShift.Emuera
             // 
             this.デバッグウインドウを開くToolStripMenuItem.Name = "デバッグウインドウを開くToolStripMenuItem";
             this.デバッグウインドウを開くToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.デバッグウインドウを開くToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
+            this.デバッグウインドウを開くToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.デバッグウインドウを開くToolStripMenuItem.Text = "打开调试窗口";
             this.デバッグウインドウを開くToolStripMenuItem.Click += new System.EventHandler(this.デバッグウインドウを開くToolStripMenuItem_Click);
             // 
@@ -220,7 +220,7 @@ namespace MinorShift.Emuera
             // 
             this.デバッグ情報の更新ToolStripMenuItem.Name = "デバッグ情報の更新ToolStripMenuItem";
             this.デバッグ情報の更新ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.デバッグ情報の更新ToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
+            this.デバッグ情報の更新ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.デバッグ情報の更新ToolStripMenuItem.Text = "更新调试数据";
             this.デバッグ情報の更新ToolStripMenuItem.Click += new System.EventHandler(this.デバッグ情報の更新ToolStripMenuItem_Click);
             // 
@@ -229,13 +229,13 @@ namespace MinorShift.Emuera
             this.ヘルプHToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.コンフィグCToolStripMenuItem});
             this.ヘルプHToolStripMenuItem.Name = "ヘルプHToolStripMenuItem";
-            this.ヘルプHToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.ヘルプHToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
             this.ヘルプHToolStripMenuItem.Text = "帮助(&H)";
             // 
             // コンフィグCToolStripMenuItem
             // 
             this.コンフィグCToolStripMenuItem.Name = "コンフィグCToolStripMenuItem";
-            this.コンフィグCToolStripMenuItem.Size = new System.Drawing.Size(146, 26);
+            this.コンフィグCToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.コンフィグCToolStripMenuItem.Text = "设置(&C)";
             this.コンフィグCToolStripMenuItem.Click += new System.EventHandler(this.コンフィグCToolStripMenuItem_Click);
             // 
@@ -248,7 +248,7 @@ namespace MinorShift.Emuera
             this.EmuVerToolStripTextBox.Font = new System.Drawing.Font("等距时代黑体 SC", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.EmuVerToolStripTextBox.Name = "EmuVerToolStripTextBox";
             this.EmuVerToolStripTextBox.ShortcutsEnabled = false;
-            this.EmuVerToolStripTextBox.Size = new System.Drawing.Size(240, 24);
+            this.EmuVerToolStripTextBox.Size = new System.Drawing.Size(240, 21);
             this.EmuVerToolStripTextBox.Text = "Emuera Ver. 0.000+v00.0";
             this.EmuVerToolStripTextBox.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -299,7 +299,7 @@ namespace MinorShift.Emuera
             this.実行});
             this.AutoVerbMenu.Name = "AutoVerbMenu";
             this.AutoVerbMenu.ShowImageMargin = false;
-            this.AutoVerbMenu.Size = new System.Drawing.Size(142, 184);
+            this.AutoVerbMenu.Size = new System.Drawing.Size(131, 170);
             this.AutoVerbMenu.Opened += new System.EventHandler(this.AutoVerbMenu_Opened);
             // 
             // マクロToolStripMenuItem
@@ -318,14 +318,14 @@ namespace MinorShift.Emuera
             this.マクロ11ToolStripMenuItem,
             this.マクロ12ToolStripMenuItem});
             this.マクロToolStripMenuItem.Name = "マクロToolStripMenuItem";
-            this.マクロToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
+            this.マクロToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.マクロToolStripMenuItem.Text = "Macro";
             // 
             // マクロ01ToolStripMenuItem
             // 
             this.マクロ01ToolStripMenuItem.Name = "マクロ01ToolStripMenuItem";
             this.マクロ01ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.マクロ01ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ01ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ01ToolStripMenuItem.Tag = "";
             this.マクロ01ToolStripMenuItem.Text = "Macro 01";
             // 
@@ -333,77 +333,77 @@ namespace MinorShift.Emuera
             // 
             this.マクロ02ToolStripMenuItem.Name = "マクロ02ToolStripMenuItem";
             this.マクロ02ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.マクロ02ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ02ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ02ToolStripMenuItem.Text = "Macro 02";
             // 
             // マクロ03ToolStripMenuItem
             // 
             this.マクロ03ToolStripMenuItem.Name = "マクロ03ToolStripMenuItem";
             this.マクロ03ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.マクロ03ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ03ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ03ToolStripMenuItem.Text = "Macro 03";
             // 
             // マクロ04ToolStripMenuItem
             // 
             this.マクロ04ToolStripMenuItem.Name = "マクロ04ToolStripMenuItem";
             this.マクロ04ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.マクロ04ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ04ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ04ToolStripMenuItem.Text = "Macro 04";
             // 
             // マクロ05ToolStripMenuItem
             // 
             this.マクロ05ToolStripMenuItem.Name = "マクロ05ToolStripMenuItem";
             this.マクロ05ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.マクロ05ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ05ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ05ToolStripMenuItem.Text = "Macro 05";
             // 
             // マクロ06ToolStripMenuItem
             // 
             this.マクロ06ToolStripMenuItem.Name = "マクロ06ToolStripMenuItem";
             this.マクロ06ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.マクロ06ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ06ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ06ToolStripMenuItem.Text = "Macro 06";
             // 
             // マクロ07ToolStripMenuItem
             // 
             this.マクロ07ToolStripMenuItem.Name = "マクロ07ToolStripMenuItem";
             this.マクロ07ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.マクロ07ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ07ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ07ToolStripMenuItem.Text = "Macro 07";
             // 
             // マクロ08ToolStripMenuItem
             // 
             this.マクロ08ToolStripMenuItem.Name = "マクロ08ToolStripMenuItem";
             this.マクロ08ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.マクロ08ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ08ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ08ToolStripMenuItem.Text = "Macro 08";
             // 
             // マクロ09ToolStripMenuItem
             // 
             this.マクロ09ToolStripMenuItem.Name = "マクロ09ToolStripMenuItem";
             this.マクロ09ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.マクロ09ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ09ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ09ToolStripMenuItem.Text = "Macro 09";
             // 
             // マクロ10ToolStripMenuItem
             // 
             this.マクロ10ToolStripMenuItem.Name = "マクロ10ToolStripMenuItem";
             this.マクロ10ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.マクロ10ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ10ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ10ToolStripMenuItem.Text = "Macro 10";
             // 
             // マクロ11ToolStripMenuItem
             // 
             this.マクロ11ToolStripMenuItem.Name = "マクロ11ToolStripMenuItem";
             this.マクロ11ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.マクロ11ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ11ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ11ToolStripMenuItem.Text = "Macro 11";
             // 
             // マクロ12ToolStripMenuItem
             // 
             this.マクロ12ToolStripMenuItem.Name = "マクロ12ToolStripMenuItem";
             this.マクロ12ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.マクロ12ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.マクロ12ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.マクロ12ToolStripMenuItem.Text = "Macro 12";
             // 
             // マクログループToolStripMenuItem
@@ -420,13 +420,13 @@ namespace MinorShift.Emuera
             this.グループ8ToolStripMenuItem,
             this.グループ9ToolStripMenuItem});
             this.マクログループToolStripMenuItem.Name = "マクログループToolStripMenuItem";
-            this.マクログループToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
+            this.マクログループToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.マクログループToolStripMenuItem.Text = "Macro Group";
             // 
             // グループ0ToolStripMenuItem
             // 
             this.グループ0ToolStripMenuItem.Name = "グループ0ToolStripMenuItem";
-            this.グループ0ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ0ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ0ToolStripMenuItem.Tag = "0";
             this.グループ0ToolStripMenuItem.Text = "Group 0";
             this.グループ0ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -434,7 +434,7 @@ namespace MinorShift.Emuera
             // グループ1ToolStripMenuItem
             // 
             this.グループ1ToolStripMenuItem.Name = "グループ1ToolStripMenuItem";
-            this.グループ1ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ1ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ1ToolStripMenuItem.Tag = "1";
             this.グループ1ToolStripMenuItem.Text = "Group 1";
             this.グループ1ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -442,7 +442,7 @@ namespace MinorShift.Emuera
             // グループ2ToolStripMenuItem
             // 
             this.グループ2ToolStripMenuItem.Name = "グループ2ToolStripMenuItem";
-            this.グループ2ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ2ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ2ToolStripMenuItem.Tag = "2";
             this.グループ2ToolStripMenuItem.Text = "Group 2";
             this.グループ2ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -450,7 +450,7 @@ namespace MinorShift.Emuera
             // グループ3ToolStripMenuItem
             // 
             this.グループ3ToolStripMenuItem.Name = "グループ3ToolStripMenuItem";
-            this.グループ3ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ3ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ3ToolStripMenuItem.Tag = "3";
             this.グループ3ToolStripMenuItem.Text = "Group 3";
             this.グループ3ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -458,7 +458,7 @@ namespace MinorShift.Emuera
             // グループ4ToolStripMenuItem
             // 
             this.グループ4ToolStripMenuItem.Name = "グループ4ToolStripMenuItem";
-            this.グループ4ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ4ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ4ToolStripMenuItem.Tag = "4";
             this.グループ4ToolStripMenuItem.Text = "Group 4";
             this.グループ4ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -466,7 +466,7 @@ namespace MinorShift.Emuera
             // グループ5ToolStripMenuItem
             // 
             this.グループ5ToolStripMenuItem.Name = "グループ5ToolStripMenuItem";
-            this.グループ5ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ5ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ5ToolStripMenuItem.Tag = "5";
             this.グループ5ToolStripMenuItem.Text = "Group 5";
             this.グループ5ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -474,7 +474,7 @@ namespace MinorShift.Emuera
             // グループ6ToolStripMenuItem
             // 
             this.グループ6ToolStripMenuItem.Name = "グループ6ToolStripMenuItem";
-            this.グループ6ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ6ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ6ToolStripMenuItem.Tag = "6";
             this.グループ6ToolStripMenuItem.Text = "Group 6";
             this.グループ6ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -482,7 +482,7 @@ namespace MinorShift.Emuera
             // グループ7ToolStripMenuItem
             // 
             this.グループ7ToolStripMenuItem.Name = "グループ7ToolStripMenuItem";
-            this.グループ7ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ7ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ7ToolStripMenuItem.Tag = "7";
             this.グループ7ToolStripMenuItem.Text = "Group 7";
             this.グループ7ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -490,7 +490,7 @@ namespace MinorShift.Emuera
             // グループ8ToolStripMenuItem
             // 
             this.グループ8ToolStripMenuItem.Name = "グループ8ToolStripMenuItem";
-            this.グループ8ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ8ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ8ToolStripMenuItem.Tag = "8";
             this.グループ8ToolStripMenuItem.Text = "Group 8";
             this.グループ8ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -498,7 +498,7 @@ namespace MinorShift.Emuera
             // グループ9ToolStripMenuItem
             // 
             this.グループ9ToolStripMenuItem.Name = "グループ9ToolStripMenuItem";
-            this.グループ9ToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.グループ9ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.グループ9ToolStripMenuItem.Tag = "9";
             this.グループ9ToolStripMenuItem.Text = "Group 9";
             this.グループ9ToolStripMenuItem.Click += new System.EventHandler(this.グループToolStripMenuItem_Click);
@@ -506,14 +506,14 @@ namespace MinorShift.Emuera
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(127, 6);
             // 
             // 切り取り
             // 
             this.切り取り.Enabled = false;
             this.切り取り.Name = "切り取り";
             this.切り取り.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.切り取り.Size = new System.Drawing.Size(141, 24);
+            this.切り取り.Size = new System.Drawing.Size(130, 22);
             this.切り取り.Text = "Cut";
             this.切り取り.Click += new System.EventHandler(this.切り取り_Click);
             // 
@@ -522,7 +522,7 @@ namespace MinorShift.Emuera
             this.コピー.Enabled = false;
             this.コピー.Name = "コピー";
             this.コピー.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.コピー.Size = new System.Drawing.Size(141, 24);
+            this.コピー.Size = new System.Drawing.Size(130, 22);
             this.コピー.Text = "复制";
             this.コピー.Click += new System.EventHandler(this.コピー_Click);
             // 
@@ -531,7 +531,7 @@ namespace MinorShift.Emuera
             this.貼り付け.Enabled = false;
             this.貼り付け.Name = "貼り付け";
             this.貼り付け.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.貼り付け.Size = new System.Drawing.Size(141, 24);
+            this.貼り付け.Size = new System.Drawing.Size(130, 22);
             this.貼り付け.Text = "粘贴";
             this.貼り付け.Click += new System.EventHandler(this.貼り付け_Click);
             // 
@@ -540,20 +540,20 @@ namespace MinorShift.Emuera
             this.削除.Enabled = false;
             this.削除.Name = "削除";
             this.削除.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.削除.Size = new System.Drawing.Size(141, 24);
+            this.削除.Size = new System.Drawing.Size(130, 22);
             this.削除.Text = "删除";
             this.削除.Click += new System.EventHandler(this.削除_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(127, 6);
             // 
             // 実行
             // 
             this.実行.Enabled = false;
             this.実行.Name = "実行";
-            this.実行.Size = new System.Drawing.Size(141, 24);
+            this.実行.Size = new System.Drawing.Size(130, 22);
             this.実行.Text = "执行";
             this.実行.Click += new System.EventHandler(this.実行_Click);
             // 
@@ -575,21 +575,19 @@ namespace MinorShift.Emuera
             this.labelMacroGroupChanged.Font = new System.Drawing.Font("MS UI Gothic", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.labelMacroGroupChanged.Location = new System.Drawing.Point(0, 448);
             this.labelMacroGroupChanged.Name = "labelMacroGroupChanged";
-            this.labelMacroGroupChanged.Size = new System.Drawing.Size(114, 42);
+            this.labelMacroGroupChanged.Size = new System.Drawing.Size(94, 35);
             this.labelMacroGroupChanged.TabIndex = 5;
             this.labelMacroGroupChanged.Text = "label1";
             this.labelMacroGroupChanged.Visible = false;
             // 
             // mainPicBox
             // 
-            this.mainPicBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainPicBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.mainPicBox.BackColor = System.Drawing.Color.Black;
-            this.mainPicBox.Location = new System.Drawing.Point(0, 24);
+            this.mainPicBox.Location = new System.Drawing.Point(0, 0);
             this.mainPicBox.Margin = new System.Windows.Forms.Padding(0);
             this.mainPicBox.Name = "mainPicBox";
-            this.mainPicBox.Size = new System.Drawing.Size(640, 480);
+            this.mainPicBox.Size = new System.Drawing.Size(640, 504);
             this.mainPicBox.TabIndex = 0;
             this.mainPicBox.TabStop = false;
             this.mainPicBox.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPicBox_Paint);
@@ -610,12 +608,14 @@ namespace MinorShift.Emuera
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Emuera";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.AutoVerbMenu.ResumeLayout(false);
