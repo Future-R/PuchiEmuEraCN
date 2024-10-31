@@ -202,7 +202,7 @@ namespace MinorShift.Emuera
 
 
 		static Dictionary<string, Dictionary<FontStyle, Font>> fontDic = new Dictionary<string, Dictionary<FontStyle, Font>>();
-		public static Font Font { get { return GetFont(null, FontStyle.Regular); } }
+		public static Font Font { get { return FontFactory.GetFont(null, FontStyle.Regular); } }
 
 		public static Font GetFont(string theFontname, FontStyle style)
 		{

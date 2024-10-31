@@ -109,6 +109,7 @@
     <Compile Include="Forms\DebugConfigDialog.Designer.cs">
       <DependentUpon>DebugConfigDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FontFactory.cs" />
     <Compile Include="GameData\DefineMacro.cs" />
     <Compile Include="GameData\Expression\CaseExpression.cs" />
     <Compile Include="GameData\Expression\IOperandTerm.cs" />

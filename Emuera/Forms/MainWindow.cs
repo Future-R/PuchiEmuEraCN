@@ -47,7 +47,7 @@ namespace MinorShift.Emuera
            string Emuera_verInfo = "PuchiEmuera V" + emueraVer.FileVersion.Remove(5);
             if (emueraVer.FileBuildPart > 0)
                 Emuera_verInfo += "+v" + emueraVer.FileBuildPart.ToString() + ((emueraVer.FilePrivatePart > 0) ? "." + emueraVer.FilePrivatePart.ToString() : "");
-            Emuera_verInfo += " 简体中文版 V1.0 ";
+            Emuera_verInfo += " 简体中文版 V1.1 ";
 			EmuVerToolStripTextBox.Text = Emuera_verInfo;
 
              timer.Enabled = true;

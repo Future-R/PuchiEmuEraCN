@@ -20,7 +20,7 @@ namespace MinorShift.Emuera.GameView
             //    str = str.Replace("\t", "");
 			this.Str = str;
 			this.StringStyle = style;
-			Font = Config.GetFont(style.Fontname, style.FontStyle);
+			Font = FontFactory.GetFont(style.Fontname, style.FontStyle);
 			if (Font == null)
 			{
 				Error = true;

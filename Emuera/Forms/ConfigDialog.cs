@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using System.IO;
 
 namespace MinorShift.Emuera.Forms
 {
@@ -537,6 +538,34 @@ namespace MinorShift.Emuera.Forms
 					continue;
 				comboBox2.Items.Add(ff.Name);
 			}
+			#region 动态字体相关
+			if (Directory.Exists(Program.FontDir))
+			{
+				PrivateFontCollection pfc = new PrivateFontCollection();
+				foreach (string fontFile in Directory.GetFiles(Program.FontDir, "*.ttf", SearchOption.AllDirectories))
+					pfc.AddFontFile(fontFile);
+
+				foreach (string fontFile in Directory.GetFiles(Program.FontDir, "*.otf", SearchOption.AllDirectories))
+					pfc.AddFontFile(fontFile);
+
+				foreach (FontFamily ff in pfc.Families)
+				{
+					/**
+					if (!ff.IsStyleAvailable(FontStyle.Regular))
+						continue;
+					if (!ff.IsStyleAvailable(FontStyle.Bold))
+						continue;
+					if (!ff.IsStyleAvailable(FontStyle.Italic))
+						continue;
+					if (!ff.IsStyleAvailable(FontStyle.Strikeout))
+						continue;
+					if (!ff.IsStyleAvailable(FontStyle.Underline))
+						continue;
+					**/
+					comboBox2.Items.Add(ff.Name);
+				}
+			}
+			#endregion
 			string fontname = comboBox2.Text;
 			if (!string.IsNullOrEmpty(fontname))
 			{

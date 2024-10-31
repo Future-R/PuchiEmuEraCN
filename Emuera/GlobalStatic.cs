@@ -6,6 +6,7 @@ using MinorShift.Emuera.GameData;
 using MinorShift.Emuera.GameData.Expression;
 using MinorShift.Emuera.GameData.Variable;
 using MinorShift.Emuera.GameView;
+using System.Drawing.Text;
 
 namespace MinorShift.Emuera
 {
@@ -34,6 +35,9 @@ namespace MinorShift.Emuera
 		public static ExpressionMediator EMediator;
 		//
 		public static LabelDictionary LabelDictionary;
+
+		// 动态读取字体相关
+		public static PrivateFontCollection Pfc = new PrivateFontCollection();
 
 
 		//ERBloaderに引数解析の結果を渡すための橋渡し変数

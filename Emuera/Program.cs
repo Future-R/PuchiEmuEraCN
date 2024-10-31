@@ -49,6 +49,7 @@ namespace MinorShift.Emuera
 			DebugDir = ExeDir + "debug\\";
 			DatDir = ExeDir + "dat\\";
 			ContentDir = ExeDir + "resources\\";
+			FontDir = ExeDir + "font\\";
 			//エラー出力用
 			//1815 .exeが東方板のNGワードに引っかかるそうなので除去
 			ExeName = Path.GetFileNameWithoutExtension(Sys.ExeName);
@@ -59,17 +60,17 @@ namespace MinorShift.Emuera
             //二重起動の禁止かつ二重起動
 			if ((!Config.AllowMultipleInstances) && (Sys.PrevInstance()))
 			{
-				MessageBox.Show("多重起動を許可する場合、emuera.configを書き換えて下さい", "既に起動しています");
+				MessageBox.Show("如果要允许游戏多开，请修改 emuera.config 文件", "游戏已经启动");
 				return;
 			}
 			if (!Directory.Exists(CsvDir))
 			{
-				MessageBox.Show("csvフォルダが見つかりません", "フォルダなし");
+				MessageBox.Show("找不到 csv 文件夹", "找不到目录");
 				return;
 			}
 			if (!Directory.Exists(ErbDir))
 			{
-				MessageBox.Show("erbフォルダが見つかりません", "フォルダなし");
+				MessageBox.Show("找不到 erb 文件夹", "找不到目录");
 				return;
 			}
             int argsStart = 0;
@@ -78,7 +79,16 @@ namespace MinorShift.Emuera
                 argsStart = 1;//デバッグモードかつ解析モード時に最初の1っこ(-DEBUG)を飛ばす
 				debugMode = true;
             }
-			if(debugMode)
+			// 动态读取字体相关
+			if (Directory.Exists(FontDir))
+			{
+				foreach (string fontFile in Directory.GetFiles(FontDir, "*.ttf", SearchOption.AllDirectories))
+					GlobalStatic.Pfc.AddFontFile(fontFile);
+
+				foreach (string fontFile in Directory.GetFiles(FontDir, "*.otf", SearchOption.AllDirectories))
+					GlobalStatic.Pfc.AddFontFile(fontFile);
+			}
+			if (debugMode)
 			{
 				ConfigData.Instance.LoadDebugConfig();
 				if (!Directory.Exists(DebugDir))
@@ -89,7 +99,7 @@ namespace MinorShift.Emuera
 					}
 					catch
 					{
-						MessageBox.Show("debugフォルダの作成に失敗しました", "フォルダなし");
+						MessageBox.Show("创建 debug 文件夹失败", "找不到目录");
 						return;
 					}
 				}
@@ -167,6 +177,8 @@ namespace MinorShift.Emuera
 		public static string DatDir { get; private set; }
 		public static string ContentDir { get; private set; }
 		public static string ExeName { get; private set; }
+
+		public static string FontDir { get; private set; }
 
 		public static bool Reboot = false;
 		//public static int RebootClientX = 0;

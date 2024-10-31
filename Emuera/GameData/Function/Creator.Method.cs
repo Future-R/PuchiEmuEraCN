@@ -403,7 +403,16 @@ namespace MinorShift.Emuera.GameData.Function
                 string str = arguments[0].GetStrValue(exm);
                 System.Drawing.Text.InstalledFontCollection ifc = new System.Drawing.Text.InstalledFontCollection();
                 Int64 isInstalled = 0;
-                foreach (System.Drawing.FontFamily ff in ifc.Families)
+                foreach (FontFamily ff in ifc.Families)
+                {
+                    #region EE_フォントファイル対応
+                    if (ff.Name == str)
+                    {
+                        isInstalled = 1;
+                        break;
+                    }
+                }
+                foreach (FontFamily ff in GlobalStatic.Pfc.Families)
                 {
                     if (ff.Name == str)
                     {
@@ -411,6 +420,7 @@ namespace MinorShift.Emuera.GameData.Function
                         break;
                     }
                 }
+                #endregion
                 return (isInstalled);
             }
 
