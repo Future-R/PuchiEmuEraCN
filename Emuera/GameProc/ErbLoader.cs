@@ -866,14 +866,15 @@ namespace MinorShift.Emuera.GameProc
 						break;
 					continue;
 				}
-				if (inMethod)
-				{
-					if (!func.Function.IsMethodSafe())
-					{
-						ParserMediator.Warn(func.Function.Name + "命令は#FUNCTION中で使うことはできません", nextLine, 2, true, false);
-						continue;
-					}
-				}
+				// 我就偏要在Function里用CALL，怎样！
+				//if (inMethod)
+				//{
+				//	if (!func.Function.IsMethodSafe())
+				//	{
+				//		ParserMediator.Warn(func.Function.Name + "命令は#FUNCTION中で使うことはできません", nextLine, 2, true, false);
+				//		continue;
+				//	}
+				//}
                 if (Config.NeedReduceArgumentOnLoad || Program.AnalysisMode || func.Function.IsForceSetArg())
                     ArgumentParser.SetArgumentTo(func);
 			}
