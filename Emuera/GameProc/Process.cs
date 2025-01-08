@@ -134,7 +134,7 @@ namespace MinorShift.Emuera.GameProc
                     console.PrintSystemLine("Processing was terminated because a problem occurred while loading GAMEBASE.CSV");
                     return false;
                 }
-				console.SetWindowTitle(gamebase.ScriptWindowTitle);
+				console.SetWindowTitle(gamebase.ScriptWindowTitle + "　Ctrl+F11全屏(这是一个临时功能)");
 				GlobalStatic.GameBaseData = gamebase;
 
 				ConstantData constant = new ConstantData(gamebase);
