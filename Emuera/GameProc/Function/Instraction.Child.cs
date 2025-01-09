@@ -1617,7 +1617,7 @@ namespace MinorShift.Emuera.GameProc.Function
                 SpFadeArgument arg = (SpFadeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
 
-                var culture = new CultureInfo("ja-JP");
+                var culture = new CultureInfo("zh-CN");
                 float alpha = float.Parse(terms[0].GetStrValue(exm), culture);
                 string groupID = terms[1].GetStrValue(exm);
                 Int64 speed = terms[2].GetIntValue(exm);
@@ -1729,7 +1729,7 @@ namespace MinorShift.Emuera.GameProc.Function
                 SpShakeArgument arg = (SpShakeArgument)func.Argument;
                 IOperandTerm[] terms = arg.Terms;
 
-                var culture = new CultureInfo("ja-JP");
+                var culture = new CultureInfo("zh-CN");
                 float effectCoef = float.Parse(terms[0].GetStrValue(exm), culture);	//透過含めた全体の変動量
                 Int64 shakeQt = terms[1].GetIntValue(exm);					//移動量
                 string groupID = terms[2].GetStrValue(exm);                 //グループID

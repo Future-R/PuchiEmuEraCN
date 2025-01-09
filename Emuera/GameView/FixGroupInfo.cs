@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing.Imaging;
 
 namespace MinorShift.Emuera.GameView
@@ -15,20 +15,20 @@ namespace MinorShift.Emuera.GameView
             this.groupID = groupID;
             this.isReverse = isReverse;
 
-            // ŒÅ’è‰æ‘œ•\¦—p‚ÌƒIƒtƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚ğ“K—p
-            //ColorMatrixƒIƒuƒWƒFƒNƒg‚Ìì¬
+            // å›ºå®šç”»åƒè¡¨ç¤ºç”¨ã®ã‚ªãƒ•ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒãƒƒãƒ•ã‚¡ã‚’é©ç”¨
+            //ColorMatrixã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
             System.Drawing.Imaging.ColorMatrix cm =
                 new System.Drawing.Imaging.ColorMatrix();
-            //“§‰ß—¦‚ÉƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚Åw’è‚µ‚½“§‰ß—¦‚ğw’è‚·‚é
+            //é€éç‡ã«ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã§æŒ‡å®šã—ãŸé€éç‡ã‚’æŒ‡å®šã™ã‚‹
             cm.Matrix00 = 1;
             cm.Matrix11 = 1;
             cm.Matrix22 = 1;
             cm.Matrix33 = fixAlpha;
             cm.Matrix44 = 1;
 
-            //ImageAttributesƒIƒuƒWƒFƒNƒg‚Ìì¬
+            //ImageAttributesã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
             this.ia = new System.Drawing.Imaging.ImageAttributes();
-            //ColorMatrix‚ğİ’è‚·‚é
+            //ColorMatrixã‚’è¨­å®šã™ã‚‹
             this.ia.SetColorMatrix(cm);
         }
     }

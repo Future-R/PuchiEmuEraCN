@@ -1,5 +1,5 @@
-//182101 PCDRP-Update:‰æ‘œŒÅ’è•\¦‹@”\‚ÅV‹Kì¬
-//ŒÅ’è•\¦‰æ‘œ‚ğ•\¦‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
+ï»¿//182101 PCDRP-Update:ç”»åƒå›ºå®šè¡¨ç¤ºæ©Ÿèƒ½ã§æ–°è¦ä½œæˆ
+//å›ºå®šè¡¨ç¤ºç”»åƒã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -10,27 +10,27 @@ namespace MinorShift.Emuera.GameView
 {
     public class FixImgPrint
     {
-        //‰æ‘œŒÅ’è•\¦‹@”\‚ÌƒOƒ‹[ƒvƒŒƒCƒ„[
+        //ç”»åƒå›ºå®šè¡¨ç¤ºæ©Ÿèƒ½ã®ã‚°ãƒ«ãƒ¼ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
         Bitmap[] fixBitmapImg;
         Graphics[] fixGraph;
         public float[] fixFadeAlpha;
         public bool isGroupEnabled;
         public int[] shakeDx;
         public bool[] effectTarget;
-        public Bitmap allFadeBackBitmapImg; //‘S‘ÌƒtƒF[ƒh‚Ìƒrƒbƒgƒ}ƒbƒv•Û‘¶—p
-        public Graphics allFadeBackGraph;   //‘S‘ÌƒtƒF[ƒh‚Ì‰æ‘œˆ——p
-        internal EffectStatus EffectStatus = 0;       //‘S‘ÌƒtƒF[ƒh‚Ìó‘Ô  
-        internal EffectTarget effectTargetType = EffectTarget.NotEffect;		//ƒGƒtƒFƒNƒg‚Ì‘ÎÛ(‘S‘Ì‚©ƒOƒ‹[ƒv‚©)
-        //public float[] effectDifference;//•¡”‰æ‘œ‚ğˆê“x‚ÉƒtƒF[ƒh‚·‚é‚Ég‚¨‚¤‚©‚Æv‚Á‚½‚ª–¢g—p
+        public Bitmap allFadeBackBitmapImg; //å…¨ä½“ãƒ•ã‚§ãƒ¼ãƒ‰æ™‚ã®ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ä¿å­˜ç”¨
+        public Graphics allFadeBackGraph;   //å…¨ä½“ãƒ•ã‚§ãƒ¼ãƒ‰æ™‚ã®ç”»åƒå‡¦ç†ç”¨
+        internal EffectStatus EffectStatus = 0;       //å…¨ä½“ãƒ•ã‚§ãƒ¼ãƒ‰æ™‚ã®çŠ¶æ…‹  
+        internal EffectTarget effectTargetType = EffectTarget.NotEffect;		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å¯¾è±¡(å…¨ä½“ã‹ã‚°ãƒ«ãƒ¼ãƒ—ã‹)
+        //public float[] effectDifference;//è¤‡æ•°ç”»åƒã‚’ä¸€åº¦ã«ãƒ•ã‚§ãƒ¼ãƒ‰ã™ã‚‹æ™‚ã«ä½¿ãŠã†ã‹ã¨æ€ã£ãŸãŒæœªä½¿ç”¨
         public float[] shakeDAlpha;
         private readonly List<ConsoleImagePart> displayFixImgLineList;
 
         /* *************************************************************
-        * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         **************************************************************** */
         public FixImgPrint(int fixImgGroupNumber, int width, int height)
         {
-            //w’è‚ª‚È‚¢A‚à‚µ‚­‚ÍƒOƒ‹[ƒvƒŒƒCƒ„[”‚ª0‚Ìê‡‚Í–¢g—p
+            //æŒ‡å®šãŒãªã„ã€ã‚‚ã—ãã¯ã‚°ãƒ«ãƒ¼ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ãŒ0ã®å ´åˆã¯æœªä½¿ç”¨
             if (fixImgGroupNumber == 0)
             {
                 isGroupEnabled = false;
@@ -46,7 +46,7 @@ namespace MinorShift.Emuera.GameView
                 shakeDAlpha = new float[Config.FixImgGroupNumber];
                 effectTarget= new bool[Config.FixImgGroupNumber];
                 //effectDifference = new float[Config.FixImgGroupNumber];
-                //ŒÅ’è•\¦—p‚Ìƒrƒbƒgƒ}ƒbƒv‚ğ¶¬‚µ‚Ä‚¨‚­
+                //å›ºå®šè¡¨ç¤ºç”¨ã®ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’ç”Ÿæˆã—ã¦ãŠã
                 for (int i = 0; i < Config.FixImgGroupNumber; i++)
                 {
                     fixBitmapImg[i] = new Bitmap(width, height);
@@ -62,11 +62,11 @@ namespace MinorShift.Emuera.GameView
             displayFixImgLineList = new List<ConsoleImagePart>();
         }
         /* *************************************************************
-        * ‰æ‘œ•\¦
+        * ç”»åƒè¡¨ç¤º
         **************************************************************** */
         public void drawFixImage(int topLineNo, int bottomLineNo, Graphics graph, int pointY, bool isBackLog, bool force)
         {
-            //‘S‘ÌƒtƒF[ƒh’†‚Å‚·‚Å‚Éˆê“x•`ÊÀs‚Ìê‡‚Íƒoƒbƒtƒ@‚µ‚½‰æ‘œ‚Åã‘‚«‚µ‚ÄI—¹
+            //å…¨ä½“ãƒ•ã‚§ãƒ¼ãƒ‰ä¸­ã§ã™ã§ã«ä¸€åº¦æå†™å®Ÿè¡Œæ™‚ã®å ´åˆã¯ãƒãƒƒãƒ•ã‚¡ã—ãŸç”»åƒã§ä¸Šæ›¸ãã—ã¦çµ‚äº†
             if (effectTargetType == EffectTarget.Screen)
             {
                 if (EffectStatus == EffectStatus.EffectBuffered)
@@ -76,17 +76,17 @@ namespace MinorShift.Emuera.GameView
                     return;
                 }
                 else if (EffectStatus == EffectStatus.EffectStart) {
-                    //ƒoƒbƒtƒ@ˆ—‚Ì‰‰ñ‚Ìê‡‚ÍƒtƒF[ƒhƒoƒbƒtƒ@—p‚ÌƒIƒuƒWƒFƒNƒg‚ğƒNƒŠƒA‚µ‚Ä‚¨‚­
+                    //ãƒãƒƒãƒ•ã‚¡å‡¦ç†ã®åˆå›ã®å ´åˆã¯ãƒ•ã‚§ãƒ¼ãƒ‰ãƒãƒƒãƒ•ã‚¡ç”¨ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚¯ãƒªã‚¢ã—ã¦ãŠã
                     allFadeBackGraph.Clear(Color.Transparent);
                 }
             }
 
-            //ƒRƒ“ƒtƒBƒO‚ÅƒOƒ‹[ƒv”‚ªw’è‚µ‚Ä‚ ‚éê‡ƒOƒ‹[ƒv—pƒŒƒCƒ„[—Ìˆæ‚ğƒNƒŠƒA‚·‚é
+            //ã‚³ãƒ³ãƒ•ã‚£ã‚°ã§ã‚°ãƒ«ãƒ¼ãƒ—æ•°ãŒæŒ‡å®šã—ã¦ã‚ã‚‹å ´åˆã‚°ãƒ«ãƒ¼ãƒ—ç”¨ãƒ¬ã‚¤ãƒ¤ãƒ¼é ˜åŸŸã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
             if (isGroupEnabled) {
                 for (int i = 0; i < Config.FixImgGroupNumber; i++)
                 {
-                    //ƒGƒtƒFƒNƒg’†(ƒoƒbƒtƒ@Ï‚İ)‚Ìê‡‚Íƒrƒbƒgƒ}ƒbƒv‚ğg‚¢‰ñ‚¹‚é‚Ì‚ÅƒNƒŠƒA‚µ‚È‚¢
-                    //(¦”wŒiƒOƒ‹[ƒv‚Íg‚¢‰ñ‚¹‚È‚¢‚ª”wŒi”­Œ©‚ÉƒNƒŠƒA‚·‚é)
+                    //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆä¸­(ãƒãƒƒãƒ•ã‚¡æ¸ˆã¿)ã®å ´åˆã¯ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’ä½¿ã„å›ã›ã‚‹ã®ã§ã‚¯ãƒªã‚¢ã—ãªã„
+                    //(â€»èƒŒæ™¯ã‚°ãƒ«ãƒ¼ãƒ—ã¯ä½¿ã„å›ã›ãªã„ãŒèƒŒæ™¯ç™ºè¦‹æ™‚ã«ã‚¯ãƒªã‚¢ã™ã‚‹)
                     if (EffectStatus != EffectStatus.EffectBuffered)
                     {
                         fixGraph[i].Clear(Color.Transparent);
@@ -94,23 +94,23 @@ namespace MinorShift.Emuera.GameView
                 }
             }
 
-            //ƒŠƒXƒg‚É‰æ‘œ‚ª‘¶İ‚µ‚È‚¢AƒoƒbƒNƒƒO’†ê‡‚ÍI—¹
+            //ãƒªã‚¹ãƒˆã«ç”»åƒãŒå­˜åœ¨ã—ãªã„ã€ãƒãƒƒã‚¯ãƒ­ã‚°ä¸­å ´åˆã¯çµ‚äº†
             if (displayFixImgLineList.Count == 0 || isBackLog) {
                 return;
             }
 
-            //ŒÅ’è•\¦‰æ‘œƒOƒ‹[ƒv—pî•ñƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
+            //å›ºå®šè¡¨ç¤ºç”»åƒã‚°ãƒ«ãƒ¼ãƒ—ç”¨æƒ…å ±ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
             List<FixGroupInfo> fgInfo = new List<FixGroupInfo>();
             int backGroupNum = -1;
 
             List<int> backGroupIdInfo =new List<int>();
-            //“–‰‚ÍŒÅ’è•\¦‰æ‘œˆÈŠO‚ÌƒXƒNƒ[ƒ‹ó‘Ô‚àŠm”F‚µ‚Ä•\¦‚µ‚Ä‚¢‚½‚ªA
-            //‚»‚ê‚¾‚ÆŒ‹‹Ç•¶Í‚ªÏ‚à‚Á‚½ê‡‚ÉŒÅ’è•\¦‰æ‘œ‚ª”ÍˆÍ‚©‚ç˜R‚ê‚Ä•\¦‚³‚ê‚È‚­‚È‚é‚Ì‚Å
-            //‚»‚Ìˆ—‚Í”²‚¢‚½
+            //å½“åˆã¯å›ºå®šè¡¨ç¤ºç”»åƒä»¥å¤–ã®ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«çŠ¶æ…‹ã‚‚ç¢ºèªã—ã¦è¡¨ç¤ºã—ã¦ã„ãŸãŒã€
+            //ãã‚Œã ã¨çµå±€æ–‡ç« ãŒç©ã‚‚ã£ãŸå ´åˆã«å›ºå®šè¡¨ç¤ºç”»åƒãŒç¯„å›²ã‹ã‚‰æ¼ã‚Œã¦è¡¨ç¤ºã•ã‚Œãªããªã‚‹ã®ã§
+            //ãã®å‡¦ç†ã¯æŠœã„ãŸ
             for (int i = 0; i < displayFixImgLineList.Count; i++)
             {
-                //ƒOƒ‹[ƒvID‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢‚©AŠù’è‚Ì–‡”‚ğƒI[ƒo[‚µ‚½w’è‚Ìê‡‚Í–³‹‚µ‚Ä
-                //’Êí‚Ì‰æ–Ê‚É‘‚«‚Ş
+                //ã‚°ãƒ«ãƒ¼ãƒ—IDãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„ã‹ã€æ—¢å®šã®æšæ•°ã‚’ã‚ªãƒ¼ãƒãƒ¼ã—ãŸæŒ‡å®šã®å ´åˆã¯ç„¡è¦–ã—ã¦
+                //é€šå¸¸ã®ç”»é¢ã«æ›¸ãè¾¼ã‚€
                 if (displayFixImgLineList[i].fImgInfo.groupNum == -1 ||
                     displayFixImgLineList[i].fImgInfo.groupNum >= Config.FixImgGroupNumber)
                 {
@@ -118,7 +118,7 @@ namespace MinorShift.Emuera.GameView
                 }
                 else
                 {
-                    //ƒOƒ‹[ƒv‹@”\‚ğ—˜—p‚µ‚Ä‚¨‚èAŠY“–‚Ìs‚ªe‚Æ‚È‚é‰æ‘œ‚Ìê‡‚Í“§‰ß—¦‚Æ”½“]İ’è‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+                    //ã‚°ãƒ«ãƒ¼ãƒ—æ©Ÿèƒ½ã‚’åˆ©ç”¨ã—ã¦ãŠã‚Šã€è©²å½“ã®è¡ŒãŒè¦ªã¨ãªã‚‹ç”»åƒã®å ´åˆã¯é€éç‡ã¨åè»¢è¨­å®šã‚’ä¿å­˜ã—ã¦ãŠã
                     if (displayFixImgLineList[i].fImgInfo.isRoot)
                     {
                         if (fgInfo.Count < Config.FixImgGroupNumber)
@@ -127,12 +127,12 @@ namespace MinorShift.Emuera.GameView
                                 displayFixImgLineList[i].fImgInfo.groupNum,
                                 displayFixImgLineList[i].fImgInfo.isReverse));
                         }
-                        //‘ÎÛ‚Ìs‚ªƒOƒ‹[ƒv‰æ‘œ‚Ì”wŒi“‡w’è‚ğ‚³‚ê‚Ä‚¢‚éê‡‚Í“‡—p‚Ìî•ñ‚ğæ“¾‚µ‚Ä‚¨‚­
+                        //å¯¾è±¡ã®è¡ŒãŒã‚°ãƒ«ãƒ¼ãƒ—ç”»åƒã®èƒŒæ™¯çµ±åˆæŒ‡å®šã‚’ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯çµ±åˆç”¨ã®æƒ…å ±ã‚’å–å¾—ã—ã¦ãŠã
                         if (displayFixImgLineList[i].isBackGrouped) {
-                            //‚±‚Ì‰æ‘œ‚Í”wŒi‰æ‘œB”wŒi‚ÌGraphicsƒIƒuƒWƒFƒNƒg‚Í•K‚¸––”ö‚ğg—p‚·‚é
+                            //ã“ã®ç”»åƒã¯èƒŒæ™¯ç”»åƒã€‚èƒŒæ™¯ã®Graphicsã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯å¿…ãšæœ«å°¾ã‚’ä½¿ç”¨ã™ã‚‹
                             backGroupNum = fgInfo.Count - 1;
                             
-                            //ƒGƒtƒFƒNƒg’†‚É‚æ‚èƒoƒbƒtƒ@ƒŠƒ“ƒO‚µ‚Ä‚¢‚éê‡‚Í”wŒi—Ìˆæ‚ğíœ‚µ‚ÄÄ‘‚«‚İ
+                            //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆä¸­ã«ã‚ˆã‚Šãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã—ã¦ã„ã‚‹å ´åˆã¯èƒŒæ™¯é ˜åŸŸã‚’å‰Šé™¤ã—ã¦å†æ›¸ãè¾¼ã¿
                             if (EffectStatus == EffectStatus.EffectBuffered) {
                                 fixGraph[fgInfo[backGroupNum].groupID].Clear(Color.Transparent);
                                 displayFixImgLineList[i].DrawTo(fixGraph[fgInfo[backGroupNum].groupID], pointY, isBackLog, true, Config.TextDrawingMode);
@@ -140,25 +140,25 @@ namespace MinorShift.Emuera.GameView
                             backGroupIdInfo = displayFixImgLineList[i].backGroupList;
                         }
                     }
-                    //ƒGƒtƒFƒNƒg’†(ƒoƒbƒtƒ@Ï‚İ)‚ÅA‚©‚Â”wŒiˆÈŠO‚ÌƒŒƒCƒ„[‚Íg‚¢‰ñ‚¹‚é‚Ì‚Åˆ—‚µ‚È‚¢
+                    //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆä¸­(ãƒãƒƒãƒ•ã‚¡æ¸ˆã¿)ã§ã€ã‹ã¤èƒŒæ™¯ä»¥å¤–ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯ä½¿ã„å›ã›ã‚‹ã®ã§å‡¦ç†ã—ãªã„
                     if (EffectStatus != EffectStatus.EffectBuffered)
                     {
-                        //ƒŠƒ\[ƒX–¼‚Åw’è‚³‚ê‚½ƒOƒ‹[ƒv‚É‘‚«‚Ş
+                        //ãƒªã‚½ãƒ¼ã‚¹åã§æŒ‡å®šã•ã‚ŒãŸã‚°ãƒ«ãƒ¼ãƒ—ã«æ›¸ãè¾¼ã‚€
                         displayFixImgLineList[i].DrawTo(fixGraph[displayFixImgLineList[i].fImgInfo.groupNum], pointY, isBackLog, true, Config.TextDrawingMode);
                     }
                 }
-                //ŒÅ’è‰æ‘œ‚Ìê‡s‚Æ‚¢‚¤ŠT”O‚ª‚È‚¢‚Ì‚ÅpointY‚Ì’l‚ğ‰ÁZ‚µ‚È‚¢
+                //å›ºå®šç”»åƒã®å ´åˆè¡Œã¨ã„ã†æ¦‚å¿µãŒãªã„ã®ã§pointYã®å€¤ã‚’åŠ ç®—ã—ãªã„
             }
 
-            //‘ÎÛ‚Ìs‚ªƒOƒ‹[ƒv‰æ‘œ‚Ì”wŒi“‡w’è‚ğ‚³‚ê‚Ä‚¢‚éê‡
+            //å¯¾è±¡ã®è¡ŒãŒã‚°ãƒ«ãƒ¼ãƒ—ç”»åƒã®èƒŒæ™¯çµ±åˆæŒ‡å®šã‚’ã•ã‚Œã¦ã„ã‚‹å ´åˆ
             if (backGroupNum != -1)
             {
                 for (int i = 0; i < fgInfo.Count; i++)
                 {
-                    //”wŒi‰æ‘œ‚Å‚Í‚È‚­A‚©‚Â”wŒi“‡‚Éw’è‚³‚ê‚½ƒOƒ‹[ƒvID‚Ìê‡
+                    //èƒŒæ™¯ç”»åƒã§ã¯ãªãã€ã‹ã¤èƒŒæ™¯çµ±åˆã«æŒ‡å®šã•ã‚ŒãŸã‚°ãƒ«ãƒ¼ãƒ—IDã®å ´åˆ
                     if (i != backGroupNum && backGroupIdInfo.Contains(fgInfo[i].groupID)) {
-                        //ƒOƒ‹[ƒv‰æ‘œ‘¤‚Éw’è‚³‚ê‚½“§‰ß—¦‚Í–³‹‚µ‚Ä•s“§–¾‚Åo—Í
-                        //e‰æ‘œ‚É”½“]w’è‚ª‚ ‚Á‚½ê‡‚Í”½“]‚µ‚Ä•\¦‚·‚é
+                        //ã‚°ãƒ«ãƒ¼ãƒ—ç”»åƒå´ã«æŒ‡å®šã•ã‚ŒãŸé€éç‡ã¯ç„¡è¦–ã—ã¦ä¸é€æ˜ã§å‡ºåŠ›
+                        //è¦ªç”»åƒã«åè»¢æŒ‡å®šãŒã‚ã£ãŸå ´åˆã¯åè»¢ã—ã¦è¡¨ç¤ºã™ã‚‹
                         if (fgInfo[i].isReverse)
                         {
                             fixGraph[fgInfo[backGroupNum].groupID].DrawImage(fixBitmapImg[fgInfo[i].groupID], new Rectangle(fixBitmapImg[fgInfo[i].groupID].Width + shakeDx[fgInfo[i].groupID], 0, -fixBitmapImg[fgInfo[i].groupID].Width + shakeDx[fgInfo[i].groupID], fixBitmapImg[fgInfo[i].groupID].Height),
@@ -171,8 +171,8 @@ namespace MinorShift.Emuera.GameView
                         }
                     }
                 }
-                //ÅŒã‚É”wŒi‰æ‘œ‚İ‚Ìî•ñ‚ğƒƒCƒ“‰æ–Ê‚Éo—Í‚·‚é
-                //e‰æ‘œ‚É”½“]w’è‚ª‚ ‚Á‚½ê‡‚Í”½“]‚µ‚Ä•\¦‚·‚é
+                //æœ€å¾Œã«èƒŒæ™¯ç”»åƒè¾¼ã¿ã®æƒ…å ±ã‚’ãƒ¡ã‚¤ãƒ³ç”»é¢ã«å‡ºåŠ›ã™ã‚‹
+                //è¦ªç”»åƒã«åè»¢æŒ‡å®šãŒã‚ã£ãŸå ´åˆã¯åè»¢ã—ã¦è¡¨ç¤ºã™ã‚‹
                 if (fgInfo[backGroupNum].isReverse)
                 {
                     graph.DrawImage(fixBitmapImg[fgInfo[backGroupNum].groupID], new Rectangle(fixBitmapImg[fgInfo[backGroupNum].groupID].Width + shakeDx[fgInfo[backGroupNum].groupID], 0, -fixBitmapImg[fgInfo[backGroupNum].groupID].Width + shakeDx[fgInfo[backGroupNum].groupID], fixBitmapImg[fgInfo[backGroupNum].groupID].Height),
@@ -195,12 +195,12 @@ namespace MinorShift.Emuera.GameView
                 }
             }
 
-            //sw’è‚Ì‘‚«‚İ‚ªI‚í‚Á‚½’iŠK‚ÅAŒÅ’è•\¦‹@”\‚ÌƒCƒ[ƒW‚ğ•W€‚Ì—Ìˆæ‚É‘‚«‚Ş
+            //è¡ŒæŒ‡å®šã®æ›¸ãè¾¼ã¿ãŒçµ‚ã‚ã£ãŸæ®µéšã§ã€å›ºå®šè¡¨ç¤ºæ©Ÿèƒ½ã®ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’æ¨™æº–ã®é ˜åŸŸã«æ›¸ãè¾¼ã‚€
             for (int i = 0; i < fgInfo.Count; i++)
             {
-                //ƒOƒ‹[ƒv‰æ‘œ‚Ì”wŒi“‡w’è‹@”\‚Ì‘ÎÛŠO‚ÌƒOƒ‹[ƒv‚Ìê‡
+                //ã‚°ãƒ«ãƒ¼ãƒ—ç”»åƒã®èƒŒæ™¯çµ±åˆæŒ‡å®šæ©Ÿèƒ½ã®å¯¾è±¡å¤–ã®ã‚°ãƒ«ãƒ¼ãƒ—ã®å ´åˆ
                 if (!backGroupIdInfo.Contains(fgInfo[i].groupID)) {
-                    //e‰æ‘œ‚É”½“]w’è‚ª‚ ‚Á‚½ê‡‚Í”½“]‚µ‚Ä•\¦‚·‚é
+                    //è¦ªç”»åƒã«åè»¢æŒ‡å®šãŒã‚ã£ãŸå ´åˆã¯åè»¢ã—ã¦è¡¨ç¤ºã™ã‚‹
                     if (fgInfo[i].isReverse)
                     {
                         graph.DrawImage(fixBitmapImg[fgInfo[i].groupID], new Rectangle(fixBitmapImg[fgInfo[i].groupID].Width + shakeDx[fgInfo[i].groupID], 0, -fixBitmapImg[fgInfo[i].groupID].Width + shakeDx[fgInfo[i].groupID], fixBitmapImg[fgInfo[i].groupID].Height),
@@ -226,17 +226,17 @@ namespace MinorShift.Emuera.GameView
             }
         }
         /* *************************************************************
-        * ‰æ‘œÁ‹
+        * ç”»åƒæ¶ˆå»
         **************************************************************** */
         public bool clearFixImage(string resourceName, int groupNum)
         {
             bool bRet = false;
 
-            //ƒŠƒ\[ƒX–¼‚ªCLEARALLw’è‚¾‚Á‚½ê‡‚Í‘SÁ‹
-            //TODO:ƒoƒbƒNƒƒO‘Î‰‚ª‹C‚É‚È‚é‚ªc
+            //ãƒªã‚½ãƒ¼ã‚¹åãŒCLEARALLæŒ‡å®šã ã£ãŸå ´åˆã¯å…¨æ¶ˆå»
+            //TODO:ãƒãƒƒã‚¯ãƒ­ã‚°å¯¾å¿œãŒæ°—ã«ãªã‚‹ãŒâ€¦
             if (resourceName.Equals("CLEARALL", StringComparison.OrdinalIgnoreCase))
             {
-                //ƒOƒ‹[ƒvw’è‚ª‚È‚¢ê‡‚Í‘SÁ‹
+                //ã‚°ãƒ«ãƒ¼ãƒ—æŒ‡å®šãŒãªã„å ´åˆã¯å…¨æ¶ˆå»
                 if (groupNum == -1)
                 {
                     displayFixImgLineList.Clear();
@@ -244,12 +244,12 @@ namespace MinorShift.Emuera.GameView
                     return bRet;
 
                 }
-                //ƒOƒ‹[ƒvw’è‚ª‚ ‚éê‡‚ÍŠY“–‚ÌƒOƒ‹[ƒv‚Ì‚İíœ‚·‚é
+                //ã‚°ãƒ«ãƒ¼ãƒ—æŒ‡å®šãŒã‚ã‚‹å ´åˆã¯è©²å½“ã®ã‚°ãƒ«ãƒ¼ãƒ—ã®ã¿å‰Šé™¤ã™ã‚‹
                 else
                 {
                     for (int i = displayFixImgLineList.Count - 1; i >= 0; i--)
                     {
-                        //w’è‚³‚ê‚½ƒŠƒ\[ƒX–¼‚Æ“¯‚¶–¼‘O‚ªƒŠƒXƒg‚É‘¶İ‚·‚éê‡‚Ííœw¦‚Æ”»’f‚µ‚ÄƒŠƒXƒg‚©‚çÁ‹
+                        //æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹åã¨åŒã˜åå‰ãŒãƒªã‚¹ãƒˆã«å­˜åœ¨ã™ã‚‹å ´åˆã¯å‰Šé™¤æŒ‡ç¤ºã¨åˆ¤æ–­ã—ã¦ãƒªã‚¹ãƒˆã‹ã‚‰æ¶ˆå»
                         if (displayFixImgLineList[i].fImgInfo.groupNum == groupNum)
                         {
                             displayFixImgLineList.RemoveAt(i);
@@ -261,7 +261,7 @@ namespace MinorShift.Emuera.GameView
             }
             for (int i = displayFixImgLineList.Count - 1; i >= 0; i--)
             {
-                //w’è‚³‚ê‚½ƒŠƒ\[ƒX–¼‚Æ“¯‚¶–¼‘O‚ªƒŠƒXƒg‚É‘¶İ‚·‚éê‡‚Ííœw¦‚Æ”»’f‚µ‚ÄƒŠƒXƒg‚©‚çÁ‹
+                //æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹åã¨åŒã˜åå‰ãŒãƒªã‚¹ãƒˆã«å­˜åœ¨ã™ã‚‹å ´åˆã¯å‰Šé™¤æŒ‡ç¤ºã¨åˆ¤æ–­ã—ã¦ãƒªã‚¹ãƒˆã‹ã‚‰æ¶ˆå»
                 if (displayFixImgLineList[i].ResourceName.Equals(resourceName, StringComparison.OrdinalIgnoreCase))
                 {
                     displayFixImgLineList.RemoveAt(i);
@@ -272,14 +272,14 @@ namespace MinorShift.Emuera.GameView
         }
 
         /* *************************************************************
-        * ‰æ‘œÁ‹(CLEARLINE)
+        * ç”»åƒæ¶ˆå»(CLEARLINE)
         **************************************************************** */
         public void clearLineFixImage(int argNum)
         {
             for (int i = displayFixImgLineList.Count - 1; i >= 0; i--)
             {
-                //Œ»İ––”ö‚Ìs”Ô†‚æ‚è‘å‚«‚¢s”Ô†‚ğ‚Â‰æ‘œ‚ÍCLEARLINE‚É‚æ‚èÁ‹‚³‚ê‚½s‚É
-                //ŠY“–‚·‚é‚Æ”»’f‚µ‚Ä—v‘f‚ğíœ
+                //ç¾åœ¨æœ«å°¾ã®è¡Œç•ªå·ã‚ˆã‚Šå¤§ãã„è¡Œç•ªå·ã‚’æŒã¤ç”»åƒã¯CLEARLINEã«ã‚ˆã‚Šæ¶ˆå»ã•ã‚ŒãŸè¡Œã«
+                //è©²å½“ã™ã‚‹ã¨åˆ¤æ–­ã—ã¦è¦ç´ ã‚’å‰Šé™¤
                 if (displayFixImgLineList[i].fixLineNo > argNum)
                 {
                     displayFixImgLineList.RemoveAt(i);
@@ -287,7 +287,7 @@ namespace MinorShift.Emuera.GameView
             }
         }
         /* *************************************************************
-        * w’èƒŠƒ\[ƒX‚ªŒÅ’è‰æ‘œ•\¦‹@”\‚©‚ğ”»’f‚·‚é
+        * æŒ‡å®šãƒªã‚½ãƒ¼ã‚¹ãŒå›ºå®šç”»åƒè¡¨ç¤ºæ©Ÿèƒ½ã‹ã‚’åˆ¤æ–­ã™ã‚‹
         **************************************************************** */
         public static bool isFixImage(string resourceName)
         {
@@ -299,20 +299,20 @@ namespace MinorShift.Emuera.GameView
             return true;
         }
         /* *************************************************************
-        * Šù‘¶‚ÌƒŠƒXƒg‚ÉV‚µ‚¢‰æ‘œ‚ğ’Ç‰Á‚·‚é
+        * æ—¢å­˜ã®ãƒªã‚¹ãƒˆã«æ–°ã—ã„ç”»åƒã‚’è¿½åŠ ã™ã‚‹
         **************************************************************** */
         internal void addFixImage(ConsoleImagePart ciPart, string resourceName)
         {
             bool isCleared = clearFixImage(resourceName, ciPart.fImgInfo.groupNum);
             bool isIgnore = false;
-            //Šù‘¶‚ÌƒŠƒXƒg‚É‰æ‘œ‚ª•\¦‚µ‚È‚¢‚©‚ğŠm”F‚µA•\¦‰Â”\‚Æ”»’f‚µ‚½ê‡‚ÍƒŠƒXƒg‚É’Ç‰Á‚·‚é
+            //æ—¢å­˜ã®ãƒªã‚¹ãƒˆã«ç”»åƒãŒè¡¨ç¤ºã—ãªã„ã‹ã‚’ç¢ºèªã—ã€è¡¨ç¤ºå¯èƒ½ã¨åˆ¤æ–­ã—ãŸå ´åˆã¯ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹
             if (!isCleared)
             {
-                //Ši”[‘ÎÛ‚Ì‰æ‘œ‚ªe‰æ‘œ‚Å‚È‚¢ê‡‚ÍAe‰æ‘œ‚Ìs”Ô†‚ğæ“¾‚·‚é
-                //‚Ü‚½Ae‰æ‘œ‚ÌˆÊ’u‚ª“·“I‚É‚¸‚ç‚³‚ê‚Ä‚¢‚½ê‡‚±‚Ì‰æ‘œ‚à“¯‚¶—p‚É‚¸‚ç‚·
+                //æ ¼ç´å¯¾è±¡ã®ç”»åƒãŒè¦ªç”»åƒã§ãªã„å ´åˆã¯ã€è¦ªç”»åƒã®è¡Œç•ªå·ã‚’å–å¾—ã™ã‚‹
+                //ã¾ãŸã€è¦ªç”»åƒã®ä½ç½®ãŒèƒ´çš„ã«ãšã‚‰ã•ã‚Œã¦ã„ãŸå ´åˆã“ã®ç”»åƒã‚‚åŒã˜ç”¨ã«ãšã‚‰ã™
                 if (!ciPart.fImgInfo.isRoot && ciPart.fImgInfo.groupNum != -1)
                 {
-                    //q‹Ÿ‚Ì‰æ‘œ‚È‚Ì‚Ée‰æ‘œ‚ª‘¶İ‚µ‚È‚¢ê‡‚Í‚±‚Ì‰æ‘œ©‘Ì‚ğ–³‹‚·‚é
+                    //å­ä¾›ã®ç”»åƒãªã®ã«è¦ªç”»åƒãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ã“ã®ç”»åƒè‡ªä½“ã‚’ç„¡è¦–ã™ã‚‹
                     isIgnore = true;
                     for (int i = displayFixImgLineList.Count - 1; i >= 0; i--)
                     {

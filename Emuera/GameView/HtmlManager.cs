@@ -752,7 +752,7 @@ namespace MinorShift.Emuera.GameView
 				case "img":
 					{
                         NumberStyles style = NumberStyles.Float | NumberStyles.AllowDecimalPoint;
-                        var culture = new CultureInfo("ja-JP");
+                        var culture = new CultureInfo("zh-CN");
 
                         if (wc == null)
 							throw new CodeEE("<" + tag + ">タグに属性が設定されていません");

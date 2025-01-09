@@ -121,7 +121,7 @@ namespace MinorShift.Emuera.Content
                                     //グルーピングを使わない時は3つ、使う時は5つ指定されている
                                     if (fixTokens.Length == 3 || fixTokens.Length == 5) {
                                         NumberStyles style = NumberStyles.Float | NumberStyles.AllowDecimalPoint;
-                                        var culture = new CultureInfo("ja-JP");
+                                        var culture = new CultureInfo("zh-CN");
 
                                         sccs &= int.TryParse(fixTokens[0], out fImgInfo.fixPosX);
                                         sccs &= int.TryParse(fixTokens[1], out fImgInfo.fixPosY);
