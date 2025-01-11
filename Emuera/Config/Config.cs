@@ -163,27 +163,27 @@ namespace MinorShift.Emuera
 
 			if (FontSize < 8)
 			{
-				MessageBox.Show("フォントサイズが小さすぎます(8が下限)", "設定のエラー");
+				MessageBox.Show("字体大小过小(至少为8)", "设置错误");
 				FontSize = 8;
 			}
 			if (LineHeight < FontSize)
 			{
-				MessageBox.Show("行の高さがフォントサイズより小さいため、フォントサイズと同じ高さと解釈されます", "設定のエラー");
+				MessageBox.Show("由于行高比字体小，因此解释为与字体大小相同的高度", "设置错误");
 				LineHeight = FontSize;
 			}
 			if (SaveDataNos < 20)
 			{
-				MessageBox.Show("表示するセーブデータ数が少なすぎます(20が下限)", "設定のエラー");
+				MessageBox.Show("可显示的存档数据数量过少(至少为20)", "设置错误");
 				SaveDataNos = 20;
 			}
 			if (SaveDataNos > 80)
 			{
-				MessageBox.Show("表示するセーブデータ数が多すぎます(80が上限)", "設定のエラー");
+				MessageBox.Show("可显示的存档数据数量过多(至多为80)", "设置错误");
 				SaveDataNos = 80;
 			}
 			if (MaxLog < 500)
 			{
-				MessageBox.Show("ログ表示行数が少なすぎます(500が下限)", "設定のエラー");
+				MessageBox.Show("日志行数过少(至少为500)", "设置错误");
 				MaxLog = 500;
 			}
 
@@ -261,20 +261,20 @@ namespace MinorShift.Emuera
 			}
 			catch
 			{
-				MessageBox.Show("savフォルダの作成に失敗しました", "フォルダ作成失敗");
+				MessageBox.Show("创建 sav 目录失败", "创建目录失败");
 				return;
 			}
 			bool existGlobal = File.Exists(Program.ExeDir + "global.sav");
 			string[] savFiles = Directory.GetFiles(Program.ExeDir, "save*.sav", SearchOption.TopDirectoryOnly);
 			if (!existGlobal && savFiles.Length == 0)
 				return;
-			DialogResult result = MessageBox.Show("savフォルダを作成しました\n現在のデータをsavフォルダ内に移動しますか？", "データ移動", MessageBoxButtons.YesNo);
+			DialogResult result = MessageBox.Show("成功创建 sav 目录\n要将当前数据移动到 sav 目录内吗？", "移动存档", MessageBoxButtons.YesNo);
 			if (result != DialogResult.Yes)
 				return;
 			//ダイアログが開いている間にフォルダを消してしまうような邪悪なユーザーがいるかもしれない
 			if (!Directory.Exists(SavDir))
 			{
-				MessageBox.Show("savフォルダの作成が見当たりません", "フォルダ作成失敗");
+				MessageBox.Show("未找到创建的 sav 目录", "创建目录失败");
 				return;
 			}
 			//ダイアログが開いている間にファイルを変更するような邪悪なユーザーがいるかもしれない
@@ -288,7 +288,7 @@ namespace MinorShift.Emuera
 			}
 			catch
 			{
-				MessageBox.Show("savファイルの移動に失敗しました", "移動失敗");
+				MessageBox.Show("移动到 sav 目录时失败", "移动失败");
 			}
 		}
 		//先にSetConfigを呼ぶこと
